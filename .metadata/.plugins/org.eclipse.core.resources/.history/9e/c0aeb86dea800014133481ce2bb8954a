@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Profile xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/2.0.0/UML" xmi:id="_16_0_879026c_1273090602319_469620_856" name="Entity Profile" metamodelReference="_0metamodelReferenceEntity_Profile">
+  <eAnnotations xmi:id="_KVz84YDqEeSJ_vSEgl9kLw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+    <contents xmi:type="ecore:EPackage" xmi:id="_KVz84oDqEeSJ_vSEgl9kLw" name="EntityProfile" nsURI="http:///schemas/EntityProfile/_Jue3IIDqEeSJ_vSEgl9kLw/0" nsPrefix="EntityProfile">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_KVz844DqEeSJ_vSEgl9kLw" name="entity">
+        <eAnnotations xmi:id="_KVz85IDqEeSJ_vSEgl9kLw" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_16_0_879026c_1273090626855_712567_885"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_KVz85YDqEeSJ_vSEgl9kLw" name="base_Class" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/2.0.0/UML#//Class"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </contents>
+  </eAnnotations>
+  <packageImport xmi:id="_0metamodelReferenceEntity_Profile">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_METAMODELS/UML.metamodel.uml#_0"/>
+  </packageImport>
+  <packageImport xmi:id="_0primitiveTypesEntity_Profile">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packageImport xmi:id="_0javaPrimitiveTypesEntity_Profile">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_16_0_879026c_1273090626855_712567_885" name="entity">
+    <ownedAttribute xmi:id="_16_0_879026c_1273090629695_93163_888" name="base_Class" visibility="private" association="_16_0_879026c_1273090629695_375206_887">
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Class"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_16_0_879026c_1273090629695_375206_887" name="" memberEnd="_16_0_879026c_1273090629695_432331_889 _16_0_879026c_1273090629695_93163_888">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_0_879026c_1273090629695_432331_889" name="extension_" visibility="private" type="_16_0_879026c_1273090626855_712567_885" aggregation="composite" association="_16_0_879026c_1273090629695_375206_887">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_879026c_1273090629695_749491_891" name="" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_879026c_1273090629695_144266_890" name=""/>
+    </ownedEnd>
+  </packagedElement>
+</uml:Profile>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <title>PruebaLayoutPage</title>
+   <link rel="stylesheet" href="jquery-ui.min.css">
+   <script src="external/jquery/jquery.js"></script>
+   <script src="jquery-ui.min.js"></script>
+   <link rel="stylesheet" href="../css/screen.css">
+   <script src="../dist/jquery.validate.js"></script>
+   <link rel="stylesheet" href="Nav.css">
+</head>
+<script>
+
+
+    $(function() {
+       $( document ).tooltip();
+    });
+	        		  
+</script>
+<body>
+
+
+
+   <div id="Titulo">
+      <fieldset>
+        <h1>Hotel Acuario</h1>
+      </fieldset>
+   </div>
+   <div id="Barradenavegacion">
+      <fieldset>
+        <a href="http://www.hotelacuario.com.py/hotelinstalaciones.html"  title= "Instalaciones del hotel" >Instalaciones</a>
+        <a href="" >tarifas</a>
+      </fieldset>
+   </div>
+</body>
+</html>

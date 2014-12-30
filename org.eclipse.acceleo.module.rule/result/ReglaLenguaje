@@ -1,0 +1,6 @@
+def self.get_preferencia_lenguaje(preferencia_id)
+	if preferencia_id
+    	@lenguaje = Lenguaje.find_by_id(Preferencia.find_by_id(preferencia_id).lenguaje_id)
+    end
+    return @lenguaje
+end				

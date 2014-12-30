@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <title>RegisterPage</title>
+   <link rel="stylesheet" href="jquery-ui.min.css">
+   <script src="external/jquery/jquery.js"></script>
+   <script src="jquery-ui.min.js"></script>
+   <link rel="stylesheet" href="../css/screen.css">
+   <script src="../dist/jquery.validate.js"></script>
+   <link rel="stylesheet" href="Nav.css">
+   <link rel="stylesheet" href="Footer.css">
+   <link rel="stylesheet" href="Header.css">
+   <link rel="stylesheet" href="Section.css">
+</head>
+<script>
+
+
+   $().ready(function() {
+       // validate signup form on keyup and submit
+      $("#Registrationfields").validate({
+   rules: {
+      password: {
+	     required: true, 
+	     minlength: 8,			
+	  },
+      confirm_password: {
+	     required: true, 
+	     minlength: 8,
+	     equalTo: "#password"
+	  },
+   },
+   messages: {
+      password: {
+	     required: "Por favor ingrese un password", 
+	     minlength: "El password debe tener al menos 8 caracteres de longitud",
+	  },
+      confirm_password: {
+	     required: "Por favor ingrese un password", 
+	     minlength: "El password debe tener al menos 8 caracteres de longitud",
+	     equalTo: "Por favor ingrese el mismo password"
+	  },
+   }
+      });
+   });           	
+</script>  
+
+<body>
+
+org.eclipse.uml2.uml.internal.impl.StereotypeImpl@1aaed32 (name: form, visibility: <unset>) (isLeaf: false, isAbstract: false, isFinalSpecialization: false) (isActive: false)org.eclipse.uml2.uml.internal.impl.StereotypeImpl@14acbd9 (name: compositeUIElement, visibility: <unset>) (isLeaf: false, isAbstract: false, isFinalSpecialization: false) (isActive: false)
+org.eclipse.uml2.uml.internal.impl.StereotypeImpl@1aaed32 (name: form, visibility: <unset>) (isLeaf: false, isAbstract: false, isFinalSpecialization: false) (isActive: false)org.eclipse.uml2.uml.internal.impl.StereotypeImpl@14acbd9 (name: compositeUIElement, visibility: <unset>) (isLeaf: false, isAbstract: false, isFinalSpecialization: false) (isActive: false)
+org.eclipse.uml2.uml.internal.impl.StereotypeImpl@14acbd9 (name: compositeUIElement, visibility: <unset>) (isLeaf: false, isAbstract: false, isFinalSpecialization: false) (isActive: false)
+
+
+
+   <div id="Informaciones">
+        <a href="http://www.hotelacuario.com.py" >Enlace relacionado</a>
+   </div>
+</body>
+</html>

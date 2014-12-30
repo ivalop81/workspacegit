@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+org.eclipse.acceleo.debug.messages.enable=true
+org.eclipse.acceleo.profiler.enable=false
+org.eclipse.acceleo.traceability.enable=false
+org.eclipse.acceleo.ui.notification=true

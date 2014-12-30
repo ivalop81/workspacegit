@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <title>AcordeonPage</title>
+   <link rel="stylesheet" href="jquery-ui.min.css">
+   <script src="external/jquery/jquery.js"></script>
+   <script src="jquery-ui.min.js"></script>
+   <link rel="stylesheet" href="../css/screen.css">
+   <script src="../dist/jquery.validate.js"></script>
+   <link rel="stylesheet" href="Nav.css">
+   <link rel="stylesheet" href="Footer.css">
+   <link rel="stylesheet" href="Header.css">
+   <link rel="stylesheet" href="Section.css">
+</head>
+<script>
+   $(function() {
+     $( "#Acordeon" ).accordion();
+   });
+         	
+    $(function() {
+       $( "#fecha" ).datepicker();
+    });				
+		    				  
+</script>  
+
+<body>
+<div id="Acordeon">     
+   <h3>Login</h3>
+   <div>     	
+   <form id="Login" method="get" action="" "> 
+	  <p>
+		 <label for="user">User</label>
+		 <input id="user" name="user" type="text">
+	  </p>
+ 	  <p>
+	     <label for="password">Password</label>
+	     <input id="password" name="password" type="password">
+	  </p>
+	  <p>
+		 <label for="confirm_password">Confirm Password</label>
+		 <input id="confirm_password" name="confirm_password" type="password">
+	  </p>
+   </form> 
+   </div>
+   <h3>Informaciones</h3>
+   <div>     	
+      <p>Fecha <input type="text" id="fecha"></p>				 				 
+        <p>Zona hotelera y residencial en el corazón de la cuidad de San Bernardino</p>
+   </div>
+</div>
+
+</body>
+</html>

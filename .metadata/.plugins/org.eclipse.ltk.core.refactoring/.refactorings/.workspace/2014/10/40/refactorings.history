@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete 3 resources" deleteContents="true" description="Delete 3 resources" element1="/org.eclipse.acceleo.examples.uml2java" element2="/org.eclipse.acceleo.examples.uml2java.model" element3="/org.eclipse.acceleo.examples.uml2java.ui" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="3" stamp="1412140133275"/>
+</session>

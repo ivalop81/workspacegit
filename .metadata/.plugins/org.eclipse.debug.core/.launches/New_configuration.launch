@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="fr.obeo.acceleo.chain.ui.debug.launchConfigurationType">
+<booleanAttribute key="CHAIN_DO_PROFILING" value="false"/>
+<booleanAttribute key="LOG_EOBJECTS" value="true"/>
+</launchConfiguration>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <title>RichTabsPage</title>
+   <link rel="stylesheet" href="jquery-ui.min.css">
+   <script src="external/jquery/jquery.js"></script>
+   <script src="jquery-ui.min.js"></script>
+   <link rel="stylesheet" href="../css/screen.css">
+   <script src="../dist/jquery.validate.js"></script>
+   <link rel="stylesheet" href="Estructura.css">
+</head>
+<script>
+
+   $(function() {
+     $( "#Tabs" ).tabs();
+   });
+
+</script>
+<body>
+
+<div id="Tabs">
+   <ul>      
+      <li><a href="#habitaciondoble">Habitaciondoble</a></li>  
+      <li><a href="#habitaciontriple">Habitaciontriple</a></li>  
+      <li><a href="#habitacioncuadruple">Habitacioncuadruple</a></li>  
+   </ul>
+   <div id ="habitaciondoble" >    
+      
+   </div>
+   <div id ="habitaciontriple" >    
+          <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+
+   </div>
+   <div id ="habitacioncuadruple" >        					   
+         <img src=""JuanPa.jpg"" alt="HTML5 Icon" style="width:400px;height:400px">
+   </div>		    					
+</div>
+
+
+</body>
+</html>

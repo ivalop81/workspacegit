@@ -1,0 +1,9 @@
+<style>
+#Barrade navegacion {
+	position: relative;
+	height: 100px;
+	width: 50px;
+	left: 0px;
+	top: 0px;
+}
+</style>			

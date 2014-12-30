@@ -1,0 +1,6 @@
+def self.get_preferencia_fuente(preferencia_id)
+	if preferencia_id
+    	@fuente = Fuente.find_by_id(Preferencia.find_by_id(preferencia_id).fuente_id)
+    end
+    return @fuente
+end				

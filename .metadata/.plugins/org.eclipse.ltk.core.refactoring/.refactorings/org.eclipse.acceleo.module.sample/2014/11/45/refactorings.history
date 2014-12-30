@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete 4 elements from project &apos;org.eclipse.acceleo.module.sample&apos;&#x0D;&#x0A;- Original project: &apos;org.eclipse.acceleo.module.sample&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     ConfigParameters.html&#x0D;&#x0A;     FormOptions.html&#x0D;&#x0A;     FormularioConRichAutoSuggest.html&#x0D;&#x0A;     Registration fields.html" description="Delete elements" element1="jquery-ui-1.11.1/FormOptions.html" element2="jquery-ui-1.11.1/Registration fields.html" element3="jquery-ui-1.11.1/ConfigParameters.html" element4="jquery-ui-1.11.1/FormularioConRichAutoSuggest.html" elements="0" flags="589830" id="org.eclipse.jdt.ui.delete" resources="4" stamp="1415416381640" subPackages="false" version="1.0"/>
+</session>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
+   <title>AcordeonPage</title>
+   <link rel="stylesheet" href="jquery-ui.min.css">
+   <script src="external/jquery/jquery.js"></script>
+   <script src="jquery-ui.min.js"></script>
+   <link rel="stylesheet" href="../css/screen.css">
+   <script src="../dist/jquery.validate.js"></script>
+   <link rel="stylesheet" href="Nav.css">
+   <link rel="stylesheet" href="Footer.css">
+   <link rel="stylesheet" href="Header.css">
+   <link rel="stylesheet" href="Section.css">
+</head>
+<script>
+   $(function() {
+     $( "#Acordeon" ).accordion();
+   });
+
+
+   $.validator.setDefaults({
+      submitHandler: function() {
+	     alert("submitted!");
+	  }
+   });
+
+   $().ready(function() {
+       // validate signup form on keyup and submit
+      $("#Login").validate({
+   rules: {
+      password: {
+	     required: true, 
+	     minlength: 8,			
+	  },
+      confirm_password: {
+	     required: true, 
+	     minlength: 8,
+	     equalTo: "#password"
+	  },
+   },
+   messages: {
+      password: {
+	     required: "Please provide a password", 
+	     minlength: "Your password must be at least 8 characters long",
+	  },
+      confirm_password: {
+	     required: "Please provide a password", 
+	     minlength: "Your password must be at least 8 characters long",
+	     equalTo: "Please enter the same password as above"
+	  },
+   }
+      });
+   });           	
+
+   $().ready(function() {
+       // validate signup form on keyup and submit
+      $("#Login").validate({
+   rules: {
+      user: {
+	     required: true, 
+	     minlength: 0,
+	  },
+   },
+   messages: {
+      user: {
+	     required: "Please provide a password",
+	     minlength: "Your password must be at least 0 characters long",
+	  },
+   }
+      });
+   });           	
+    $(function() {
+       $( "#fecha" ).datepicker();
+    });				
+		    				  
+</script>
+<body>
+<div id="Acordeon">     
+<h3>Login</h3> 
+ 		 <p>
+		    <label for="password">Password</label>
+			<input id="password" name="password" type="password">
+		 </p>
+		 <p>
+			<label for="confirm_password">Confirm Password</label>
+			<input id="confirm_password" name="confirm_password" type="password">
+		 </p>
+ 		 <p>
+			<label for="user">User</label>
+			<input id="user" name="user" type="text">
+		 </p>
+  		 <p>
+			<input class="submit" type="submit" value="Submit">
+		 </p>
+<h3>Informaciones</h3> 
+         <p>Fecha <input type="text" id="fecha"></p>				 				 
+   <div>    					   
+        <p>Zona hotelera y residencial en el corazón de la cuidad de San Bernardino</p>
+   </div>
+</div>
+
+</body>
+</html>

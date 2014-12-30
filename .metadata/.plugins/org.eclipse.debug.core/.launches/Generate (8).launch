@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.acceleo.ide.ui.launching.launchConfigurationType">
+<stringAttribute key="org.eclipse.acceleo.ide.ui.ARGUMENTS" value=""/>
+<booleanAttribute key="org.eclipse.acceleo.ide.ui.COMPUTE_PROFILING" value="false"/>
+<booleanAttribute key="org.eclipse.acceleo.ide.ui.COMPUTE_TRACEABILITY" value="false"/>
+<stringAttribute key="org.eclipse.acceleo.ide.ui.LAUNCHING_STRATEGY_DESCRIPTION" value="Acceleo Plug-in Application (Default)"/>
+<stringAttribute key="org.eclipse.acceleo.ide.ui.MODEL_PATH" value="/org.eclipse.acceleo.module.presentation/Modelado de ejemplo-emf_v2/ejemplo-presentacion.uml"/>
+<stringAttribute key="org.eclipse.acceleo.ide.ui.TARGET_PATH" value="/org.eclipse.acceleo.module.layout/css"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/org.eclipse.acceleo.module.layout/src/org/eclipse/acceleo/module/layout/main/Generate.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.acceleo.module.layout.main.Generate"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="&quot;C:/Users/Iván López/workspace/org.eclipse.acceleo.module.presentation/Modelado de ejemplo-emf_v2/ejemplo-presentacion.uml&quot; &quot;C:/Users/Iván López/workspace/org.eclipse.acceleo.module.layout/css&quot;"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.acceleo.module.layout"/>
+</launchConfiguration>

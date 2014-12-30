@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ContentProfile="http:///schemas/ContentProfile/_lnW-II0BEeSLIrYJj0ki5Q/0" xmlns:MagicDrawProfile="http:///schemas/MagicDrawProfile/_lnSFoI0BEeSLIrYJj0ki5Q/0" xmlns:StructureProfile="http:///schemas/StructureProfile/_lnI7sI0BEeSLIrYJj0ki5Q/0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/2.0.0/UML" xsi:schemaLocation="http:///schemas/ContentProfile/_lnW-II0BEeSLIrYJj0ki5Q/0 Content_Profile.profile.uml#_lwiISI0BEeSLIrYJj0ki5Q http:///schemas/MagicDrawProfile/_lnSFoI0BEeSLIrYJj0ki5Q/0 UML_Standard_Profile.MagicDraw_Profile.profile.uml#_lwfE_Y0BEeSLIrYJj0ki5Q http:///schemas/StructureProfile/_lnI7sI0BEeSLIrYJj0ki5Q/0 Structure_Profile.profile.uml#_lwcoso0BEeSLIrYJj0ki5Q">
+  <uml:Model xmi:id="eee_1045467100313_135436_1" name="Data" viewpoint="">
+    <ownedComment xmi:id="_16_0_19b004bd_1400481936718_837025_230" body="Author:Iván López.&#xA;Created:19/05/14 2:45.&#xA;Title:.&#xA;Comment:.&#xA;" annotatedElement="eee_1045467100313_135436_1"/>
+    <packageImport xmi:id="_0primitiveTypesData">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packageImport xmi:id="_0javaPrimitiveTypesData">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Package" xmi:id="_16_0_19b004bd_1400482032112_143982_437" name="youtube">
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1400482069911_313588_460" name="UpLoadVideoOptionsPage">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1400482144289_520486_486" name="" visibility="private" type="_16_0_19b004bd_1400482144258_603054_483" aggregation="composite" association="_16_0_19b004bd_1400482144289_758844_485"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1400482144258_603054_483" name="ConfigParameters">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1400482426010_786793_513" name="fecha de grabacion" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_16_0_19b004bd_1400482144289_758844_485" name="" memberEnd="_16_0_19b004bd_1400482144289_786623_487 _16_0_19b004bd_1400482144289_520486_486">
+        <ownedEnd xmi:id="_16_0_19b004bd_1400482144289_786623_487" name="" visibility="private" type="_16_0_19b004bd_1400482069911_313588_460" association="_16_0_19b004bd_1400482144289_758844_485"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_16_0_19b004bd_1400482751335_499303_520" name="gmail-richLiveValidation">
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1400482781604_74207_543" name="RegisterPage">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1400482786020_518976_568" name="" visibility="private" type="_16_0_19b004bd_1400482785997_447308_565" aggregation="composite" association="_16_0_19b004bd_1400482786020_658434_567"/>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1416697602118_435327_2410" name="" visibility="private" type="_16_0_19b004bd_1416697591332_29322_2387" aggregation="composite" association="_16_0_19b004bd_1416697602118_68326_2409"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1400482785997_447308_565" name="Registration fields">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1400483109031_903636_596" name="password" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1416370309432_662228_1682" name="recomendaciones" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_16_0_19b004bd_1416373399531_886489_1685" name="" value="&quot;Favor completar todos los campos del formulario&quot;"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_16_0_19b004bd_1400482786020_658434_567" name="" memberEnd="_16_0_19b004bd_1400482786021_531582_569 _16_0_19b004bd_1400482786020_518976_568">
+        <ownedEnd xmi:id="_16_0_19b004bd_1400482786021_531582_569" name="" visibility="private" type="_16_0_19b004bd_1400482781604_74207_543" association="_16_0_19b004bd_1400482786020_658434_567"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1416697591332_29322_2387" name="Informaciones">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1416697895721_608621_2420" name="Enlace relacionado" visibility="public"/>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1416698213120_368199_2425" name="mascotas" visibility="public"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_16_0_19b004bd_1416697602118_68326_2409" name="" memberEnd="_16_0_19b004bd_1416697602118_219483_2411 _16_0_19b004bd_1416697602118_435327_2410">
+        <ownedEnd xmi:id="_16_0_19b004bd_1416697602118_219483_2411" name="" visibility="private" type="_16_0_19b004bd_1400482781604_74207_543" association="_16_0_19b004bd_1416697602118_68326_2409"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_16_0_19b004bd_1400483867278_932901_607" name="twitter-tootip">
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1400483906432_773703_630" name="Register">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1400483913910_696398_655" name="" visibility="private" type="_16_0_19b004bd_1400483913884_410700_652" aggregation="composite" association="_16_0_19b004bd_1400483913910_828810_654"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1400483913884_410700_652" name="FormOptions">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1400484014161_136430_683" name="nombre completo" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1416544458256_849918_2368" name="sexo" visibility="public"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_16_0_19b004bd_1400483913910_828810_654" name="" memberEnd="_16_0_19b004bd_1400483913910_975074_656 _16_0_19b004bd_1400483913910_696398_655">
+        <ownedEnd xmi:id="_16_0_19b004bd_1400483913910_975074_656" name="" visibility="private" type="_16_0_19b004bd_1400483906432_773703_630" association="_16_0_19b004bd_1400483913910_828810_654"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_16_0_19b004bd_1411330832662_712955_365" name="Ej-RihAutoSuggest">
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1411330891568_756554_388" name="RichAutoSuggestPage">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1411330897249_454884_413" name="" visibility="private" type="_16_0_19b004bd_1411330897187_612224_410" aggregation="composite" association="_16_0_19b004bd_1411330897249_147183_412"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1411330897187_612224_410" name="FormularioConRichAutoSuggest">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1411330897250_487219_414" name="" visibility="private" type="_16_0_19b004bd_1411330891568_756554_388" association="_16_0_19b004bd_1411330897249_147183_412"/>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1411331022924_431806_441" name="lenguages" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1415414310611_460734_659" name="videoPrueba" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1415677222236_908779_746" name="cancion" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_16_0_9050294_1415717031517_109987_390" name="foto" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1415853189518_574560_396" name="Nombre" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1416696599853_953527_2378" name="pais" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_16_0_19b004bd_1411330897249_147183_412" name="" memberEnd="_16_0_19b004bd_1411330897250_487219_414 _16_0_19b004bd_1411330897249_454884_413"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_16_0_19b004bd_1418530173744_703913_388" name="Estructura">
+      <packagedElement xmi:type="uml:Package" xmi:id="_16_0_19b004bd_1418962773576_971570_774" name="Nav"/>
+      <packagedElement xmi:type="uml:Package" xmi:id="_16_0_19b004bd_1418962805113_139118_780" name="Header"/>
+      <packagedElement xmi:type="uml:Package" xmi:id="_16_0_19b004bd_1418963299745_792711_810" name="Section"/>
+      <packagedElement xmi:type="uml:Package" xmi:id="_16_0_19b004bd_1418963446080_179202_828" name="Footer"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="magicdraw_uml_standard_profile_v_0001" name="UML Standard Profile">
+      <ownedComment xmi:id="_be00301_1078843546940_242228_131" body="UML Standard Profile contains several popular stereotypes, tag definitions and constraints described in UML  2 Specifications." annotatedElement="magicdraw_uml_standard_profile_v_0001"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_16_0_19b004bd_1418963731393_419348_842" name="PruebaLayout">
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1418963863588_456934_866" name="PruebaLayoutPage">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1418963931963_833382_892" name="" visibility="private" type="_16_0_19b004bd_1418963931938_532811_889" aggregation="composite" association="_16_0_19b004bd_1418963931963_819814_891"/>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1418964171575_548407_930" name="" visibility="private" type="_16_0_19b004bd_1418964171532_449865_927" aggregation="composite" association="_16_0_19b004bd_1418964171575_996068_929"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1418963931938_532811_889" name="Titulo">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1418964008241_663642_919" name="titulo" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_16_0_19b004bd_1418963931963_819814_891" name="" memberEnd="_16_0_19b004bd_1418963931963_36968_893 _16_0_19b004bd_1418963931963_833382_892">
+        <ownedEnd xmi:id="_16_0_19b004bd_1418963931963_36968_893" name="" visibility="private" type="_16_0_19b004bd_1418963863588_456934_866" association="_16_0_19b004bd_1418963931963_819814_891"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1418964171532_449865_927" name="Barra de navegacion">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1418964221264_776587_957" name="Instalaciones" visibility="public"/>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1418965046078_173947_964" name="tarifas" visibility="public"/>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1418965244494_137922_967" name="reservas" visibility="public"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_16_0_19b004bd_1418964171575_996068_929" name="" memberEnd="_16_0_19b004bd_1418964171575_627736_931 _16_0_19b004bd_1418964171575_548407_930">
+        <ownedEnd xmi:id="_16_0_19b004bd_1418964171575_627736_931" name="" visibility="private" type="_16_0_19b004bd_1418963863588_456934_866" association="_16_0_19b004bd_1418964171575_996068_929"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_16_0_19b004bd_1419160909219_384539_2638" name="NuevoAcordeon">
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1419160957793_691646_2661" name="AcordeonPage">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1419160999778_51202_2687" name="" visibility="private" type="_16_0_19b004bd_1419160999725_554625_2684" aggregation="composite" association="_16_0_19b004bd_1419160999778_117848_2686"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1419160999725_554625_2684" name="Acordeon">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1419597475539_42772_2959" name="" visibility="private" type="_16_0_19b004bd_1419597475499_34054_2956" aggregation="composite" association="_16_0_19b004bd_1419597475539_210857_2958"/>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1419599054736_633708_3014" name="" visibility="private" type="_16_0_19b004bd_1419599054691_769389_3011" aggregation="composite" association="_16_0_19b004bd_1419599054736_735464_3013"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_16_0_19b004bd_1419160999778_117848_2686" name="" memberEnd="_16_0_19b004bd_1419160999778_26933_2688 _16_0_19b004bd_1419160999778_51202_2687">
+        <ownedEnd xmi:id="_16_0_19b004bd_1419160999778_26933_2688" name="" visibility="private" type="_16_0_19b004bd_1419160957793_691646_2661" association="_16_0_19b004bd_1419160999778_117848_2686"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1419597475499_34054_2956" name="Login">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1419598525136_141550_2986" name="user" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1419598825648_902478_2997" name="password" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_16_0_19b004bd_1419597475539_210857_2958" name="" memberEnd="_16_0_19b004bd_1419597475539_97270_2960 _16_0_19b004bd_1419597475539_42772_2959">
+        <ownedEnd xmi:id="_16_0_19b004bd_1419597475539_97270_2960" name="" visibility="private" type="_16_0_19b004bd_1419160999725_554625_2684" association="_16_0_19b004bd_1419597475539_210857_2958"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1419599054691_769389_3011" name="Informaciones">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1419599161624_696461_3041" name="info general" visibility="public"/>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1419599752830_947481_3046" name="fecha" visibility="public"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_16_0_19b004bd_1419599054736_735464_3013" name="" memberEnd="_16_0_19b004bd_1419599054736_792204_3015 _16_0_19b004bd_1419599054736_633708_3014">
+        <ownedEnd xmi:id="_16_0_19b004bd_1419599054736_792204_3015" name="" visibility="private" type="_16_0_19b004bd_1419160999725_554625_2684" association="_16_0_19b004bd_1419599054736_735464_3013"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_16_0_19b004bd_1419290243060_384326_2820" name="RichTabs">
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1419290319282_386708_2881" name="RichTabsPage">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1419290383520_900700_2907" name="" visibility="private" type="_16_0_19b004bd_1419290383482_639638_2904" aggregation="composite" association="_16_0_19b004bd_1419290383520_92033_2906"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_19b004bd_1419290383482_639638_2904" name="Tabs">
+        <ownedAttribute xmi:id="_16_0_19b004bd_1419290476748_126651_2934" name="habitacion doble" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1419290644028_513272_2939" name="habitacion triple" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_16_0_19b004bd_1419290715137_456609_2944" name="habitacion cuadruple" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_16_0_19b004bd_1419290383520_92033_2906" name="" memberEnd="_16_0_19b004bd_1419290383520_900700_2907 _16_0_19b004bd_1419290383520_538383_2908">
+        <ownedEnd xmi:id="_16_0_19b004bd_1419290383520_538383_2908" name="" visibility="private" type="_16_0_19b004bd_1419290319282_386708_2881" association="_16_0_19b004bd_1419290383520_92033_2906"/>
+      </packagedElement>
+    </packagedElement>
+    <profileApplication xmi:id="_16_0_879026c_1273505063089_84664_1370profileApplicationData">
+      <eAnnotations xmi:id="_lwhh7I0BEeSLIrYJj0ki5Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="Service_Profile.profile.uml#_lwhhOo0BEeSLIrYJj0ki5Q"/>
+      </eAnnotations>
+      <appliedProfile href="Service_Profile.profile.uml#_16_0_879026c_1273505063089_84664_1370"/>
+    </profileApplication>
+    <profileApplication xmi:id="_16_0_879026c_1276267452989_507450_1512profileApplicationData">
+      <eAnnotations xmi:id="_lwhh7o0BEeSLIrYJj0ki5Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="Structure_Profile.profile.uml#_lwcoso0BEeSLIrYJj0ki5Q"/>
+      </eAnnotations>
+      <appliedProfile href="Structure_Profile.profile.uml#_16_0_879026c_1276267452989_507450_1512"/>
+    </profileApplication>
+    <profileApplication xmi:id="_16_0_879026c_1272982190253_523518_618profileApplicationData">
+      <eAnnotations xmi:id="_lwhh8I0BEeSLIrYJj0ki5Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="Node_Profile.profile.uml#_lwcoz40BEeSLIrYJj0ki5Q"/>
+      </eAnnotations>
+      <appliedProfile href="Node_Profile.profile.uml#_16_0_879026c_1272982190253_523518_618"/>
+    </profileApplication>
+    <profileApplication xmi:id="_be00301_1073394351331_445580_2profileApplicationData">
+      <eAnnotations xmi:id="_lwhh8o0BEeSLIrYJj0ki5Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="UML_Standard_Profile.MagicDraw_Profile.profile.uml#_lwfE_Y0BEeSLIrYJj0ki5Q"/>
+      </eAnnotations>
+      <appliedProfile href="UML_Standard_Profile.MagicDraw_Profile.profile.uml#_be00301_1073394351331_445580_2"/>
+    </profileApplication>
+    <profileApplication xmi:id="_16_0_879026c_1273243014089_139648_988profileApplicationData">
+      <eAnnotations xmi:id="_lwhh9I0BEeSLIrYJj0ki5Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="Content_Profile.profile.uml#_lwiISI0BEeSLIrYJj0ki5Q"/>
+      </eAnnotations>
+      <appliedProfile href="Content_Profile.profile.uml#_16_0_879026c_1273243014089_139648_988"/>
+    </profileApplication>
+    <profileApplication xmi:id="_11_5_be00301_1153310565718_226811_161profileApplicationData">
+      <eAnnotations xmi:id="_lwhh9o0BEeSLIrYJj0ki5Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="UML_Standard_Profile.MagicDraw_Profile.DSL_Customization.profile.uml#_lweeKo0BEeSLIrYJj0ki5Q"/>
+      </eAnnotations>
+      <appliedProfile href="UML_Standard_Profile.MagicDraw_Profile.DSL_Customization.profile.uml#_11_5_be00301_1153310565718_226811_161"/>
+    </profileApplication>
+    <profileApplication xmi:id="_16_0_879026c_1272985092919_576045_1541profileApplicationData">
+      <eAnnotations xmi:id="_lwhh-I0BEeSLIrYJj0ki5Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="Role_Profile.profile.uml#_lwg6zI0BEeSLIrYJj0ki5Q"/>
+      </eAnnotations>
+      <appliedProfile href="Role_Profile.profile.uml#_16_0_879026c_1272985092919_576045_1541"/>
+    </profileApplication>
+    <profileApplication xmi:id="_9_0_be00301_1108050582343_527400_10847profileApplicationData">
+      <eAnnotations xmi:id="_lwhh-o0BEeSLIrYJj0ki5Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="UML_Standard_Profile.UML_Standard_Profile.profile.uml#_lwgTLo0BEeSLIrYJj0ki5Q"/>
+      </eAnnotations>
+      <appliedProfile href="UML_Standard_Profile.UML_Standard_Profile.profile.uml#_9_0_be00301_1108050582343_527400_10847"/>
+    </profileApplication>
+    <profileApplication xmi:id="_16_0_879026c_1272987317575_549298_336profileApplicationData">
+      <eAnnotations xmi:id="_lwhh_I0BEeSLIrYJj0ki5Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="Navigational_Tree_Profile.profile.uml#_lwfsl40BEeSLIrYJj0ki5Q"/>
+      </eAnnotations>
+      <appliedProfile href="Navigational_Tree_Profile.profile.uml#_16_0_879026c_1272987317575_549298_336"/>
+    </profileApplication>
+    <profileApplication xmi:id="_16_0_879026c_1273242614625_114987_758profileApplicationData">
+      <eAnnotations xmi:id="_lwhh_o0BEeSLIrYJj0ki5Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="Logic_Profile.profile.uml#_lwfs1I0BEeSLIrYJj0ki5Q"/>
+      </eAnnotations>
+      <appliedProfile href="Logic_Profile.profile.uml#_16_0_879026c_1273242614625_114987_758"/>
+    </profileApplication>
+    <profileApplication xmi:id="_11_5_f720368_1159529670215_231387_1profileApplicationData">
+      <eAnnotations xmi:id="_lwhiAI0BEeSLIrYJj0ki5Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="UML_Standard_Profile.Validation_Profile.profile.uml#_lwdQI40BEeSLIrYJj0ki5Q"/>
+      </eAnnotations>
+      <appliedProfile href="UML_Standard_Profile.Validation_Profile.profile.uml#_11_5_f720368_1159529670215_231387_1"/>
+    </profileApplication>
+    <profileApplication xmi:id="_16_0_879026c_1273090602319_469620_856profileApplicationData">
+      <eAnnotations xmi:id="_lwhiAo0BEeSLIrYJj0ki5Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="Entity_Profile.profile.uml#_lwhiBY0BEeSLIrYJj0ki5Q"/>
+      </eAnnotations>
+      <appliedProfile href="Entity_Profile.profile.uml#_16_0_879026c_1273090602319_469620_856"/>
+    </profileApplication>
+  </uml:Model>
+  <StructureProfile:layout xmi:id="_lwmZsI0BEeSLIrYJj0ki5Q" base_Package="_16_0_19b004bd_1418963299745_792711_810" width="350" cUElement="_16_0_19b004bd_1400483913884_410700_652"/>
+  <StructureProfile:layout xmi:id="_lwmZsY0BEeSLIrYJj0ki5Q" base_Package="_16_0_19b004bd_1418963446080_179202_828" cUElement="_16_0_19b004bd_1416697591332_29322_2387"/>
+  <StructureProfile:layout xmi:id="_lwmZso0BEeSLIrYJj0ki5Q" base_Package="_16_0_19b004bd_1418962773576_971570_774" width="100" height="300" cUElement="_16_0_19b004bd_1418964171532_449865_927"/>
+  <StructureProfile:layout xmi:id="_lwoO4I0BEeSLIrYJj0ki5Q" base_Package="_16_0_19b004bd_1418962805113_139118_780" cUElement="_16_0_19b004bd_1418963931938_532811_889"/>
+  <MagicDrawProfile:auxiliaryResource xmi:id="_lw4tkY0BEeSLIrYJj0ki5Q" base_Element="magicdraw_uml_standard_profile_v_0001" base_Package="magicdraw_uml_standard_profile_v_0001"/>
+  <ContentProfile:presentationPage xmi:id="_lw6iw40BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1411330891568_756554_388"/>
+  <ContentProfile:presentationPage xmi:id="_lw7w4I0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1419160957793_691646_2661"/>
+  <ContentProfile:presentationPage xmi:id="_lw7w4Y0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1400482069911_313588_460"/>
+  <ContentProfile:presentationPage xmi:id="_lw7w4o0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1418963863588_456934_866"/>
+  <ContentProfile:presentationPage xmi:id="_lw7w440BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1400483906432_773703_630"/>
+  <ContentProfile:presentationPage xmi:id="_lw-0MY0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1400482781604_74207_543"/>
+  <ContentProfile:presentationPage xmi:id="_lw-0Mo0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1419290319282_386708_2881"/>
+  <ContentProfile:compositeUIElement xmi:id="_lw-0M40BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1419290383482_639638_2904"/>
+  <ContentProfile:compositeUIElement xmi:id="_lxApYI0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1400482144258_603054_483"/>
+  <ContentProfile:compositeUIElement xmi:id="_lxApYY0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1419599054691_769389_3011"/>
+  <ContentProfile:compositeUIElement xmi:id="_lxB3gI0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1400483913884_410700_652"/>
+  <ContentProfile:compositeUIElement xmi:id="_lxB3gY0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1418963931938_532811_889"/>
+  <ContentProfile:compositeUIElement xmi:id="_lxB3go0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1400482785997_447308_565"/>
+  <ContentProfile:compositeUIElement xmi:id="_lxB3g40BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1418964171532_449865_927"/>
+  <ContentProfile:compositeUIElement xmi:id="_lxDssI0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1416697591332_29322_2387"/>
+  <ContentProfile:compositeUIElement xmi:id="_lxDssY0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1411330897187_612224_410"/>
+  <ContentProfile:compositeUIElement xmi:id="_lxDsso0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1419160999725_554625_2684"/>
+  <ContentProfile:compositeUIElement xmi:id="_lxDss40BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1419597475499_34054_2956"/>
+  <ContentProfile:textInput xmi:id="_lxDstI0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1415853189518_574560_396" title="Escriba su nombre" mandatory="true"/>
+  <ContentProfile:textInput xmi:id="_lxE60I0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1400484014161_136430_683" title="Nombre"/>
+  <ContentProfile:list xmi:id="_lxE60Y0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1416698213120_368199_2425" filter="perro,gato,caballo,gallina" title="Elige una mascota"/>
+  <ContentProfile:list xmi:id="_lxE60o0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1416544458256_849918_2368" filter="femenino,masculino" title="genero" listType="choice"/>
+  <ContentProfile:text xmi:id="_lxGwAI0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1419599161624_696461_3041" localText="Zona hotelera y residencial en el corazón de la cuidad de San Bernardino"/>
+  <ContentProfile:text xmi:id="_lxGwAY0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1416370309432_662228_1682"/>
+  <ContentProfile:form xmi:id="_lxGwAo0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1400482144258_603054_483"/>
+  <ContentProfile:form xmi:id="_lxH-II0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1400483913884_410700_652"/>
+  <ContentProfile:form xmi:id="_lxH-IY0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1400482785997_447308_565"/>
+  <ContentProfile:form xmi:id="_lxH-Io0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1411330897187_612224_410"/>
+  <ContentProfile:form xmi:id="_lxJzUI0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1419597475499_34054_2956"/>
+  <ContentProfile:externalLink xmi:id="_lxJzUY0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1418964221264_776587_957" url="http://www.hotelacuario.com.py/hotelinstalaciones.html" title="Instalaciones del hotel"/>
+  <ContentProfile:externalLink xmi:id="_lxJzUo0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1416697895721_608621_2420" url="http://www.hotelacuario.com.py"/>
+  <ContentProfile:externalLink xmi:id="_lxLBcI0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1418965046078_173947_964"/>
+  <ContentProfile:htmlText xmi:id="_lxLBcY0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1419290476748_126651_2934" html="Habitación para 2 personas con un ambiente finamente decorado."/>
+  <ContentProfile:htmlText xmi:id="_lxLBco0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1419290644028_513272_2939" html="    &lt;p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.&lt;/p>&#xA;"/>
+  <ContentProfile:htmlText xmi:id="_lxLBc40BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1418964008241_663642_919" html="&lt;h1>Hotel Acuario&lt;/h1>"/>
+  <ContentProfile:multimedia xmi:id="_lxM2oI0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1415677222236_908779_746" type="sound" path="Soda Stereo Imagenes Retro.mp3"/>
+  <ContentProfile:multimedia xmi:id="_lxM2oY0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1415414310611_460734_659" type="video" url="http://www.youtube.com/embed/XGSy3_Czz8k"/>
+  <ContentProfile:multimedia xmi:id="_lxM2oo0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1419290715137_456609_2944" path="JuanPa.jpg"/>
+  <ContentProfile:multimedia xmi:id="_lxOEwI0BEeSLIrYJj0ki5Q" base_Property="_16_0_9050294_1415717031517_109987_390" path="JuanPa.jpg"/>
+  <ContentProfile:richAutoSuggest xmi:id="_lxOEwY0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1411331022924_431806_441" localDictionary="&quot;Ada&quot;, &quot;C&quot;, &quot;C++&quot;, &quot;Erlang&quot;, &quot;Pascal&quot;"/>
+  <ContentProfile:richAutoSuggest xmi:id="_lxOEwo0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1416696599853_953527_2378" localDictionary="&quot;Afghanistan&quot;,&quot;Albania&quot;,&quot;Algeria&quot;,&quot;Andorra&quot;,&quot;Angola&quot;,&quot;Antigua &amp; Deps&quot;,&quot;Argentina&quot;,&quot;Armenia&quot;,&quot;Australia&quot;,&quot;Austria&quot;,&quot;Azerbaijan&quot;,&quot;Bahamas&quot;,&quot;Bahrain&quot;,&quot;Bangladesh&quot;,&quot;Barbados&quot;,&quot;Belarus&quot;,&quot;Belgium&quot;,&quot;Belize&quot;,&quot;Benin&quot;,&quot;Bhutan&quot;,&quot;Bolivia&quot;,&quot;Bosnia Herzegovina&quot;,&quot;Botswana&quot;,&quot;Brazil&quot;,&quot;Brunei&quot;,&quot;Bulgaria&quot;,&quot;Burkina&quot;,&quot;Burundi&quot;,&quot;Cambodia&quot;,&quot;Cameroon&quot;,&quot;Canada&quot;,&quot;Cape Verde&quot;,&quot;Central African Rep&quot;,&quot;Chad&quot;,&quot;Chile&quot;,&quot;China&quot;,&quot;Colombia&quot;,&quot;Comoros&quot;,&quot;Congo&quot;,&quot;Congo {Democratic Rep}&quot;,&quot;Costa Rica&quot;,&quot;Croatia&quot;,&quot;Cuba&quot;,&quot;Cyprus&quot;,&quot;Czech Republic&quot;,&quot;Denmark&quot;,&quot;Djibouti&quot;,&quot;Dominica&quot;,&quot;Dominican Republic&quot;,&quot;East Timor&quot;,&quot;Ecuador&quot;,&quot;Egypt&quot;,&quot;El Salvador&quot;,&quot;Equatorial Guinea&quot;,&quot;Eritrea&quot;,&quot;Estonia&quot;,&quot;Ethiopia&quot;,&quot;Fiji&quot;,&quot;Finland&quot;,&quot;France&quot;,&quot;Gabon&quot;,&quot;Gambia&quot;,&quot;Georgia&quot;,&quot;Germany&quot;,&quot;Ghana&quot;,&quot;Greece&quot;,&quot;Grenada&quot;,&quot;Guatemala&quot;,&quot;Guinea&quot;,&quot;Guinea-Bissau&quot;,&quot;Guyana&quot;,&quot;Haiti&quot;,&quot;Honduras&quot;,&quot;Hungary&quot;,&quot;Iceland&quot;,&quot;India&quot;,&quot;Indonesia&quot;,&quot;Iran&quot;,&quot;Iraq&quot;,&quot;Ireland {Republic}&quot;,&quot;Israel&quot;,&quot;Italy&quot;,&quot;Ivory Coast&quot;,&quot;Jamaica&quot;,&quot;Japan&quot;,&quot;Jordan&quot;,&quot;Kazakhstan&quot;,&quot;Kenya&quot;,&quot;Kiribati&quot;,&quot;Korea North&quot;,&quot;Korea South&quot;,&quot;Kosovo&quot;,&quot;Kuwait&quot;,&quot;Kyrgyzstan&quot;,&quot;Laos&quot;,&quot;Latvia&quot;,&quot;Lebanon&quot;,&quot;Lesotho&quot;,&quot;Liberia&quot;,&quot;Libya&quot;,&quot;Liechtenstein&quot;,&quot;Lithuania&quot;,&quot;Luxembourg&quot;,&quot;Macedonia&quot;,&quot;Madagascar&quot;,&quot;Malawi&quot;,&quot;Malaysia&quot;,&quot;Maldives&quot;,&quot;Mali&quot;,&quot;Malta&quot;,&quot;Marshall Islands&quot;,&quot;Mauritania&quot;,&quot;Mauritius&quot;,&quot;Mexico&quot;,&quot;Micronesia&quot;,&quot;Moldova&quot;,&quot;Monaco&quot;,&quot;Mongolia&quot;,&quot;Montenegro&quot;,&quot;Morocco&quot;,&quot;Mozambique&quot;,&quot;Myanmar, {Burma}&quot;,&quot;Namibia&quot;,&quot;Nauru&quot;,&quot;Nepal&quot;,&quot;Netherlands&quot;,&quot;New Zealand&quot;,&quot;Nicaragua&quot;,&quot;Niger&quot;,&quot;Nigeria&quot;,&quot;Norway&quot;,&quot;Oman&quot;,&quot;Pakistan&quot;,&quot;Palau&quot;,&quot;Panama&quot;,&quot;Papua New Guinea&quot;,&quot;Paraguay&quot;,&quot;Peru&quot;,&quot;Philippines&quot;,&quot;Poland&quot;,&quot;Portugal&quot;,&quot;Qatar&quot;,&quot;Romania&quot;,&quot;Russian Federation&quot;,&quot;Rwanda&quot;,&quot;St Kitts &amp; Nevis&quot;,&quot;St Lucia&quot;,&quot;Saint Vincent &amp; the Grenadines&quot;,&quot;Samoa&quot;,&quot;San Marino&quot;,&quot;Sao Tome &amp; Principe&quot;,&quot;Saudi Arabia&quot;,&quot;Senegal&quot;,&quot;Serbia&quot;,&quot;Seychelles&quot;,&quot;Sierra Leone&quot;,&quot;Singapore&quot;,&quot;Slovakia&quot;,&quot;Slovenia&quot;,&quot;Solomon Islands&quot;,&quot;Somalia&quot;,&quot;South Africa&quot;,&quot;South Sudan&quot;,&quot;Spain&quot;,&quot;Sri Lanka&quot;,&quot;Sudan&quot;,&quot;Suriname&quot;,&quot;Swaziland&quot;,&quot;Sweden&quot;,&quot;Switzerland&quot;,&quot;Syria&quot;,&quot;Taiwan&quot;,&quot;Tajikistan&quot;,&quot;Tanzania&quot;,&quot;Thailand&quot;,&quot;Togo&quot;,&quot;Tonga&quot;,&quot;Trinidad &amp; Tobago&quot;,&quot;Tunisia&quot;,&quot;Turkey&quot;,&quot;Turkmenistan&quot;,&quot;Tuvalu&quot;,&quot;Uganda&quot;,&quot;Ukraine&quot;,&quot;United Arab Emirates&quot;,&quot;United Kingdom&quot;,&quot;United States&quot;,&quot;Uruguay&quot;,&quot;Uzbekistan&quot;,&quot;Vanuatu&quot;,&quot;Vatican City&quot;,&quot;Venezuela&quot;,&quot;Vietnam&quot;,&quot;Yemen&quot;,&quot;Zambia&quot;,&quot;Zimbabwe&quot;"/>
+  <ContentProfile:richDatePicker xmi:id="_lxOEw40BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1400482426010_786793_513"/>
+  <ContentProfile:richDatePicker xmi:id="_lxP58I0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1419599752830_947481_3046"/>
+  <ContentProfile:richToolTip xmi:id="_lxP58Y0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1418964221264_776587_957"/>
+  <ContentProfile:richToolTip xmi:id="_lxP58o0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1400484014161_136430_683"/>
+  <ContentProfile:richFieldLiveValidation xmi:id="_lxP5840BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1419598825648_902478_2997" required="true" confirmPass="true" minLength="8"/>
+  <ContentProfile:richFieldLiveValidation xmi:id="_lxRIEI0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1400483109031_903636_596" required="true" confirmPass="true" minLength="8"/>
+  <ContentProfile:richFieldLiveValidation xmi:id="_lxS9QI0BEeSLIrYJj0ki5Q" base_Property="_16_0_19b004bd_1419598525136_141550_2986" validation="simpleTextImput" required="true"/>
+  <ContentProfile:richAccordion xmi:id="_lxS9QY0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1419160999725_554625_2684"/>
+  <ContentProfile:richTabs xmi:id="_lxS9Qo0BEeSLIrYJj0ki5Q" base_Class="_16_0_19b004bd_1419290383482_639638_2904"/>
+</xmi:XMI>

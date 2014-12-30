@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:MagicDrawProfile="http:///schemas/MagicDrawProfile/_TcCkwETyEeC4HNUuzkcZ9Q/0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:regla="http:///schemas/regla/_TcLusETyEeC4HNUuzkcZ9Q/0" xmlns:uml="http://www.eclipse.org/uml2/2.0.0/UML" xsi:schemaLocation="http:///schemas/MagicDrawProfile/_TcCkwETyEeC4HNUuzkcZ9Q/0 UML_Standard_Profile.MagicDraw_Profile.profile.uml#_TqIr7UTyEeC4HNUuzkcZ9Q http:///schemas/regla/_TcLusETyEeC4HNUuzkcZ9Q/0 regla.profile.uml#_TqG18kTyEeC4HNUuzkcZ9Q">
+  <uml:Model xmi:id="eee_1045467100313_135436_1" name="Data" viewpoint="">
+    <ownedComment xmi:id="_16_0_90a0289_1291293839875_51876_230" body="Author:Administrador.&#xA;Created:4/16/10 12:46 PM.&#xA;Title:.&#xA;Comment:.&#xA;" annotatedElement="eee_1045467100313_135436_1"/>
+    <packageImport xmi:id="_0primitiveTypesData">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packageImport xmi:id="_0javaPrimitiveTypesData">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Package" xmi:id="_16_0_90a0289_1288270427687_347017_945" name="General">
+      <packagedElement xmi:type="uml:Package" xmi:id="_16_0_90a0289_1288270444437_796014_946" name="Autenticada">
+        <packagedElement xmi:type="uml:Package" xmi:id="_16_0_90a0289_1288270578593_936768_1000" name="No Academica">
+          <packagedElement xmi:type="uml:Actor" xmi:id="_16_0_90a0289_1288270586828_319455_1001" name="Administrador">
+            <generalization xmi:id="_16_0_90a0289_1288270619781_97117_1019" isSubstitutable="true" general="_16_0_90a0289_1288270475531_790448_948"/>
+          </packagedElement>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Package" xmi:id="_16_0_90a0289_1288270563921_264476_999" name="Academica">
+          <packagedElement xmi:type="uml:Actor" xmi:id="_16_0_90a0289_1288270525359_954869_966" name="Profesor">
+            <generalization xmi:id="_16_0_90a0289_1288270624640_482572_1025" isSubstitutable="true" general="_16_0_90a0289_1288270515000_313004_965"/>
+          </packagedElement>
+          <packagedElement xmi:type="uml:Actor" xmi:id="_16_0_90a0289_1288270515000_313004_965" name="Alumno">
+            <generalization xmi:id="_16_0_90a0289_1288270622421_470014_1022" isSubstitutable="true" general="_16_0_90a0289_1288270475531_790448_948"/>
+          </packagedElement>
+        </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_16_0_90a0289_1288270451625_158724_947" name="No Autenticada">
+        <packagedElement xmi:type="uml:Actor" xmi:id="_16_0_90a0289_1288270475531_790448_948" name="Invitado"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_16_0_b19026c_1289565473438_956026_1139" name="Reglas Generales">
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_b19026c_1288708471370_901036_1457" name="ReglaLenguaje"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_b19026c_1288982693460_475084_1222" name="ReglaSecuencia"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_b19026c_1289566234708_907920_1174" name="ReglaFuente"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_b19026c_1289566511024_978798_1205" name="ReglaImagen"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_b19026c_1289565578647_315919_1141" name="ReglaAprendizaje"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_16_0_b19026c_1299074922856_562096_739" name="Reglas Especificas">
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_b19026c_1299074922860_782707_740" name="ReglaSecuenciaNivel"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_16_0_b19026c_1299074922861_426232_741" name="ReglaAprendizajeNivel"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="magicdraw_uml_standard_profile_v_0001" name="UML Standard Profile">
+      <ownedComment xmi:id="_be00301_1078843546940_242228_131" body="UML Standard Profile contains several popular stereotypes, tag definitions and constraints described in UML  2 Specifications." annotatedElement="magicdraw_uml_standard_profile_v_0001"/>
+    </packagedElement>
+    <profileApplication xmi:id="magicdraw_1048074704350_728498_0profileApplicationData">
+      <eAnnotations xmi:id="_TqGO_0TyEeC4HNUuzkcZ9Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="UML_Web_Extensions_Profile.profile.uml#_TqFn0kTyEeC4HNUuzkcZ9Q"/>
+      </eAnnotations>
+      <appliedProfile href="UML_Web_Extensions_Profile.profile.uml#magicdraw_1048074704350_728498_0"/>
+    </profileApplication>
+    <profileApplication xmi:id="_11_5_f720368_1159529670215_231387_1profileApplicationData">
+      <eAnnotations xmi:id="_TqGPAUTyEeC4HNUuzkcZ9Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="UML_Standard_Profile.Validation_Profile.profile.uml#_TqG2DUTyEeC4HNUuzkcZ9Q"/>
+      </eAnnotations>
+      <appliedProfile href="UML_Standard_Profile.Validation_Profile.profile.uml#_11_5_f720368_1159529670215_231387_1"/>
+    </profileApplication>
+    <profileApplication xmi:id="_11_5_be00301_1153310565718_226811_161profileApplicationData">
+      <eAnnotations xmi:id="_TqGPA0TyEeC4HNUuzkcZ9Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="UML_Standard_Profile.MagicDraw_Profile.DSL_Customization.profile.uml#_TqGPDETyEeC4HNUuzkcZ9Q"/>
+      </eAnnotations>
+      <appliedProfile href="UML_Standard_Profile.MagicDraw_Profile.DSL_Customization.profile.uml#_11_5_be00301_1153310565718_226811_161"/>
+    </profileApplication>
+    <profileApplication xmi:id="_be00301_1073394351331_445580_2profileApplicationData">
+      <eAnnotations xmi:id="_TqGPBUTyEeC4HNUuzkcZ9Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="UML_Standard_Profile.MagicDraw_Profile.profile.uml#_TqIr7UTyEeC4HNUuzkcZ9Q"/>
+      </eAnnotations>
+      <appliedProfile href="UML_Standard_Profile.MagicDraw_Profile.profile.uml#_be00301_1073394351331_445580_2"/>
+    </profileApplication>
+    <profileApplication xmi:id="_9_0_be00301_1108050582343_527400_10847profileApplicationData">
+      <eAnnotations xmi:id="_TqGPB0TyEeC4HNUuzkcZ9Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="UML_Standard_Profile.UML_Standard_Profile.profile.uml#_TqIEOETyEeC4HNUuzkcZ9Q"/>
+      </eAnnotations>
+      <appliedProfile href="UML_Standard_Profile.UML_Standard_Profile.profile.uml#_9_0_be00301_1108050582343_527400_10847"/>
+    </profileApplication>
+    <profileApplication xmi:id="_16_0_b19026c_1299076828545_496307_655profileApplicationData">
+      <eAnnotations xmi:id="_TqGPCUTyEeC4HNUuzkcZ9Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="regla.profile.uml#_TqG18kTyEeC4HNUuzkcZ9Q"/>
+      </eAnnotations>
+      <appliedProfile href="regla.profile.uml#_16_0_b19026c_1299076828545_496307_655"/>
+    </profileApplication>
+  </uml:Model>
+  <MagicDrawProfile:auxiliaryResource xmi:id="_T1Dhs0TyEeC4HNUuzkcZ9Q" base_Element="magicdraw_uml_standard_profile_v_0001" base_Package="magicdraw_uml_standard_profile_v_0001"/>
+  <regla:rule xmi:id="_T1HMEETyEeC4HNUuzkcZ9Q" base_Element="_16_0_b19026c_1289566511024_978798_1205" OCLExpression="Context &lt;&lt;compositeUIElement>>:&#xA;if alumno.preferencia.imagen = NO&#xA;HideImage(&lt;&lt;img>>,FALSE)&#xA;end" ruleType="General" roleAtt="Alumno" source="Preferencia"/>
+  <regla:rule xmi:id="_T1HMEUTyEeC4HNUuzkcZ9Q" base_Element="_16_0_b19026c_1299074922861_426232_741" OCLExpression="Context ContenidoTeorico:&#xA;if Alumno.conocimiento.nivel=’PRINCIPIANTE’ then&#xA;selectContentFragment(&lt;&lt;text>>, DETALLADO’)&#xA;end" ruleType="Especifica" roleAtt="Alumno" source="Conocimiento"/>
+  <regla:rule xmi:id="_T1cjQETyEeC4HNUuzkcZ9Q" base_Element="_16_0_b19026c_1289565578647_315919_1141" OCLExpression="Context &lt;&lt;CompositeUIElement>>:&#xA;if alumno.objetivo.aprendizaje = DETALLADO then&#xA;SelectContentFragment(&lt;&lt;text>>, DETALLADO)&#xA;end" ruleType="General" roleAtt="Alumno" source="Objetivo"/>
+  <regla:rule xmi:id="_T1cjQUTyEeC4HNUuzkcZ9Q" base_Element="_16_0_b19026c_1288708471370_901036_1457" OCLExpression="Context &lt;&lt;compositeUIElement>>:&#xA;if Alumno.preferencia.lenguaje=’INGLES’ then&#xA;SelectContentLanguage(&lt;&lt;text>>, INGLES)&#xA;end" ruleType="General" roleAtt="Alumno" source="Preferencia"/>
+  <regla:rule xmi:id="_T1dKUETyEeC4HNUuzkcZ9Q" base_Element="_16_0_b19026c_1288982693460_475084_1222" OCLExpression="Context &lt;&lt;compositeUIElement>>:&#xA;if Alumno.interes.secuencia = TP then&#xA;   HideLink(&lt;&lt;anchor>>, ejemplo)&#xA;end" ruleType="General" roleAtt="Alumno" source="Interes"/>
+  <regla:rule xmi:id="_T1dKUUTyEeC4HNUuzkcZ9Q" base_Element="_16_0_b19026c_1289566234708_907920_1174" OCLExpression="Context: &lt;&lt;compositeUIElement>>:&#xA;If alumno.preferencia.fuente = GRANDE&#xA;ShowFont(&lt;text>, 12)&#xA;end" ruleType="General" roleAtt="Alumno" source="Preferencia"/>
+  <regla:rule xmi:id="_T1dxYETyEeC4HNUuzkcZ9Q" base_Element="_16_0_b19026c_1299074922860_782707_740" OCLExpression="Context ListaContenidoTema:&#xA;if Alumno.conocimiento.nivel=’PRINCIPIANTE’ then&#xA;showLink(&lt;&lt;anchor>>, &quot;Ejemplo&quot;)&#xA;end" ruleType="Especifica" roleAtt="Alumno" source="Conocimiento"/>
+</xmi:XMI>

@@ -1,0 +1,1293 @@
+#!/usr/bin/perl
+
+use DBI; #librerias utilizadas para la interaccion con bds
+use Socket; #librerias para el uso de sockets
+
+$smppHost  = "localhost"; #host smpp
+$smppPort  = "20053"; # puerto smpp
+$mysqlHost = "mysql"; # host mysql
+$mysqlDB   = "crbt"; # base de datos mysql
+$smsFrom   = "4040"; # de donde origen del sms
+$smsLen    = 160;  #longitud del sms
+
+# nos conectamos a la base de datos deseada
+$mysql = DBI->connect("DBI:mysql:database=$mysqlDB;host=$mysqlHost", "root", "", {'RaiseError' => 1});
+
+#open STDERR, "| /usr/bin/logger -p local0.notice -t SMS";
+
+# adherimos un archivo con los mensajes para el sms
+require 'sms_messages.pl';
+
+$|=1; # que documentación!!
+# se procesan los argumentos en la linea de comandos
+# se recibe el msisdn del emisor
+# a quien va dirigido el msg
+# y el mensaje propiamente
+($msisdn,$to,$msg) = processArguments(@ARGV);
+
+# mientras exista 0 o menos argumentos
+# en la linea de comandos
+while(0<=$#ARGV){ shift; } 
+$msisdn=~s/^\+//; $msisdn=~s/^%2b//i;
+$msisdn=~s/^595/0/;
+
+if(lc($msg) eq 'cha'){ $msg='chayanne'; }
+if(lc($msg) eq 'madona'){ $msg='madonna'; }
+if(lc($msg) eq 'charly'){ $msg='Los Angeles de Charly'; }
+#crbtlog("SMS MO [$to] $msg");
+
+if(0)
+{
+if(lc($msg) eq 'test'){
+my $fname = "/tmp/$msisdn-". time .".call";
+open($call,"> $fname");
+    print $call "Channel: ISUP/$msisdn\nMaxRetries: 5\nRetryTime: 480\nWaitTime: 18\nCallerid: 4040\n";
+    print $call "Application: AGI\nData: ivr-n.pl|$msisdn\n";
+    close($call);
+system("scp -i /var/www/.ssh/id_rsa $fname root\@rbt:/var/spool/prbt/outgoing/");
+exit;
+}
+}
+
+($datos{'id'},$datos{'tonos'},$datos{'modo'},$datos{'param'},$datos{'plan'}) = usuario();
+
+comprar_tono();
+ejecutar_comandos();
+
+if($msg=~/^\d+$/)
+{
+    if( ($h = leer_historial()) )
+    {
+      if($h=~/^cat=(.+)/i) { elegir_tono_por_categoria($1); }
+      elsif($h=~/^sello=(.+)/i){ elegir_tono_por_sello($1);     }
+      elsif($h=~/^categorias/i){ listar_tonos_por_categoria();  }
+      elsif($h=~/^autor=(.+)/i){ elegir_tono_por_autor($1);     }
+      elsif($h=~/^top10/i){ elegir_tonos_por_top10();  }
+      elsif($h=~/^nuevos/i)       { elegir_tonos_por_nuevos();  }
+    }
+    else
+    {
+      buscar_como_IDReal();
+      buscar_como_promo();
+    }
+}
+else
+{
+    buscar_como_categoria();
+    buscar_como_autor();
+    buscar_como_sello();
+    buscar_como_clave();
+}
+
+ayuda();
+
+sub ayuda
+{
+    SendSMS($smsFrom,$msg_ayuda); exit;
+}
+# en el campo historial se obtiene la categoria de un
+sub leer_historial
+{
+    $sql = "SELECT historial FROM historial_sms WHERE msisdn='$msisdn' AND fecha+10*3600>unix_timestamp()";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    return undef if(!$sth->rows);
+
+    return $sth->fetchrow_array();
+}
+
+sub ejecutar_comandos
+{
+    if($msg eq '+')             { siguiente(); exit; }
+    if($msg eq 'mistonos')      { mistonos(); exit; }
+    if(is_cmd('categoria',$msg)){ categorias(); exit; }
+    if(is_cmd('tigo',$msg))     { categorias(); exit; }
+    if(is_cmd('top',$msg))      { $msg='top'; top10(); exit; }
+    if(is_cmd('top20',$msg))    { $msg='top'; top10(); exit; }
+    if(is_cmd('nuevos',$msg))   { nuevos(); exit; }
+    if(is_cmd('no',$msg))       { no_push(); exit; }
+    if(is_cmd('si',$msg))       { si_push(); exit; }
+}
+
+sub no_push
+{
+    $sql = "SELECT * FROM push_blacklist WHERE msisdn='$msisdn'";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    if(!$sth->rows)
+{
+#crbtlog("INSERT INTO push_blacklist (msisdn) VALUES ('$msisdn')");
+$mysql->do("INSERT INTO push_blacklist (msisdn) VALUES ('$msisdn')");
+}
+    SendSMS($smsFrom, $msg_noPush);
+}
+
+# se borrar el usuario(?) del blacklist
+sub si_push
+{
+    $mysql->do("DELETE FROM push_blacklist WHERE msisdn='$msisdn'");
+    SendSMS($smsFrom, $msg_siPush);
+}
+
+sub usuario
+{
+    $sql = "SELECT id,tonos,modo,param,planid FROM usuarios WHERE msisdn='$msisdn'";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    if(!$sth->rows)
+    {
+        if(suscribir()){ SendSMS($smsFrom,$msg_bienvenido); return usuario(); }
+        SendSMS($smsFrom,$msg_noSubscription); exit;
+    }
+    return ($sth->fetchrow_array());
+}
+
+sub suscribir
+{
+    #if(!usuario_valido($msisdn)){ SendSMS($smsFrom, $msg_gsmOnly); exit; }
+
+    $sql = "SELECT id,tonos,modo,param,planid FROM usuarios WHERE msisdn='$msisdn'";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    return 0 if($sth->rows > 0);
+
+    #sva(1,$msisdn,0);
+    $mysql->do("INSERT INTO usuarios (msisdn,tonos,modo,param,inicio,billed) VALUES ('$msisdn','',2,'',unix_timestamp(),0)");
+
+    return 1;
+}
+
+sub usuario_valido
+{
+    my ($numero_cuenta) = @_;
+    my $id_transaccion = 1;
+
+    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime time; $year+=1900; $mon++;
+    my $fecha = sprintf("%d%.2d%.2d%.2d%.2d%.2d",$year,$mon,$mday,$hour,$min,$sec);
+
+    my $e = sprintf("TSCREEN   %.10xTOUCSCREENCET   %-28s%s\r\n",$id_transaccion,$numero_cuenta,$fecha);
+    $s = enviar('10.16.4.2',65140,$e);
+    $res = substr($s,20,3); return "no existe" if($res ne "000");
+    $tipo = substr($s,89,3).substr($s,92,3);
+    if($tipo=~/gsm/i){ return 1; }
+    return 0;
+}
+
+sub enviar
+{
+    my ($host,$port,$string) = @_;
+    my $received = '';
+    my $proto = getprotobyname('tcp');
+    socket(my $FS, PF_INET, SOCK_STREAM, $proto);
+    my $sin = sockaddr_in($port, inet_aton($host));
+    setsockopt($FS, SOL_SOCKET, SO_SNDTIMEO, pack('LL', 180, 0));
+    setsockopt($FS, SOL_SOCKET, SO_RCVTIMEO, pack('LL', 180, 0));
+    connect($FS, $sin) || return -1;
+    my $old_fh = select($FS); $| = 1; select($old_fh);
+    print $FS $string;
+    #crbtlog("Enviado $string");
+    $received = scalar <$FS>;
+    #crbtlog("Recibido $received");
+    return $received;
+}
+
+sub categorias
+{
+    $sql = "SELECT categorias_sms FROM config";
+    my $sth = $mysql->prepare($sql);
+    $sth->execute;
+    my $categorias = $sth->fetchrow_array;
+
+my $id = 1;
+my @pairs = split(/\|/,$categorias);
+foreach(@pairs)
+{
+my ($cat,undef) = split(/:/);
+
+if($cat eq "top") {
+$nombre = "Top 20";
+} elsif($cat eq "nuevos") {
+$nombre = "Nuevos";
+} elsif($cat eq "recomendados") {
+$nombre = "Recomendados";
+} else {
+$sql = "SELECT nombre FROM categorias WHERE id=$cat";
+my $sth = $mysql->prepare($sql);
+$sth->execute;
+$nombre = $sth->fetchrow_array;
+}
+
+$lista.="\n" if(length($lista));
+$lista.="$id $nombre";
+
+$id++;
+}
+
+    historial("categorias");
+    SendSplitSMS($lista);
+    SendSMS($smsFrom, "Para recibir el resto de la respuesta, envia el signo '+' al 4040.") if(length($lista)>$smsLen);
+    exit;
+}
+
+sub listar_tonos_por_categoria
+{
+    $cat=$msg-1;
+
+    $sql = "SELECT categorias FROM config";
+    my $sth = $mysql->prepare($sql);
+    $sth->execute;
+    my $categorias = $sth->fetchrow_array;
+
+    my @pairs = split(/\|/,$categorias);
+my $pair = @pairs[$cat];
+
+($cat,undef) = split(/:/,$pair);
+
+    if($cat eq "top") {
+        $nombre = "top";
+    } elsif($cat eq "nuevos") {
+        $nombre = "nuevos";
+    } elsif($cat eq "recomendados") {
+        $nombre = "recomendados";
+    } elsif($cat eq "promos") {
+        $nombre = "promos";
+    } else {
+        $sql = "SELECT nombre FROM categorias WHERE id=$cat";
+        my $sth = $mysql->prepare($sql);
+        $sth->execute;
+        $nombre = $sth->fetchrow_array;
+    }
+
+    $msg = $nombre;
+    buscar_como_categoria();
+
+    exit;
+}
+
+sub top10
+{
+    my $lista = '';
+
+    $mysql->do("SET \@a=0");
+    $sql = "SELECT \@a:=\@a+1 AS rownum, a.nombre FROM tonos a,top10 b WHERE a.interfases&4";
+    $sql.= " AND b.id=a.id";
+$sql.= " ORDER BY a.hits DESC";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    return if(!$sth->rows);
+
+    while ( my ($id,$nombre) = $sth->fetchrow_array )
+    {
+    $nombre =~ s/^\s+//;
+    $nombre =~ s/\s+$//;
+        $lista.="$id $nombre\n";
+    }
+    return if(length($lista)==0);
+    historial("top10");
+    SendSplitSMS($lista);
+    SendSMS($smsFrom, "Para recibir el resto de la respuesta, envia el signo '+' al 4040.") if(length($lista)>$smsLen);
+    exit;
+}
+
+sub nuevos
+{
+    my $lista = '';
+
+    $mysql->do("SET \@a=0");
+    $sql = "SELECT \@a:=\@a+1 AS rownum, nombre FROM tonos WHERE interfases&4";
+    $sql.= " ORDER BY id DESC LIMIT 20";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    return if(!$sth->rows);
+
+    while ( my ($id,$nombre) = $sth->fetchrow_array )
+    {
+        $nombre =~ s/^\s+//;
+        $nombre =~ s/\s+$//;
+        $lista.="$id $nombre\n";
+    }
+    return if(length($lista)==0);
+
+    historial("nuevos");
+    SendSplitSMS($lista);
+    SendSMS($smsFrom, "Para recibir el resto de la respuesta, envia el signo '+' al 4040.") if(length($lista)>$smsLen);
+    exit;
+}
+
+
+
+sub buscar_como_categoria
+{
+    my $lista = '';
+
+    $mysql->do("SET \@a=0");
+    if($msg eq "top") {
+        $sql = "SELECT \@a:=\@a+1 AS rownum, tonos.nombre FROM top10,tonos WHERE top10.id=tonos.id";
+    } elsif($msg eq "nuevos") {
+        $sql = "SELECT \@a:=\@a+1 AS rownum, nombre FROM tonos WHERE interfases&4 ORDER BY id DESC LIMIT 20";
+    } elsif($msg eq "recomendados") {
+        $sql = "SELECT \@a:=\@a+1 AS rownum, tonos.nombre FROM recomendados,tonos WHERE recomendados.id=tonos.id";
+    } else {
+    $sql = "SELECT \@a:=\@a+1 AS rownum, a.nombre FROM tonos a,categorias b WHERE a.interfases&4";
+    $sql.= " AND b.id=a.categoria AND b.nombre = '$msg'";
+    $sql.= " ORDER BY a.hits DESC LIMIT 20";
+}
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    return if(!$sth->rows);
+
+    while ( my ($id,$nombre) = $sth->fetchrow_array )
+    {
+$nombre =~ s/^\s+//;
+$nombre =~ s/\s+$//;
+$lista.="\n" if(length($lista));
+        $lista.="$id $nombre";
+    }
+    return if(length($lista)==0);
+
+    historial("cat=$msg");
+    SendSplitSMS($lista);
+    SendSMS($smsFrom, "Para recibir el resto de la respuesta, envia el signo '+' al 4040.") if(length($lista)>$smsLen);
+    exit;
+}
+
+sub buscar_como_sello
+{
+    my $lista = '';
+
+    $mysql->do("SET \@a=0");
+    $sql = "SELECT \@a:=\@a+1 AS rownum, a.nombre FROM tonos a,sellos b WHERE a.interfases&4";
+    $sql.= " AND b.id=a.sello AND b.nombre = '$msg'";
+    $sql.= " ORDER BY a.hits DESC";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    if(!$sth->rows)
+    {
+        return;
+    }
+
+    while ( my ($id,$nombre) = $sth->fetchrow_array )
+    {
+        $lista.="$id $nombre\n";
+    }
+    return if(length($lista)==0);
+    historial("sello=$msg");
+    SendSplitSMS($lista);
+    SendSMS($smsFrom, "Para recibir el resto de la respuesta, envia el signo '+' al 4040.") if(length($lista)>$smsLen);
+    exit;
+}
+
+sub buscar_como_autor
+{
+    my $lista = '';
+
+    $mysql->do("SET \@a=0");
+    $sql = "SELECT \@a:=\@a+1 AS rownum, a.nombre FROM tonos a,autores b WHERE a.interfases&4";
+    $sql.= " AND b.id=a.autor AND b.nombre = '$msg'";
+    $sql.= " ORDER BY a.hits DESC";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    if(!$sth->rows)
+    {
+        return;
+    }
+
+    while ( my ($id,$nombre) = $sth->fetchrow_array )
+    {
+        $lista.="$id $nombre\n";
+    }
+    return if(length($lista)==0);
+    historial("autor=$msg");
+    SendSplitSMS($lista);
+    SendSMS($smsFrom, "Para recibir el resto de la respuesta, envia el signo '+' al 4040.") if(length($lista)>$smsLen);
+    exit;
+}
+
+sub buscar_como_clave
+{
+    $sql = "SELECT id FROM tonos WHERE clave LIKE '$msg:%' OR clave LIKE '%:$msg:%' OR clave='$msg'";
+    my $sth = $mysql->prepare($sql);
+    $sth->execute;
+    return if(!$sth->rows);
+    my $id = $sth->fetchrow_array();
+
+    elegir_tono($id);
+}
+
+sub buscar_como_IDReal
+{
+    $sql = "SELECT id FROM tonos WHERE id=$msg AND interfases&4";
+    my $sth = $mysql->prepare($sql);
+    $sth->execute;
+    return if(!$sth->rows);
+    my $id = $sth->fetchrow_array();
+
+    elegir_tono($id);
+}
+
+sub buscar_como_promo
+{
+    $sql = "SELECT tono FROM promociones_sms WHERE id=$msg";
+    my $sth = $mysql->prepare($sql);
+    $sth->execute;
+    return if(!$sth->rows);
+    my $id = $sth->fetchrow_array();
+
+    elegir_tono_promo($id);
+}
+
+
+sub elegir_tono_por_categoria
+{
+    my ($cat) = @_;
+
+    $tono=$msg-1;
+
+    if($cat eq "top") {
+        $sql = "SELECT id FROM top10 LIMIT $tono,1";
+    } elsif($cat eq "nuevos") {
+        $sql = "SELECT id FROM tonos ORDER BY id LIMIT $tono,1";
+    } elsif($cat eq "recomendados") {
+        $sql = "SELECT id FROM recomendados LIMIT $tono,1";
+    } else {
+    $sql = "SELECT a.id FROM tonos a,categorias b WHERE a.interfases&4";
+    $sql.= " AND b.id=a.categoria AND b.nombre = '$cat'";
+    $sql.= " ORDER BY a.hits DESC LIMIT $tono,1";
+    }
+
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    return if(!$sth->rows);
+
+    my $id = $sth->fetchrow_array();
+
+    elegir_tono($id);
+}
+
+sub elegir_tonos_por_top10
+{
+    $tono=$msg-1;
+
+    $sql = "SELECT a.id FROM tonos a,top10 b WHERE a.interfases&4";
+    $sql.= " AND b.id=a.id";
+    $sql.= " ORDER BY a.hits DESC LIMIT $tono,1";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    return if(!$sth->rows);
+    my $id = $sth->fetchrow_array();
+
+    elegir_tono($id);
+}
+
+sub elegir_tonos_por_nuevos
+{
+    $tono=$msg-1;
+
+    $sql = "SELECT id FROM tonos WHERE interfases&4";
+    $sql.= " ORDER BY hits DESC LIMIT $tono,1";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    return if(!$sth->rows);
+    my $id = $sth->fetchrow_array();
+
+    elegir_tono($id);
+}
+
+sub elegir_tono_por_autor
+{
+    my ($autor) = @_;
+
+    $tono=$msg-1;
+    $sql = "SELECT a.id FROM tonos a,autores b WHERE a.interfases&4";
+    $sql.= " AND b.id=a.autor AND b.nombre = '$autor'";
+    $sql.= " ORDER BY a.hits DESC LIMIT $tono,1";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    return if(!$sth->rows);
+    my $id = $sth->fetchrow_array();
+
+    elegir_tono($id);
+}
+
+sub elegir_tono_por_sello
+{
+    my ($sello) = @_;
+
+    $tono=$msg-1;
+    $sql = "SELECT a.id FROM tonos a,sellos b WHERE a.interfases&4";
+    $sql.= " AND b.id=a.sello AND b.nombre = '$sello'";
+    $sql.= " ORDER BY a.hits DESC LIMIT $tono,1";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    return if(!$sth->rows);
+    my $id = $sth->fetchrow_array();
+
+    elegir_tono($id);
+}
+
+sub elegir_tono
+{
+    my ($id) = @_;
+
+    if(!$id){ SendSMS($smsFrom, $msg_noTone); exit; }
+
+    my ($nombre,$autor,$categoria) = tone_info($id);
+
+    my $user_tones = get_user_tones();
+    if($user_tones =~ /^$id,|,$id,|,$id$/)
+    {
+        $msg_existingTone =~ s/XX/$nombre/;
+        SendSMS($smsFrom, $msg_existingTone); exit;
+    }
+
+    $sql = "SELECT id FROM tonos WHERE id=$id AND interfases&4";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    if( !$sth->rows ){ SendSMS($smsFrom, $msg_noTone); exit; }
+
+    my $short = pick_short_number($id);
+    $r = $mysql->do("UPDATE regalos_pendientes SET fecha=unix_timestamp(),tono=$id,numero=0,tipo=2 WHERE msisdn='$msisdn' AND short='$short'");
+    $mysql->do("INSERT INTO regalos_pendientes (fecha,msisdn,tono,short,numero,tipo) VALUES (unix_timestamp(),'$msisdn',$id,$short,0,2)") if($r eq '0E0');
+
+    $precio = sprintf("%1.2f",consulta(2,$msisdn,$id)/100);
+    $renov  = sprintf("%1.2f",consulta(10,$msisdn,$id)/100);
+
+    SendSMS($short,"Si queres '$nombre' ($categoria) de '$autor' responde SI. Costo: USD $precio. Renovacion mensual: USD $renov.");
+    exit;
+}
+
+sub elegir_tono_promo
+{
+    my ($id) = @_;
+
+    if(!$id){ SendSMS($smsFrom, $msg_noTone); exit; }
+
+    my ($nombre,$autor,$categoria) = tone_info($id);
+
+    my $user_tones = get_user_tones();
+    if($user_tones =~ /^$id,|,$id,|,$id$/)
+    {
+        $msg_existingTone =~ s/XX/$nombre/;
+        SendSMS($smsFrom, $msg_existingTone); exit;
+    }
+
+    $sql = "SELECT id FROM tonos WHERE id=$id AND interfases&4";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    if( !$sth->rows ){ SendSMS($smsFrom, $msg_noTone); exit; }
+
+    my $short = pick_short_number($id);
+    $r = $mysql->do("UPDATE regalos_pendientes SET fecha=unix_timestamp(),tono=$id,tono_promocion='$msg',numero=0,tipo=2 WHERE msisdn='$msisdn' AND short='$short'");
+    $mysql->do("INSERT INTO regalos_pendientes (fecha,msisdn,tono,short,numero,tipo,tono_promocion) VALUES (unix_timestamp(),'$msisdn',$id,$short,0,2,'$msg')") if($r eq '0E0');
+
+    $precio = sprintf("%1.2f",consulta(2,$msisdn,$id)/100);
+    $renov  = sprintf("%1.2f",consulta(10,$msisdn,$id)/100);
+
+    SendSMS($short,"Si queres '$nombre' ($categoria) de '$autor' responde SI. Costo: USD $precio. Renovacion mensual: USD $renov.");
+    exit;
+}
+
+sub comprar_tono
+{
+    return if($to eq $smsFrom);
+    return if($msg =~ /no/i);
+
+    $sql = "SELECT id,tono,msisdn,tipo FROM regalos_pendientes WHERE (msisdn='$msisdn' OR numero='$msisdn') AND short='$to'";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    if($sth->rows)
+    {
+        my ($id,$tono,$origen,$tipo)=$sth->fetchrow_array();
+        if($tipo == 1 or $tipo == 5) #(1)Regalo (5) Gift Push Copy-a-Tune
+        {
+            #print "$tipo\n";
+            $sql = "SELECT id,tonos,modo,param,planid FROM usuarios WHERE msisdn='$msisdn'";
+            $sth = $mysql->prepare($sql);
+            $sth->execute;
+            suscribir() if($sth->rows==0);
+            ($datos{'id'},$datos{'tonos'},$datos{'modo'},$datos{'param'},$datos{'plan'}) = usuario();
+
+            my $list = get_user_tones($datos{'tonos'});
+            my $tono_nombre = get_name($tono);
+            #puedes asignarte hasta 3 tonos y no podes asignate uno ya asignado
+            if($list =~ /^$tono,|,$tono,|,$tono$/)
+            {
+                SendSMS($to,"El tono '$tono_nombre' ya esta asignado a tu cuenta.");
+            }
+            else # se procede a la compra
+            {
+                sva(4,$msisdn,$tono,3);
+                $datos{'id'} = $tono; ($datos{'tonos'},$datos{'param'}) = agregar(%datos);
+                updateUserDefault();
+                SendSMS($to,"El tono '$tono_nombre' se ha agregado a tu cuenta.");
+                SendSMS2($to,$origen,"El '$msisdn' ha aceptado el tono '$tono_nombre' de regalo.");
+
+                $bill_date = BillingSched($tono,"B1","Renovacion de regalo");
+                AlertSMS($tono,$bill_date);
+            }
+        }
+        elsif($tipo == 2 or $tipo == 3) #(2)Compra (3)Push Copy-a-Tune
+        {
+          if($msg=~/^si/i)
+          {
+            my $r = sva(2,$msisdn,$tono,($tipo==2)?3:14);
+            if($r == 0)
+            {
+                    $datos{'id'}=$tono; (undef,$datos{'tonos'},$datos{'modo'},$datos{'param'},$datos{'plan'}) = usuario();
+                    ($datos{'tonos'},$datos{'param'}) = agregar(%datos);
+                    updateUserDefault();
+                    updateBilled();
+                    #crbtlog("Tono $tono comprado");
+
+                    $bill_date = BillingSched($tono,"B1",($tipo==2)?"Tono comprado por el usuario SMS":"Compra Push Copy-A-Tune");
+                    AlertSMS($tono,$bill_date);
+
+                    my ($nombre,$autor,$categoria) = tone_info($tono);
+                    $msg_toneSuccess =~ s/XX/$nombre/;
+                    SendSMS($smsFrom, $msg_toneSuccess);
+                    if($promo>0) {
+                    $mysql->do("INSERT INTO promociones (fecha,msisdn,codigo,tono) VALUES (unix_timestamp(),'$msisdn','$promo',$tono)");
+                    }
+            }
+            elsif($r == 1060) #el usuario no cuenta con saldo disponible
+            {
+                     SendSMS($smsFrom, $msg_noCredit);
+            }
+            else #error en el sistema
+            {
+                    SendSMS($smsFrom, "Por favor, intente mas tarde.");
+            }
+    }
+            elsif($msg=~/^098\d{7}/i)
+            {
+                my $numero = $msg;
+                $sql = "SELECT id,tonos,modo,param,planid FROM usuarios WHERE msisdn='$numero'";
+                $sth = $mysql->prepare($sql);
+                $sth->execute;
+                if($sth->rows==0)
+                {
+                    my ($nombre,$autor,$categoria) = tone_info($tono);
+                    SendSMS3($to,$numero,"El usuario '$msisdn' desea regalarte el tono '$nombre'. Para aceptar responde SI a este mensaje");
+                    $mysql->do("INSERT INTO regalos_pendientes (fecha,msisdn,tono,short,numero,tipo) VALUES (unix_timestamp(),'$numero',$tono,$to,0,5)");
+                }
+                else
+                {
+                    my ($id,$tonos,$modo,$param,$planid) = $sth->fetchrow_array;
+                    my $user_tones = get_user_tones($tonos);
+                    if($list =~ /^$tono,|,$tono,|,$tono$/)
+                    {
+                        my ($nombre,$autor,$categoria) = tone_info($tono);
+                        SendSMS($to,"El tono '$nombre' ya existe en la cuenta de '$numero'.");
+                    }
+                    else
+                    {
+                        my ($nombre,$autor,$categoria) = tone_info($tono);
+                        SendSMS3($to,$numero,"El usuario '$msisdn' desea regalarte el tono '$nombre'. Para aceptar responde SI a este mensaje");
+                        $mysql->do("INSERT INTO regalos_pendientes (fecha,msisdn,tono,short,numero,tipo) VALUES (unix_timestamp(),'$numero',$tono,$to,0,5)");
+                    }
+                }
+            }
+    else
+    {
+SendSMS($smsFrom, $msg_ayuda);
+    }
+        }
+        $mysql->do("DELETE FROM regalos_pendientes WHERE id=$id");
+        exit;
+    }
+    SendSMS($to,"No tiene tonos regalados o compras pendientes en este numero.");
+    exit;
+}
+
+sub AlertSMS
+{
+    my ($tono,$billingdate) = @_;
+    my $fecha = fecha_alerta();
+my $nombre = get_name($tono);
+    my $msg = "BackTones Tigo: el Tono \\\'$nombre\\\' se renovara automaticamente el ". fecha($billingdate) .". ".
+              "Para cancelar la renovacion ingresa al *4040 en la opcion 2 Administrar Tonos";
+    $mysql->do("INSERT INTO alert_sms (fecha,msisdn,texto,tono) VALUES ($fecha,'$msisdn','$msg',$tono)");
+}
+
+sub get_name
+{
+my ($tono) = @_;
+    $sql = "SELECT nombre FROM tonos WHERE id=$tono";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    my ($nombre)=$sth->fetchrow_array();
+return $nombre;
+}
+
+sub fecha
+{
+    my ($time)=@_;
+    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime $time; $year+=1900; $mon++;
+    return sprintf("%.2d/%.2d/%.2d",$mday,$mon,substr($year,2,2));
+}
+
+sub BillingSched
+{
+    my ($tono,$costo,$obs) = @_;
+    my $prox = fecha_cobro_recurrente(); my $ahora = time;
+    $mysql->do("INSERT INTO billing_sched (msisdn,inicial,proximo,costo,tono,obs) VALUES ('$msisdn',$ahora,$prox,'$costo',$tono,'$obs')");
+    return $prox;
+}
+
+sub fecha_alerta
+{
+    my $time = time;
+    my ($ss,$mm,$hh,$d1,$m1,$y1,undef,undef,undef) = localtime($time); $y1+=1900; $m1++;
+    my ($d2,$m2,$y2)=($d1,$m1,$y1);
+    $m2++;  if($m2>12){ $m2=1; $y2++; }
+    $d2-=2; if($d2==0){ $m2--; if($m2==0){ $m2=12; $y2--; } $d2=Date_DaysInMonth($m2,$y2); }
+    if($d2>Date_DaysInMonth($m2,$y2)){ $d2=Date_DaysInMonth($m2,$y2); }
+    my $d=0;
+    if ($y2>$y1) {
+      $d=&Date_DaysInYear($y1) - &Date_DayOfYear($m1,$d1,$y1);
+      $d+=&Date_DayOfYear($m2,$d2,$y2);
+      for ($y=$y1+1; $y<$y2; $y++) {
+        $d+= &Date_DaysInYear($y);
+      }
+    } else {
+      $d=&Date_DayOfYear($m2,$d2,$y2) - &Date_DayOfYear($m1,$d1,$y1);
+    }
+
+    return( delta_hour($time + $d*24*3600) );
+}
+
+sub fecha_cobro_recurrente
+{
+    my $time = time;
+    my ($ss,$mm,$hh,$d1,$m1,$y1,undef,undef,undef) = localtime($time); $y1+=1900; $m1++;
+    my ($d2,$m2,$y2)=($d1,$m1,$y1);
+    $m2++; if($m2>12){ $m2=1; $y2++; }
+    if($d2>Date_DaysInMonth($m2,$y2)){ $d2=Date_DaysInMonth($m2,$y2); }
+    my $d=0;
+    if ($y2>$y1) {
+      $d=&Date_DaysInYear($y1) - &Date_DayOfYear($m1,$d1,$y1);
+      $d+=&Date_DayOfYear($m2,$d2,$y2);
+      for ($y=$y1+1; $y<$y2; $y++) {
+        $d+= &Date_DaysInYear($y);
+      }
+    } else {
+      $d=&Date_DayOfYear($m2,$d2,$y2) - &Date_DayOfYear($m1,$d1,$y1);
+    }
+
+    return( delta_hour($time + $d*24*3600) );
+}
+
+sub delta_hour
+{
+    my ($time) = @_;
+
+    my ($ss,$mm,$hh,undef,undef,undef,undef,undef,undef) = localtime($time);
+    my $d_hour;
+    if   ($hh>=8  and $hh<15){ $d_hour = $hh - 8;  }
+    elsif($hh>=15 and $hh<23){ $d_hour = $hh - 15; }
+    else                     { $d_hour = $hh - 23; }
+
+    $d_hour=3600 * $d_hour + 60 * $mm + $ss;
+    return ($time - $d_hour);
+}
+
+sub Date_DaysInMonth {
+  my($m,$y)=@_;
+  my(@d_in_m)=(0,31,28,31,30,31,30,31,31,30,31,30,31);
+  $d_in_m[2]=29  if (&Date_LeapYear($y));
+  return $d_in_m[$m];
+}
+
+sub Date_DaysInYear {
+  my($y)=@_;
+  return 366  if (&Date_LeapYear($y));
+  return 365;
+}
+
+sub Date_DayOfYear {
+  my($m,$d,$y)=@_;
+  my(@days) = ( 0, 31, 59, 90,120,151,181,212,243,273,304,334,365);
+  my($ly)=0;
+  $ly=1  if ($m>2 && &Date_LeapYear($y));
+  return ($days[$m-1]+$d+$ly);
+}
+
+sub Date_LeapYear {
+  my($y)=@_;
+  return 0 unless $y % 4 == 0;
+  return 1 unless $y % 100 == 0;
+  return 0 unless $y % 400 == 0;
+  return 1;
+}
+
+sub pick_short_number
+{
+    my ($id)=@_;
+
+    $sql = "UPDATE regalos_pendientes SET fecha=unix_timestamp() WHERE msisdn='$msisdn' AND tono=$id";
+    my $r = $mysql->do($sql);
+    if($n ne "0E0")
+    {
+   $sql = "SELECT short FROM regalos_pendientes WHERE msisdn='$msisdn' AND tono=$id";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+return $sth->fetchrow_array if($sth->rows);
+    }
+
+    $sql = "SELECT short FROM regalos_pendientes WHERE msisdn='$msisdn'";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    %sh=(); while ( my ($s) = $sth->fetchrow_array ){ $sh{$s}=1; }
+
+    $short='';
+    for $i (4041 .. 4051) { if(!defined($sh{$i})){ $short=$i; last; } }
+    if(length($short)==0)
+    {
+        $sql = "SELECT short FROM regalos_pendientes WHERE msisdn='$msisdn' ORDER BY fecha ASC LIMIT 1";
+        $sth = $mysql->prepare($sql);
+        $sth->execute;
+        ($short) = $sth->fetchrow_array;
+    }
+    return $short;
+}
+
+sub get_user_tones
+{
+    my @t = split(/\|/,$datos{'tonos'});
+    my $ret = '';
+    foreach my $d (@t)
+    {
+        $ret .= "," if(length($ret));
+        $ret .= (split(/:/,$d))[0];
+    }
+    return $ret;
+}
+
+sub SendSMS
+{
+    my ($from,$msg)=@_;
+
+    print "SMS MT [$from] $msg\n";
+
+    #crbtlog("SMS MT [$from] $msg");
+
+    #$msg = URLEncode($msg);
+    #my $url= "GET /cgi-bin/sendsms?username=foo&password=buz&to=$msisdn&from=$from&text=$msg  HTTP/1.0\n\n";
+    #my $r = enviar($smppHost,$smppPort,$url);
+    return 0;
+}
+
+sub SendSMS2
+{
+    my ($from,$origen,$msg)=@_;
+
+    print "SMS MT [$from] $msg\n";
+
+    #crbtlog("SMS MT [$from] $msg");
+
+    #$msg = URLEncode($msg);
+    #my $url= "GET /cgi-bin/sendsms?username=foo&password=buz&to=$origen&from=$from&text=$msg  HTTP/1.0\n\n";
+    #my $r = enviar($smppHost,$smppPort,$url);
+    return 0;
+}
+
+
+sub SendSplitSMS
+{
+    my ($sms)=@_;
+    my $full,$save,$msg,@list;
+
+    if(length($sms)<=$smsLen)
+    {
+SendSMS($smsFrom, $sms);
+$mysql->do("DELETE FROM siguiente WHERE msisdn='$msisdn'");
+    }
+    else
+    {
+    @list = split(/\n/, $sms);
+
+    $full=0; $msg=''; $save='';
+    foreach(@list)
+    {
+            $full = 1 if(length($_)+length($msg)+1>$smsLen);
+            if(! $full){ $msg .= "$_\n"; }
+            else { $save .= "$_\n"; }
+    }
+    SendSMS($smsFrom, $msg);
+
+        $save =~ s/'/\\'/;
+        $save =~ s/"/\\"/;
+
+$n = $mysql->do("UPDATE siguiente SET msg='$save' WHERE msisdn='$msisdn'");
+$mysql->do("INSERT INTO siguiente (msisdn,msg) VALUES ('$msisdn','$save')") if($n eq "0E0");
+    }
+}
+
+sub siguiente
+{
+    $sql = "SELECT msg FROM siguiente WHERE msisdn='$msisdn'";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    if( !$sth->rows )
+    {
+        SendSMS($smsFrom, $msg_noMoreSMS); exit;
+    }
+    my $lista = $sth->fetchrow_array();
+    if( !length($lista) )
+    {
+        SendSMS($smsFrom, $msg_noMoreSMS); exit;
+    }
+    SendSplitSMS($lista);
+    exit;
+}
+# función que retorna los argumentos de la 
+# linea de comandos ya formateados
+sub processArguments
+{
+    my(@argv)=@_; # recibimos los argumentos en 
+                  # la linea de comandos y la recibimos
+                  # en el vector @argv
+                  
+    # se crean tres variables locales
+    # from de donde proviene el msj
+    # to a quien va dirigido el msj
+    # msg el mensaje propiamente                
+    my ($from,$to,$msg); 
+
+    # se recorre la lista @argv con la variable
+    # $_
+    for $_ (@argv) {
+        # no se que compara 
+        if(/^from=(.*)$/){
+            $from = $1;
+            if($from =~ /<(.*)>/){ $from=$1; }
+        }elsif(/^to=(.*)$/){
+            $to = $1;
+            if($to =~ /<(.*)>/){ $to=$1; }
+        }elsif(/^msg=(.*)$/){
+            $msg = URLDecode(chopSpaces($1));
+        }
+    }
+    # se retorna el numero del from, del to
+    # y el msg propiamente
+    return ($from,$to,$msg); 
+}
+
+sub URLDecode {
+	# se recibe el unico parámetro
+    my $theURL = $_[0];
+    #tr exp regular para expresr traducción
+    #en este caso se reemplaza el + por el vacio
+    $theURL =~ tr/+/ /;
+    $theURL =~ s/%([a-fA-F0-9]{2,2})/chr(hex($1))/eg;
+    $theURL =~ s/<!--(.|\n)*-->//g;
+    return $theURL; #el url decodificado
+}
+
+sub URLEncode {
+    my $theURL = $_[0];
+
+    $theURL =~ s/([\W])/"%" . uc(sprintf("%2.2x",ord($1)))/eg;
+    return $theURL;
+}
+# función que recibe una cadena
+sub chopSpaces{
+    my($string)=@_;
+    # evalúa la/s la exp regulares
+    
+    $string =~ s/\xA0//g;
+    $string =~ s/^[\n]+//;
+    $string =~ s/[\n]+$//;
+    $string =~ s/[\n]+/\n/g;
+    $string =~ s/\r//g;
+    $string =~ s/^[ ]+//;
+    $string =~ s/[ ]+$//;
+    $string =~ s/[ ]+/ /g;
+    $string =~ s/\n[ ]+/\n/g;
+
+    return $string;
+}
+
+sub sva
+{
+    my ($concepto,$msisdn,$tono,$medio) = @_;
+    $res = enviar('billing', 3335, "GET /cgi-bin/nose?msisdn=$msisdn&tone=$tono&reason=$concepto&isquery=0&from=$medio&isfake=0 HTTP/1.0\n\n")+0;
+    chomp $res;
+    return $res;
+}
+sub consulta
+{
+    my ($concepto,$msisdn,$tono) = @_;
+    $res = enviar('billing', 3335, "GET /cgi-bin/nose?msisdn=$msisdn&tone=$tono&reason=$concepto&isquery=1&from=3&isfake=0 HTTP/1.0\n\n")+0;
+    chomp $res;
+    return $res;
+}
+
+
+sub nombre_sva
+{
+    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime time; $year+=1900; $mon++;
+    return sprintf("sva_%.2d",$mon);
+}
+
+### Administracion de Tonos
+sub configurar
+{
+    my (%d) = @_;
+
+    if($d{'modo'} == 2 or $d{'modo'} == 3)   #Por Llamada, Hora
+    {
+        $t = ($d{'modo'}==2)?1:( $d{'param'}*3600 + time() );
+        $d{'tonos'} =~ s/(\d+):\d:\d+:(\d):1/$1:1:$t:$2:1/;
+    }
+    return ( $d{'tonos'} );
+}
+
+sub agregar
+{
+    my (%d) = @_;
+
+
+
+    if($d{'modo'} == 1)#Aleatorio
+    {
+        $d{'tonos'} .= $d{'id'}.":1:0:0:1|";
+    }
+    elsif($d{'modo'} == 2 or $d{'modo'} == 3)#Por Llamada, Hora
+    {
+        $t = ($d{'modo'}==2)?1:( $d{'param'}*3600 + time() );
+        $d{'tonos'} =~ s/(\d+):1:\d+:(\d):1/$1:1:0:$2:1/g;
+        $d{'tonos'} .= $d{'id'}.":1:$t:0:1|";
+    }
+    elsif($d{'modo'} == 4)#por Turno
+    {
+        $d{'tonos'} .= $d{'id'}.":1:0:0:1|";    #agregar a lista de tonos
+        if($d{'param'} !~ /\d+:\d+:\d+/)
+        {
+          $d{'param'} = $d{'id'}.":".$d{'id'}.":".$d{'id'};
+        }
+        if(1)#agregar en el turno
+        {
+          my $t = turno();
+          if($t == 1) { $d{'param'} =~ s/\d+:(\d+):(\d+)/$d{'id'}:$1:$2/; }
+          elsif($t == 2) { $d{'param'} =~ s/(\d+):\d+:(\d+)/$1:$d{'id'}:$2/; }
+          elsif($t == 3) { $d{'param'} =~ s/(\d+):(\d+):\d+/$1:$2:$d{'id'}/; }
+        }
+    }
+    elsif($d{'modo'} == 5)#Fijo
+    {
+        $d{'tonos'} .= $d{'id'}.":1:0:0:1|";
+        $d{'param'} = $d{'id'};
+    }
+
+    return ( $d{'tonos'},$d{'param'} );
+}
+
+sub borrar
+{
+    my (%d) = @_;
+
+    return ( $d{'tonos'},$d{'param'} ) if($d{'tonos'} !~ /^$d{'id'}:|\|$d{'id'}:/);
+
+    if($d{'modo'} == 1)                         #Aleatorio
+    {
+$d{'tonos'} =~ s/^$d{'id'}:\d:\d+:\d:\d\|//;
+$d{'tonos'} =~ s/\|$d{'id'}:\d:\d+:\d:\d//;
+    }
+    elsif($d{'modo'} == 2 or $d{'modo'} == 3)   #Por Llamada, Hora
+    {
+if($d{'tonos'} =~ /$d{'id'}:1:(1|\d{10}):\d:1\|/)
+{
+    $t = ($d{'modo'}==2)?1:($d{'param'}*3600 + time());
+    $d{'tonos'} =~ s/(\d+):1:0:(\d):1/$1:1:$t:$2:1/;
+}
+$d{'tonos'} =~ s/^$d{'id'}:\d:\d+:\d:\d\|//;
+$d{'tonos'} =~ s/\|$d{'id'}:\d:\d+:\d:\d//;
+    }
+    elsif($d{'modo'} == 4)                      #por Turno
+    {
+$d{'tonos'} =~ s/^$d{'id'}:\d:\d+:\d:\d\|//;
+$d{'tonos'} =~ s/\|$d{'id'}:\d:\d+:\d:\d//;
+my $t='';
+if($d{'tonos'} =~ /(\d+):\d:\d+:\d:1/)
+{
+    $t = $1;
+}
+$d{'param'} =~ s/$d{'id'}/$t/g;
+    }
+    elsif($d{'modo'} == 5)                      #Fijo
+    {
+        $d{'tonos'} =~ s/^$d{'id'}:\d:\d+:\d:\d\|//;
+$d{'tonos'} =~ s/\|$d{'id'}:\d:\d+:\d:\d//;
+        my $t='';
+        if($d{'tonos'} =~ /(\d+):\d:\d+:\d:1/)
+        {
+            $t = $1;
+        }
+        $d{'param'} =~ s/$d{'id'}/$t/g;
+    }
+
+    return ( $d{'tonos'},$d{'param'} );
+}
+
+sub habilitar
+{
+    my (%d) = @_;
+
+    $d{'tonos'} =~ s/(^$d{'id'}|\|$d{'id'}):0:0:(\d):1/$1:1:0:$2:1/;
+    if($d{'tonos'} !~ /\d+:1:1:\d:1/)
+    {
+        $d{'tonos'} =~ s/(^$d{'id'}|\|$d{'id'}):1:0:(\d):1/$1:1:1:$2:1/;
+    }
+
+    return ( $d{'tonos'},$d{'param'} );
+}
+
+sub deshabilitar
+{
+    my (%d) = @_;
+
+    if($d{'modo'} == 1)                         #Aleatorio
+    {
+$d{'tonos'} =~ s/$d{'id'}:1:\d+:(\d):1/$d{'id'}:0:0:$1:1/;
+    }
+    elsif($d{'modo'} == 2 or $d{'modo'} == 3)   #Por Llamada, Hora
+    {
+        if($d{'tonos'} =~ /$d{'id'}:1:(1|\d{10}):\d:1\|/)
+        {
+            $t = ($d{'modo'}==2)?1:($d{'param'}*3600 + time());
+            $d{'tonos'} =~ s/(\d+):1:0:(\d):1/$1:1:$t:$2:1/;
+        }
+        $d{'tonos'} =~ s/$d{'id'}:1:\d+:(\d):1/$d{'id'}:0:0:$1:1/;
+    }
+    elsif($d{'modo'} == 4)                      #por Turno
+    {
+        $d{'tonos'} =~ s/$d{'id'}:1:\d+:(\d):1/$d{'id'}:0:0:$1:1/;
+        my $t='';
+        if($d{'tonos'} =~ /(\d+):\d:\d+:\d:1/)
+        {
+            $t = $1;
+        }
+        $d{'param'} =~ s/$d{'id'}/$t/g;
+    }
+    elsif($d{'modo'} == 5)                      #Fijo
+    {
+        $d{'tonos'} =~ s/$d{'id'}:1:\d+:(\d):1/$d{'id'}:0:0:$1:1/;
+        my $t='';
+        if($d{'tonos'} =~ /(\d+):\d:\d+:\d:1/)
+        {
+            $t = $1;
+        }
+        $d{'param'} =~ s/$d{'id'}/$t/g;
+    }
+
+    return ( $d{'tonos'},$d{'param'} );
+}
+
+sub turno
+{
+    my ($sec,$min,$hour,$dayOfMonth,$month,$year,$dayOfWeek,$dayOfYear,$daylight) = localtime(time);
+
+    if($hour>=4 and $hour<12){ return 1; } #Turno Manana
+    elsif($hour>=12 and $hour<20){ return 2; } #Turno Tarde
+    elsif($hour>=20 and $hour<23 or $hour>=0 and $hour<4){ return 3; } #Turno Noche
+    else{ return 1; }
+}
+
+sub updateUserDefault
+{
+    $sql="UPDATE usuarios SET tonos='".$datos{'tonos'}."',param='".$datos{'param'}."',modo=".$datos{'modo'}."
+          WHERE msisdn='$msisdn'";
+    $sth=$mysql->prepare($sql);
+    $sth->execute;
+}
+
+sub updateUserByNumber
+{
+    my ($ani,%datos) = @_;
+
+    $sql="UPDATE asignados SET tonos='".$datos{'tonos'}."',param='".$datos{'param'}."',modo=".$datos{'modo'}."
+          WHERE msisdn='$msisdn' AND ani='$ani'";
+
+    my $sth=$mysql->prepare($sql);
+    my $n = $sth->execute;
+    if($n eq "0E0")
+    {
+        $sql="INSERT INTO asignados (msisdn,ani,tonos,param,modo,timeout)
+              VALUES ('$msisdn','$ani','".$datos{'tonos'}."','".$datos{'param'}."',".$datos{'modo'}.",0)";
+        my $sth=$mysql->prepare($sql);
+        $sth->execute;
+    }
+}
+
+sub updateUserByGroup
+{
+    my ($id,%datos) = @_;
+
+    $sql="UPDATE grupos SET tonos='".$datos{'tonos'}."',param='".$datos{'param'}."',modo=".$datos{'modo'}."
+          WHERE msisdn='$msisdn' AND id='$id'";
+
+    my $sth=$mysql->prepare($sql);
+    $sth->execute;
+}
+# actualizar el campo billed a billed + 1
+sub updateBilled
+{
+    $sql = "UPDATE usuarios SET billed=billed+1 WHERE msisdn='$msisdn'";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+}
+
+sub tone_info
+{
+    my ($id) = @_;
+    $sql = "SELECT tonos.nombre,autores.nombre,categorias.nombre FROM tonos,autores,categorias
+            WHERE tonos.autor=autores.id AND tonos.categoria=categorias.id AND tonos.id=$id";
+    $sth = $mysql->prepare($sql);
+    $sth->execute;
+    return ($sth->fetchrow_array());
+}
+
+sub historial
+{
+    my ($p) = @_;
+    $r = $mysql->do("UPDATE historial_sms SET historial='$p',fecha=unix_timestamp() WHERE msisdn='$msisdn'");
+    $mysql->do("INSERT INTO historial_sms (msisdn,historial,fecha) VALUES ('$msisdn','$p',unix_timestamp())") if($r eq "0E0");
+}
+
+sub crbtlog
+{
+    my ($s) = @_;
+
+    $s=~s/^\s+//;$s=~s/\s+$//;$s=~s/\n/ /g;
+    $s = "[$msisdn] $s";
+    $s=URLEncode($s);
+
+    my $proto = getprotobyname('tcp');
+    socket(my $FS, PF_INET, SOCK_STREAM, $proto);
+    my $sin = sockaddr_in(3336, inet_aton('logger'));
+    connect($FS, $sin) || return 0;
+    my $old_fh = select($FS); $| = 1; select($old_fh);
+    print $FS "GET /cgi-bin/nose?texto=$s&medio=SMS HTTP/1.0\n\n";
+    close($FS);
+}
+
+sub is_cmd
+{
+    my ($cmd,$msg) = @_;
+    my $user = lc((split(/\s+/,$msg))[0]);
+    return 0 if(length($user)==0);
+    if(substr($cmd,0,length($user)) eq $user){ return 1; }
+    return 0;
+}
+
+sub mistonos
+{
+  my $user_tones = get_user_tones($datos{'tonos'});
+  @tonos=split(/,/,$user_tones);
+  foreach $id_ton (@tonos)
+  {
+    my ($nombre,$autor,$categoria) = tone_info($id_ton);
+    print "$id_ton: $nombre\n";
+  }
+}

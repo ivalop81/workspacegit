@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+	<bundle bundleID="593" class="org.eclipse.acceleo.module.layout.Activator" localization="OSGI-INF/l10n/bundle" name="Acceleo Layout Module Runtime Plug-in" project="org.eclipse.acceleo.module.layout" provider="Eclipse Modeling Project"/>
+	<bundle bundleID="591" class="org.eclipse.acceleo.examples.uml2java.UML2JavaActivator" localization="plugin" name="%pluginName" project="org.eclipse.acceleo.examples.uml2java" provider="%providerName"/>
+	<bundle bundleID="594" class="org.eclipse.acceleo.module.presentation.Activator" localization="OSGI-INF/l10n/bundle" name="Acceleo Presentation Module Runtime Plug-in" project="org.eclipse.acceleo.module.presentation" provider="Eclipse Modeling Project"/>
+	<bundle bundleID="590" class="org.eclipse.acceleo.examples.uml2java.ui.Activator" localization="OSGI-INF/l10n/bundle" name="Acceleo Uml2java Module IDE Plug-in" project="org.eclipse.acceleo.examples.uml2java.ui" provider="Eclipse Modeling Project"/>
+</map>
