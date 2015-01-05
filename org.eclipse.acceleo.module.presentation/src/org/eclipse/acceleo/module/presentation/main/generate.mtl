@@ -45,16 +45,34 @@
 
 [comment codigo js para los widget autoSuggest, datepickert
          tooltip y fieldLiveValidation /]
-[for (c2: Class | c.followingSiblings())]
+[for (c2: Class | c.followingSiblings(Class))]
       [for (att: Property | c2.getAllAttributes()->asSequence())]
 	     [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]
 	        [if s.name.toString() = 'richAutoSuggest']					  
 	$(function() {
+	   [if att.getValue(s, 'localDictionary').toString().strstr('definedInTheModel') = true]
        var availableTags[att.name.toUpperFirst()/] = 
-	   ['['/][att.getValue(s, 'localDictionary')/][']'/];
+	   ['['/][att.getValue(s, 'source')/][']'/];
        $( "#[att.name.substituteAll(' ', '')/]" ).autocomplete({
           source: availableTags[att.name.toUpperFirst()/]
        });
+       [elseif att.getValue(s, 'localDictionary').toString().strstr('definedInAFile') = true]
+    $.ajax({
+      url: "[att.getValue(s, 'source')/]",
+      dataType: "xml",
+      success: function( xmlResponse ) {
+        var data = $( "tag", xmlResponse ).map(function() {
+          return {
+            value: $( "name", this ).text(),
+            id: $( "tagId", this ).text()
+          };
+        }).get();
+        $( "#[att.name.substituteAll(' ', '')/]" ).autocomplete({
+          source: data,
+        });
+      }
+    });
+       [/if]
     });					  										 
 		    [elseif s.name.toString() = 'richDatePicker']		
     $(function() {
@@ -390,17 +408,69 @@
     </div>
     [/for]
     [/if]
-</div>
+
 [/for]
 
    [comment en caso que sea una tabla/]   
    [if (c.hasStereotype('table'))] 
    [/if]
 
-[comment generación de contenido para el formulario simple /]
-[for (c2 : Class | c.followingSiblings(Class))]
-[for (s: Stereotype | c2.getAppliedStereotypes()->asSequence())]
-   [if  c2.hasStereotype('compositeUIElement') and c2.getValue(s, 'type').toString().strstr('innerForm') = true ]
+
+[for (c2: Class | c.followingSiblings(Class))]
+[for (s: Stereotype | c.getAppliedStereotypes())]
+   [if c2.hasStereotype('compositeUIElement') and c2.hasStereotype('form')=false and c2.getValue(s, 'type').toString().strstr('innerRichTab')=false and c2.getValue(s, 'type').toString().strstr('innerRichAccordion')=false] 
+   <div id="[c2.name.substituteAll(' ', '')/]">
+      [for (att: Property | c2.getAllAttributes())]
+	     [for (s: Stereotype | att.getAppliedStereotypes())]
+		    [if s.name.toString() = 'multimedia']					   
+		       [if att.getValue(s, 'type').toString().strstr('video') = true ]		
+		          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 						 			
+		 <object width="420" height="315"
+		    data="[att.getValue(s, 'url')/]">
+		 </object> 		
+	              [/if]
+	              [if att.getValue(s, 'path').toString().size() <> 0]
+ 		 <video width="320" height="240" controls>
+		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp4') = true] type="video/mp4">
+		    [else] type="video/ogg"> [/if]
+		    Your browser does not support the video tag.
+		 </video>
+	              [/if]					 					
+	           [/if]		    
+		       [if att.getValue(s, 'type').toString().strstr('image') = true ]		
+		          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 
+ 		 <img src="[att.getValue(s, 'url')/]" alt="W3Schools.com" style="width:104px;height:142px"><
+		          [/if]
+		          [if att.getValue(s, 'path').toString().size() <> 0]		
+         <img src="[att.getValue(s, 'path')/]" alt="HTML5 Icon" style="width:400px;height:400px">
+		          [/if]	                    					 					
+		       [/if]			
+		       [if att.getValue(s, 'type').toString().strstr('sound') = true ]		
+	              [if att.getValue(s, 'path').toString().size() <> 0]
+		 <audio controls>
+		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp3') = true] type="audio/mpeg">
+		    [else] type="audio/ogg"> [/if]
+		    Your browser does not support the audio element.
+		</audio>		
+	              [/if]					 					
+		       [/if]		    					
+		    [/if] [comment fin del 'multimedia' /]
+			[if s.name.toString() = 'externalLink']
+        <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title= "[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
+			[/if]
+			[if s.name.toString() = 'htmlText']
+        [att.getValue(s, 'html')/]
+			[/if]
+			[if s.name.toString() = 'text']
+        <p>[att.getValue(s, 'localText')/]</p>
+			[/if]
+			[if s.name.toString() = 'button']        
+        <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
+			[/if]			
+	     [/for]
+      [/for]
+   </div>
+      [elseif (c2.hasStereotype('compositeUIElement') and c2.hasStereotype('form') and c2.getValue(s, 'type').toString().strstr('innerRichTab') <> true) or (c2.hasStereotype('compositeUIElement') and c2.hasStereotype('form') and c2.getValue(s, 'type').toString().strstr('innerRichAccordion')<>true)]
    <form  id="[c2.name.substituteAll(' ', '') /]" method="get" action="">
       <fieldset>
          [for (att: Property | c2.getAllAttributes()->asSequence())]
@@ -515,66 +585,7 @@
 	   </fieldset>
 	</form>	      
    [/if]
-[/for]
-[/for] [comment fin de la generación de contenido para el formulario simple /]
-
-
-[for (c2: Class | c.followingSiblings(Class))]
-[for (s: Stereotype | c2.getAppliedStereotypes()->asSequence())]
-   [if (c2.hasStereotype('compositeUIElement')  and c2.getValue(s, 'type').toString().strstr('simple') = true)] 
-   <div id="[c2.name.substituteAll(' ', '')/]">
-      [for (att: Property | c2.getAllAttributes())]
-	     [for (s: Stereotype | att.getAppliedStereotypes())]
-		    [if s.name.toString() = 'multimedia']					   
-		       [if att.getValue(s, 'type').toString().strstr('video') = true ]		
-		          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 						 			
-		 <object width="420" height="315"
-		    data="[att.getValue(s, 'url')/]">
-		 </object> 		
-	              [/if]
-	              [if att.getValue(s, 'path').toString().size() <> 0]
- 		 <video width="320" height="240" controls>
-		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp4') = true] type="video/mp4">
-		    [else] type="video/ogg"> [/if]
-		    Your browser does not support the video tag.
-		 </video>
-	              [/if]					 					
-	           [/if]		    
-		       [if att.getValue(s, 'type').toString().strstr('image') = true ]		
-		          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 
- 		 <img src="[att.getValue(s, 'url')/]" alt="W3Schools.com" style="width:104px;height:142px"><
-		          [/if]
-		          [if att.getValue(s, 'path').toString().size() <> 0]		
-         <img src="[att.getValue(s, 'path')/]" alt="HTML5 Icon" style="width:400px;height:400px">
-		          [/if]	                    					 					
-		       [/if]			
-		       [if att.getValue(s, 'type').toString().strstr('sound') = true ]		
-	              [if att.getValue(s, 'path').toString().size() <> 0]
-		 <audio controls>
-		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp3') = true] type="audio/mpeg">
-		    [else] type="audio/ogg"> [/if]
-		    Your browser does not support the audio element.
-		</audio>		
-	              [/if]					 					
-		       [/if]		    					
-		    [/if] [comment fin del 'multimedia' /]
-			[if s.name.toString() = 'externalLink']
-        <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title= "[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
-			[/if]
-			[if s.name.toString() = 'htmlText']
-        [att.getValue(s, 'html')/]
-			[/if]
-			[if s.name.toString() = 'text']
-        <p>[att.getValue(s, 'localText')/]</p>
-			[/if]
-			[if s.name.toString() = 'button']        
-        <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
-			[/if]			
-	     [/for]
-      [/for]
-   </div>
-   [/if] 
-[/for]
+[/for] 
 [/for]
 </body>
 </html>
