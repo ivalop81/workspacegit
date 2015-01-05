@@ -76,8 +76,21 @@
     });					  										 
 		    [elseif s.name.toString() = 'richDatePicker']		
     $(function() {
-       $( "#[att.name.substituteAll(' ', '') /]" ).datepicker();
-    });				
+       $( "#[att.name.substituteAll(' ', '') /]" ).datepicker({
+	      [if att.getValue(s, 'dateFormat').toString().strstr('Default - mm/dd/yy') = true ]
+          dateFormat: "mm/dd/yy"
+          [elseif att.getValue(s, 'dateFormat').toString().strstr('ISO 8601 - yy-mm-dd') = true ]
+		  dateFormat: "yy-mm-dd"
+          [elseif att.getValue(s, 'dateFormat').toString().strstr('Short - d M, y') = true ]
+		  dateFormat: "d M, y"
+		  [elseif att.getValue(s, 'dateFormat').toString().strstr('Medium - d MM, y') = true ]
+		  dateFormat: "d MM, y"
+		  [elseif att.getValue(s, 'dateFormat').toString().strstr('Full - DD, d MM, yy') = true ]
+		  dateFormat: "DD, d MM, yy"
+          [/if]
+       });
+    });
+   				
 		    				  
 		    [elseif s.name.toString() = 'richToolTip']
     $(function() {
