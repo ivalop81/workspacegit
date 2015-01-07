@@ -43,9 +43,139 @@
    [/for]
 [/for]
 
-[comment codigo js para los widget autoSuggest, datepickert
-         tooltip y fieldLiveValidation /]
+[comment codigo js para el widget  fieldLiveValidation
+(para validacion de más de 1 campo. Primeramente la definición de la 
+función principal y sus reglas.
+Primeramente las reglas/]
 [for (c2: Class | c.followingSiblings(Class))]
+[for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]
+[if s1.name.toString() = 'form' and c2.getValue(s1, 'validate').toString().strstr('true')]
+   $().ready(function() {
+       // validate signup form on keyup and submit
+      $("#[c2.name.substituteAll(' ', '') /]").validate({
+   rules: {
+      [for (att: Property | c2.getAllAttributes()->asSequence())]
+	     [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]	        		  
+		    [if s.name.toString() = 'richFieldLiveValidation']
+			 [comment Primeramente validacion tipo password /]
+	           [if att.getValue(s, 'validation').toString().strstr('password') = true ]		
+      [att.name/]: {
+  		          [if att.getValue(s,'required') = true] 
+	     required: true, 
+                  [/if]
+                  [if att.getValue(s,'minLength').toString().toInteger() <> 0]
+	     minlength: [att.getValue(s,'minLength').toString().toInteger()/],			
+                  [/if]
+	  },
+                  [if att.getValue(s,'confirmPass') = true]
+      confirm_[att.name/]: {
+			         [if att.getValue(s,'required') = true] 
+	     required: true, 
+                     [/if]
+                     [if att.getValue(s,'minLength').toString().toInteger() <> 0]
+	     minlength: [att.getValue(s,'minLength')/],
+                     [/if]
+	     equalTo: "#[att.name/]"
+	  },
+                  [/if]
+               [elseif att.getValue(s, 'validation').toString().strstr('email') = true]
+      [att.name/]: {
+  		          [if att.getValue(s,'required') = true] 
+	     required: true, 
+                  [/if]
+                  [if att.getValue(s,'minLength').toString().toInteger() <> 0]
+	     minlength: [att.getValue(s,'minLength')/],
+			      [/if]
+	     email: true
+	  },
+               [elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true]
+      [att.name/]: {
+  		          [if att.getValue(s,'required') = true] 
+	     required: true, 
+                  [/if]
+                  [if att.getValue(s,'minLength').toString().toInteger() <> 0]
+	     minlength: [att.getValue(s,'minLength')/],
+		    	  [/if]
+	  },
+               [elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true]
+	  agree: "required"
+               [/if]
+   
+			[/if]
+	     [/for]
+      [/for]
+   },
+[/if]
+[/for]
+[/for] [comment Fin de la generación de las reglas para el fieldLiveValidation (para validacion de más de un campo /]
+
+[comment codigo js para el widget  fieldLiveValidation (para validacion 
+de más de 1 campo. Definición de las reglas y cierre de la función 
+principal./]
+[for (c2: Class | c.followingSiblings(Class))]
+[for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]
+[if s1.name.toString() = 'form' and c2.getValue(s1, 'validate').toString().strstr('true')]
+   messages: {
+      [for (att: Property | c2.getAllAttributes()->asSequence())]
+	     [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]	        		  
+		    [if s.name.toString() = 'richFieldLiveValidation']
+		       [if att.getValue(s, 'validation').toString().strstr('password') = true ]		
+      [att.name/]: {
+		          [if att.getValue(s,'required') = true] 
+	     required: "Por favor ingrese un [att.name.toUpperFirst()/]", 
+		   	      [/if]
+                  [if att.getValue(s,'minLength').toString().toInteger() <> 0]
+	     minlength: "El [att.name/] debe tener al menos [att.getValue(s,'minLength')/] caracteres de longitud",
+			      [/if]
+	  },
+                  [if att.getValue(s,'confirmPass') = true]
+      confirm_[att.name/]: {
+			         [if att.getValue(s,'required') = true] 
+	     required: "Por favor ingrese un [att.name.toUpperFirst()/]", 
+                     [/if]
+			         [if att.getValue(s,'minLength').toString().toInteger() <> 0]
+	     minlength: "El [att.name/] debe tener al menos [att.getValue(s,'minLength')/] caracteres de longitud",
+                     [/if]
+	     equalTo: "Por favor ingrese el mismo password"
+				  [/if]
+	  },
+               [elseif att.getValue(s, 'validation').toString().strstr('email') = true ]
+      [att.name/]: {
+		          [if att.getValue(s,'required') = true] 
+	     required: "Por favor ingrese un [att.name.toUpperFirst()/]",
+                  [/if] 
+			      [if att.getValue(s,'minLength').toString().toInteger() <> 0]
+	     minlength: "El [att.name/] debe tener al menos [att.getValue(s,'minLength')/] caracteres de longitud",
+                  [/if]
+	     email: "Por favor ingrese una dirección de email valida"
+	  },
+               [elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true ]
+      [att.name/]: {
+		          [if att.getValue(s,'required') = true] 
+	     required: "Por favor ingrese un [att.name.toUpperFirst()/]",
+                  [/if] 
+			      [if att.getValue(s,'minLength').toString().toInteger() <> 0]
+	     minlength: "El [att.name/] debe tener al menos [att.getValue(s,'minLength')/] caracteres de longitud",
+                  [/if]
+	  },
+               [elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true ]
+	     agree: "Favor aceptar nuestra política de acuerdo"               
+               [/if]
+			[/if]
+	     [/for]
+      [/for]
+   }
+   });
+});
+[/if]
+[/for]
+[/for] [comment Fin de la generación de los mensajes  y la función principal
+       para el fieldLiveValidation (para validacion de más de un campo /]
+
+[comment codigo js para los widget autoSuggest, datepickert
+         tooltip/]
+[for (c2: Class | c.followingSiblings(Class))]
+[for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]
       [for (att: Property | c2.getAllAttributes()->asSequence())]
 	     [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]
 	        [if s.name.toString() = 'richAutoSuggest']					  
@@ -90,112 +220,18 @@
           [/if]
        });
     });
-   				
-		    				  
+   						    				  
 		    [elseif s.name.toString() = 'richToolTip']
     $(function() {
        $( document ).tooltip();
     });
 	        		  
-		    [elseif s.name.toString() = 'richFieldLiveValidation']
-   $().ready(function() {
-       // validate signup form on keyup and submit
-      $("#[c2.name.substituteAll(' ', '') /]").validate({
-   rules: {
-			 [comment Primeramente validacion tipo password /]
-	           [if att.getValue(s, 'validation').toString().strstr('password') = true ]		
-      [att.name/]: {
-  		          [if att.getValue(s,'required') = true] 
-	     required: true, 
-                  [/if]
-                  [if att.getValue(s,'minLength').toString().toInteger() <> 0]
-	     minlength: [att.getValue(s,'minLength').toString().toInteger()/],			
-                  [/if]
-	  },
-                  [if att.getValue(s,'confirmPass') = true]
-      confirm_[att.name/]: {
-			         [if att.getValue(s,'required') = true] 
-	     required: true, 
-                     [/if]
-                     [if att.getValue(s,'minLength').toString().toInteger() <> 0]
-	     minlength: [att.getValue(s,'minLength')/],
-                     [/if]
-	     equalTo: "#[att.name/]"
-	  },
-                  [/if]
-               [elseif att.getValue(s, 'validation').toString().strstr('email') = true]
-      [att.name/]: {
-  		          [if att.getValue(s,'required') = true] 
-	     required: true, 
-                  [/if]
-                  [if att.getValue(s,'minLength').toString().toInteger() <> 0]
-	     minlength: [att.getValue(s,'minLength')/],
-			      [/if]
-	     email: true
-	  },
-               [elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true]
-      [att.name/]: {
-  		          [if att.getValue(s,'required') = true] 
-	     required: true, 
-                  [/if]
-                  [if att.getValue(s,'minLength').toString().toInteger() <> 0]
-	     minlength: [att.getValue(s,'minLength')/],
-		    	  [/if]
-	  },
-               [elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true]
-	  agree: "required"
-               [/if]
-   },
-   messages: {
-		       [if att.getValue(s, 'validation').toString().strstr('password') = true ]		
-      [att.name/]: {
-		          [if att.getValue(s,'required') = true] 
-	     required: "Por favor ingrese un [att.name.toUpperFirst()/]", 
-		   	      [/if]
-                  [if att.getValue(s,'minLength').toString().toInteger() <> 0]
-	     minlength: "El [att.name/] debe tener al menos [att.getValue(s,'minLength')/] caracteres de longitud",
-			      [/if]
-	  },
-                  [if att.getValue(s,'confirmPass') = true]
-      confirm_[att.name/]: {
-			         [if att.getValue(s,'required') = true] 
-	     required: "Por favor ingrese un [att.name.toUpperFirst()/]", 
-                     [/if]
-			         [if att.getValue(s,'minLength').toString().toInteger() <> 0]
-	     minlength: "El [att.name/] debe tener al menos [att.getValue(s,'minLength')/] caracteres de longitud",
-                     [/if]
-	     equalTo: "Por favor ingrese el mismo password"
-				  [/if]
-	  },
-               [elseif att.getValue(s, 'validation').toString().strstr('email') = true ]
-      [att.name/]: {
-		          [if att.getValue(s,'required') = true] 
-	     required: "Por favor ingrese un [att.name.toUpperFirst()/]",
-                  [/if] 
-			      [if att.getValue(s,'minLength').toString().toInteger() <> 0]
-	     minlength: "El [att.name/] debe tener al menos [att.getValue(s,'minLength')/] caracteres de longitud",
-                  [/if]
-	     email: "Por favor ingrese una dirección de email valida"
-	  },
-               [elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true ]
-      [att.name/]: {
-		          [if att.getValue(s,'required') = true] 
-	     required: "Por favor ingrese un [att.name.toUpperFirst()/]",
-                  [/if] 
-			      [if att.getValue(s,'minLength').toString().toInteger() <> 0]
-	     minlength: "El [att.name/] debe tener al menos [att.getValue(s,'minLength')/] caracteres de longitud",
-                  [/if]
-	  },
-               [elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true ]
-	     agree: "Favor aceptar nuestra política de acuerdo"               
-               [/if]
-   }
-      });
-   });           	
-	        [/if] [comment fin del 'richFieldLiveValidaion' /]      			  				  	
+	        [/if]      			  				  	
 	     [/for]
       [/for]
 [/for]
+[/for] [comment fin de la geenaración .js para el richAutoSuggest, richDatePicket
+                y el richToolTip  /] 
 </script>  [comment fin de la generación del codigo .js /]
 
 [comment generación del body para el html /]
