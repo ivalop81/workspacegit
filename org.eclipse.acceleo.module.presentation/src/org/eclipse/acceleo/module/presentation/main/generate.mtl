@@ -31,7 +31,6 @@
       [/if]
    [/for]
 [/for]
-
 [comment codigo js para el widget tab /]
 [for (c2: Class | c.followingSiblings(Class))]
    [for (s: Stereotype | c2.getAppliedStereotypes()->asSequence())]
@@ -42,7 +41,6 @@
       [/if]
    [/for]
 [/for]
-
 [comment codigo js para el widget  fieldLiveValidation
 (para validacion de más de 1 campo. Primeramente la definición de la 
 función principal y sus reglas.
@@ -108,7 +106,6 @@ Primeramente las reglas/]
 [/if]
 [/for]
 [/for] [comment Fin de la generación de las reglas para el fieldLiveValidation (para validacion de más de un campo /]
-
 [comment codigo js para el widget  fieldLiveValidation (para validacion 
 de más de 1 campo. Definición de las reglas y cierre de la función 
 principal./]
@@ -164,7 +161,7 @@ principal./]
 			[/if]
 	     [/for]
       [/for]
-   }
+   },
    });
 });
 [/if]
@@ -175,7 +172,6 @@ principal./]
 [comment codigo js para los widget autoSuggest, datepickert
          tooltip/]
 [for (c2: Class | c.followingSiblings(Class))]
-[for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]
       [for (att: Property | c2.getAllAttributes()->asSequence())]
 	     [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]
 	        [if s.name.toString() = 'richAutoSuggest']					  
@@ -219,17 +215,14 @@ principal./]
 		  dateFormat: "DD, d MM, yy"
           [/if]
        });
-    });
-   						    				  
+    });   						    				  
 		    [elseif s.name.toString() = 'richToolTip']
     $(function() {
        $( document ).tooltip();
-    });
-	        		  
+    });	        		  
 	        [/if]      			  				  	
 	     [/for]
       [/for]
-[/for]
 [/for] [comment fin de la geenaración .js para el richAutoSuggest, richDatePicket
                 y el richToolTip  /] 
 </script>  [comment fin de la generación del codigo .js /]
@@ -343,8 +336,6 @@ principal./]
 </div>
    [/if]
 [/for] [comment fin de la generación de contenido para el richAccordeon /]
-
-
 [comment generación de contenido para el richTabs - Las pestañas /]
 [for (c2: Class | c.followingSiblings(Class))]
 	[if c2.hasStereotype('richTabs') ]
@@ -457,17 +448,13 @@ principal./]
     </div>
     [/for]
     [/if]
-
 [/for]
-
    [comment en caso que sea una tabla/]   
    [if (c.hasStereotype('table'))] 
    [/if]
-
-
 [for (c2: Class | c.followingSiblings(Class))]
-[for (s: Stereotype | c.getAppliedStereotypes())]
-   [if c2.hasStereotype('compositeUIElement') and c2.hasStereotype('form')=false and c2.getValue(s, 'type').toString().strstr('innerRichTab')=false and c2.getValue(s, 'type').toString().strstr('innerRichAccordion')=false] 
+[for (s: Stereotype | c2.getAppliedStereotypes())]
+   [if c2.hasStereotype('compositeUIElement') and c2.hasStereotype('form')=false and c2.hasStereotype('richTabs')=false and c2.hasStereotype('richAccordion')=false and c2.getValue(s, 'aTabContent').toString().strstr('false')] 
    <div id="[c2.name.substituteAll(' ', '')/]">
       [for (att: Property | c2.getAllAttributes())]
 	     [for (s: Stereotype | att.getAppliedStereotypes())]
@@ -519,7 +506,13 @@ principal./]
 	     [/for]
       [/for]
    </div>
-      [elseif (c2.hasStereotype('compositeUIElement') and c2.hasStereotype('form') and c2.getValue(s, 'type').toString().strstr('innerRichTab') <> true) or (c2.hasStereotype('compositeUIElement') and c2.hasStereotype('form') and c2.getValue(s, 'type').toString().strstr('innerRichAccordion')<>true)]
+   [/if]
+[/for]
+[/for]
+
+[for (c2: Class | c.followingSiblings(Class)->asSequence())]
+[for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]
+      [if c2.hasStereotype('compositeUIElement') and c2.hasStereotype('form') and c2.hasStereotype('richTabs')=false and c2.hasStereotype('richAccordion')=false and c2.getValue(s1, 'aTabContent').toString().strstr('false')]
    <form  id="[c2.name.substituteAll(' ', '') /]" method="get" action="">
       <fieldset>
          [for (att: Property | c2.getAllAttributes()->asSequence())]
