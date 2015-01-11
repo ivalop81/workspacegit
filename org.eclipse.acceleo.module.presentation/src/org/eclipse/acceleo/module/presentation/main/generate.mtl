@@ -232,13 +232,15 @@ principal./]
 [comment generación de contenido para el richAccordeon /]
 [for (c2: Class | c.followingSiblings(Class))]
    [if c2.hasStereotype('richAccordion') ]
-<div id="[c2.name.substituteAll(' ', '') /]">     
+<div id="[c2.name.substituteAll(' ', '') /]">
+      [for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]     
       [for (c3: Class | c2.followingSiblings(Class))]
+         [if c3.getValue(s1, 'aTabContent').toString().strstr('true')]       
    <h3>[c3.name.toUpperFirst()/]</h3>
-   <div>     	
-         [if c3.hasStereotype('form')] 
+   <div>
+         [/if]     	
+         [if c3.hasStereotype('compositeUIElement') and c3.hasStereotype('form') and c3.getValue(s1, 'aTabContent').toString().strstr('true')] 
    <form id="[c3.name.substituteAll(' ', '')/]" method="get" action="" "> 
-         [/if]  
 	     [for (att: Property | c3.getAllAttributes()->asSequence())]
 		    [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]      
 		       [if s.name.toString() = 'richAutoSuggest']									
@@ -328,10 +330,102 @@ principal./]
 				[/if]   
 		     [/for]
 		  [/for]
-	   [if c3.hasStereotype('form')] 
 	</form> 
+       [elseif c3.hasStereotype('compositeUIElement') and c3.hasStereotype('form')=false and c3.getValue(s1, 'aTabContent').toString().strstr('true')] 
+	     [for (att: Property | c3.getAllAttributes()->asSequence())]
+		    [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]      
+		       [if s.name.toString() = 'richAutoSuggest']									
+      <div class="ui-widget">
+         <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
+         <input id="[att.name.substituteAll(' ', '')/]">
+      </div>      					 
+		       [/if] [comment fin del richAutoSuggest /]			  		
+			   [if s.name.toString() = 'richDatePicker']						
+      <p>[att.name.toUpperFirst()/] <input type="text" id="[att.name.substituteAll(' ', '')/]"></p>				 				 
+			   [/if] [comment fin del richDatePicker /]	
+	           [if s.name.toString() = 'richFieldLiveValidation']
+				  [comment validacion del tipo password /]
+	              [if att.getValue(s, 'validation').toString().strstr('password') = true ]   				
+ 	  <p>
+	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
+	     <input id="[att.name/]" name="[att.name/]" type="password">
+	  </p>
+					 [comment si el tagged value confirmPass esta definido /]
+			         [if att.getValue(s,'confirmPass') = true]
+	  <p>
+		 <label for="confirm_[att.name/]">Confirm [att.name.toUpperFirst()/]</label>
+		 <input id="confirm_[att.name/]" name="confirm_[att.name/]" type="password">
+	  </p>
+				     [/if]
+				  [comment validacion del tipo email /]
+				  [elseif att.getValue(s, 'validation').toString().strstr('email') = true ]
+	  <p>
+	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
+		 <input id="[att.name/]" name="[att.name/]" type="email">
+	  </p>
+				  [comment validacion de un textImput simple /]
+				  [elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true ]
+	  <p>
+		 <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
+		 <input id="[att.name/]" name="[att.name/]" type="text">
+	  </p>
+				  [comment validacion del tipo agree checkbox /]
+				  [elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true ]
+	  <p>
+		 <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
+		 <input type="checkbox" id="[att.name/]" name="[att.name/]">
+	  </p>
+				   [/if]
+	            [/if] [comment fin del 'richFieldLiveValidation' /]
+		        [if s.name.toString() = 'htmlText']	      
+	  [att.getValue(s, 'html')/]
+	   		    [/if] [comment fin del htmlText' /]
+			    [if s.name.toString() = 'multimedia']
+			       [if att.getValue(s, 'type').toString().strstr('video') = true ]		
+			          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 						 			
+		 <object width="420" height="315"
+		    data="[att.getValue(s, 'url')/]">
+		 </object> 		
+		              [/if]
+		              [if att.getValue(s, 'path').toString().size() <> 0]
+ 		 <video width="320" height="240" controls>
+		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp4') = true] type="video/mp4">
+		    [else] type="video/ogg"> [/if]
+		    Your browser does not support the video tag.
+		 </video>
+		              [/if]					 					
+		           [/if]		    
+			       [if att.getValue(s, 'type').toString().strstr('image') = true ]		
+			          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 
+ 		 <img src="[att.getValue(s, 'url')/]" alt="W3Schools.com" style="width:104px;height:142px">
+			          [/if]
+			          [if att.getValue(s, 'path').toString().size() <> 0]		
+         <img src="[att.getValue(s, 'path')/]" alt="HTML5 Icon" style="width:400px;height:400px">
+			          [/if]	                    					 					
+			       [/if]			
+			       [if att.getValue(s, 'type').toString().strstr('sound') = true ]		
+		              [if att.getValue(s, 'path').toString().size() <> 0]
+		 <audio controls>
+		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp3') = true] type="audio/mpeg">
+		    [else] type="audio/ogg"> [/if]
+		    Your browser does not support the audio element.
+		</audio>		
+		              [/if]					 					
+			       [/if]		    					
+			    [/if] [comment fin del multimedia /]
+				[if s.name.toString() = 'externalLink']    					   
+        <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
+				[/if] [comment fin del externalLink /]
+				[if s.name.toString() = 'text']   					   
+        <p>[att.getValue(s, 'localText')/]</p>
+				[/if]   
+		     [/for]
+		  [/for]
 	   [/if]
-	</div>
+         [if c3.getValue(s1, 'aTabContent').toString().strstr('true')]       
+   </div>
+         [/if]
+      [/for]
       [/for]
 </div>
    [/if]
