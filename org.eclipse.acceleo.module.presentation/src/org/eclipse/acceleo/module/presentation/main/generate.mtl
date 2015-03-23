@@ -4,7 +4,7 @@
 [template public generateElement(c : Class)]
 [comment @main/]
 [if c.hasStereotype('presentationPage') ]
-   [file (c.name.concat('.html'), false, 'UTF-8')]
+   [file (c.name.concat('.php'), false, 'UTF-8')]
 <!doctype html>
 <html lang="en">
 <head>
@@ -97,9 +97,8 @@ Primeramente las reglas/]
 	  },
                [elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true]
 	  agree: "required"
-               [/if]
-   
-			[/if]
+               [/if]   
+		    [/if]
 	     [/for]
       [/for]
    },
@@ -171,7 +170,7 @@ principal./]
 
 [comment codigo js para los widget autoSuggest, datepickert
          tooltip/]
-[for (c2: Class | c.followingSiblings(Class))]
+[for  (c2: Class | c.followingSiblings(Class))]
       [for (att: Property | c2.getAllAttributes()->asSequence())]
 	     [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]
 	        [if s.name.toString() = 'richAutoSuggest']					  
@@ -184,19 +183,19 @@ principal./]
        });
        [elseif att.getValue(s, 'localDictionary').toString().strstr('definedInAFile') = true]
     $.ajax({
-      url: "[att.getValue(s, 'source')/]",
-      dataType: "xml",
-      success: function( xmlResponse ) {
-        var data = $( "tag", xmlResponse ).map(function() {
+       url: "[att.getValue(s, 'source')/]",
+       dataType: "xml",
+       success: function( xmlResponse ) {
+       var data = $( "tag", xmlResponse ).map(function() {
           return {
-            value: $( "name", this ).text(),
-            id: $( "tagId", this ).text()
+             value: $( "name", this ).text(),
+             id: $( "tagId", this ).text()
           };
-        }).get();
-        $( "#[att.name.substituteAll(' ', '')/]" ).autocomplete({
-          source: data,
-        });
-      }
+       }).get();
+          $( "#[att.name.substituteAll(' ', '')/]" ).autocomplete({
+             source: data,
+          });
+       }
     });
        [/if]
     });					  										 
@@ -262,7 +261,7 @@ principal./]
 					 [comment si el tagged value confirmPass esta definido /]
 			         [if att.getValue(s,'confirmPass') = true]
 	  <p>
-		 <label for="confirm_[att.name/]">Confirm [att.name.toUpperFirst()/]</label>
+	     <label for="confirm_[att.name/]">Confirm [att.name.toUpperFirst()/]</label>
 		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password">
 	  </p>
 				     [/if]
@@ -275,15 +274,15 @@ principal./]
 				  [comment validacion de un textImput simple /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true ]
 	  <p>
-		 <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
+	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
 		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="text">
 	  </p>
 				  [comment validacion del tipo agree checkbox /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true ]
 	  <p>
-		 <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-		 <input type="checkbox" id="[att.name.substituteAll(' ', '')/]" name="[att.name/]">
-	   </p>
+         <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
+	     <input type="checkbox" id="[att.name.substituteAll(' ', '')/]" name="[att.name/]">
+	  </p>
 				   [/if]
 	            [/if] [comment fin del 'richFieldLiveValidation' /]
 		        [if s.name.toString() = 'textInput']		
@@ -295,111 +294,112 @@ principal./]
 			    [if s.name.toString() = 'multimedia']
 			       [if att.getValue(s, 'type').toString().strstr('video') = true ]		
 			          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 						 			
-		 <object width="420" height="315"
-		    data="[att.getValue(s, 'url')/]">
-		 </object> 		
+	  <object width="420" height="315"
+	     data="[att.getValue(s, 'url')/]">
+	  </object> 		
 		              [/if]
 		              [if att.getValue(s, 'path').toString().size() <> 0]
- 		 <video width="320" height="240" controls>
-		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp4') = true] type="video/mp4">
+ 	  <video width="320" height="240" controls>
+	     <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp4') = true] type="video/mp4">
 		    [else] type="video/ogg"> [/if]
 		    Your browser does not support the video tag.
-		 </video>
+	  </video>
 		              [/if]					 					
 		           [/if]		    
 			       [if att.getValue(s, 'type').toString().strstr('image') = true ]		
 			          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 
- 		 <img src="[att.getValue(s, 'url')/]" alt="W3Schools.com" style="width:104px;height:142px">
+ 	  <img src="[att.getValue(s, 'url')/]" alt="W3Schools.com" style="width:104px;height:142px">
 			          [/if]
 			          [if att.getValue(s, 'path').toString().size() <> 0]		
-         <img src="[att.getValue(s, 'path')/]" alt="HTML5 Icon" style="width:400px;height:400px">
+      <img src="[att.getValue(s, 'path')/]" alt="HTML5 Icon" style="width:400px;height:400px">
 			          [/if]	                    					 					
 			       [/if]			
 			       [if att.getValue(s, 'type').toString().strstr('sound') = true ]		
 		              [if att.getValue(s, 'path').toString().size() <> 0]
-		 <audio controls>
-		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp3') = true] type="audio/mpeg">
+	  <audio controls>
+	     <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp3') = true] type="audio/mpeg">
 		    [else] type="audio/ogg"> [/if]
 		    Your browser does not support the audio element.
-		</audio>		
+	  </audio>		
 		              [/if]					 					
 			       [/if]		    					
 			    [/if] [comment fin del multimedia /]
 				[if s.name.toString() = 'externalLink']    					   
-        <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
+      <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
 				[/if] [comment fin del externalLink /]
 				[if s.name.toString() = 'text']   					   
-        <p[if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.getValue(s, 'localText')/]</p>
+      <p[if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.getValue(s, 'localText')/]</p>
 				[/if]  
 	     		[if s.name.toString() = 'button']        
-        <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
+      <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
 		    	[/if]	
 		    [if s.name.toString() = 'list']					   
 		       [if att.getValue(s, 'listType').toString().strstr('choice') = true ]		
 		          [if att.getValue(s, 'filter').toString().size() <> 0 ]								 	 						 			
 				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-  		<input type="radio" name="[att.getValue(s, 'title')/]" value="[a/]"> [a.toUpperFirst()/]                  
+  	  <input type="radio" name="[att.getValue(s, 'title')/]" value="[a/]"> [a.toUpperFirst()/]                  
 				     [/for]
 	              [/if]
 			   [/if]
 		       [if att.getValue(s, 'listType').toString().strstr('dropBox') = true ]		
 		          [if att.getValue(s, 'filter').toString().size() <> 0 ]
-	    <p>[att.getValue(s, 'title')/]<input list="[att.getValue(s, 'title')/]" name="[att.getValue(s, 'title')/]">
-           <datalist id="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">								 	 						 			
+	  <p>[att.getValue(s, 'title')/]<input list="[att.getValue(s, 'title')/]" name="[att.getValue(s, 'title')/]">
+         <datalist id="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">								 	 						 			
 				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-	  	      <option value="[a/]">				     
+	  	    <option value="[a/]">				     
                      [/for]
-		   </datalist><p>
+		 </datalist>
+      <p>
 	              [/if]
                [/if]
             [/if] 
 		     [/for]
 		  [/for]
-	</form> 
+   </form> 
        [elseif c3.hasStereotype('compositeUIElement') and c3.hasStereotype('form')=false and c3.getValue(s1, 'content').toString().strstr('withinARichAccordion')] 
 	     [for (att: Property | c3.getAllAttributes()->asSequence())]
 		    [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]      
 		        [if s.name.toString() = 'htmlText']	      
-	  [att.getValue(s, 'html')/]
+   [att.getValue(s, 'html')/]
 	   		    [/if] [comment fin del htmlText' /]
 			    [if s.name.toString() = 'multimedia']
 			       [if att.getValue(s, 'type').toString().strstr('video') = true ]		
 			          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 						 			
-		 <object width="420" height="315"
-		    data="[att.getValue(s, 'url')/]">
-		 </object> 		
+   <object width="420" height="315"
+      data="[att.getValue(s, 'url')/]">
+   </object> 		
 		              [/if]
 		              [if att.getValue(s, 'path').toString().size() <> 0]
- 		 <video width="320" height="240" controls>
-		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp4') = true] type="video/mp4">
+   <video width="320" height="240" controls>
+      <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp4') = true] type="video/mp4">
 		    [else] type="video/ogg"> [/if]
 		    Your browser does not support the video tag.
-		 </video>
+   </video>
 		              [/if]					 					
 		           [/if]		    
 			       [if att.getValue(s, 'type').toString().strstr('image') = true ]		
 			          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 
- 		 <img src="[att.getValue(s, 'url')/]" alt="W3Schools.com" style="width:104px;height:142px">
+   <img src="[att.getValue(s, 'url')/]" alt="W3Schools.com" style="width:104px;height:142px">
 			          [/if]
 			          [if att.getValue(s, 'path').toString().size() <> 0]		
-         <img src="[att.getValue(s, 'path')/]" alt="HTML5 Icon" style="width:400px;height:400px">
+   <img src="[att.getValue(s, 'path')/]" alt="HTML5 Icon" style="width:400px;height:400px">
 			          [/if]	                    					 					
 			       [/if]			
 			       [if att.getValue(s, 'type').toString().strstr('sound') = true ]		
 		              [if att.getValue(s, 'path').toString().size() <> 0]
-		 <audio controls>
-		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp3') = true] type="audio/mpeg">
+   <audio controls>
+      <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp3') = true] type="audio/mpeg">
 		    [else] type="audio/ogg"> [/if]
 		    Your browser does not support the audio element.
-		</audio>		
+   </audio>		
 		              [/if]					 					
 			       [/if]		    					
 			    [/if] [comment fin del multimedia /]
 				[if s.name.toString() = 'externalLink']    					   
-        <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
+   <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
 				[/if] [comment fin del externalLink /]
 				[if s.name.toString() = 'text']   					   
-        <p>[att.getValue(s, 'localText')/]</p>
+   <p>[att.getValue(s, 'localText')/]</p>
 				[/if]   
 		     [/for]
 		  [/for]
@@ -420,7 +420,7 @@ principal./]
       [for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]     
 	      [for (c3: Class | c2.followingSiblings(Class)->asSequence())]  
 	         [if c3.getValue(s1, 'content').toString().strstr('withinARichTab')]       
-	      <li><a href="#[c3.name.substituteAll(' ', '')/]">[c3.name.toUpperFirst()/]</a></li>
+      <li><a href="#[c3.name.substituteAll(' ', '')/]">[c3.name.toUpperFirst()/]</a></li>
 	         [/if]  
 		  [/for]
       [/for]
@@ -433,10 +433,10 @@ principal./]
 	[for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]
     [for (c3: Class | c2.followingSiblings(Class))]
     [if c3.getValue(s1, 'content').toString().strstr('withinARichTab')]    
-    <div id ="[c3.name.substituteAll(' ', '')/]" >
+   <div id ="[c3.name.substituteAll(' ', '')/]" >
     [/if]  
     [if c3.hasStereotype('compositeUIElement') and c3.hasStereotype('form') and c3.getValue(s1, 'content').toString().strstr('withinARichTab')] 
-    <form id="[c3.name.substituteAll(' ', '')/]" method="get" action="" "> 
+   <form id="[c3.name.substituteAll(' ', '')/]" method="get" action="" "> 
 	   [for (att: Property | c3.getAllAttributes()->asSequence())]
 	      [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]      
 		       [if s.name.toString() = 'richAutoSuggest']									
@@ -479,7 +479,7 @@ principal./]
 	  <p>
 		 <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
 		 <input type="checkbox" id="[att.name.substituteAll(' ', '')/]" name="[att.name/]">
-	   </p>
+	  </p>
 				   [/if]
 	            [/if] [comment fin del 'richFieldLiveValidation' /]
 		        [if s.name.toString() = 'textInput']		
@@ -491,120 +491,121 @@ principal./]
 			    [if s.name.toString() = 'multimedia']
 			       [if att.getValue(s, 'type').toString().strstr('video') = true ]		
 			          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 						 			
-		 <object width="420" height="315"
-		    data="[att.getValue(s, 'url')/]">
-		 </object> 		
+	  <object width="420" height="315"
+	     data="[att.getValue(s, 'url')/]">
+	  </object> 		
 		              [/if]
 		              [if att.getValue(s, 'path').toString().size() <> 0]
- 		 <video width="320" height="240" controls>
-		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp4') = true] type="video/mp4">
+ 	  <video width="320" height="240" controls>
+	     <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp4') = true] type="video/mp4">
 		    [else] type="video/ogg"> [/if]
 		    Your browser does not support the video tag.
-		 </video>
+	  </video>
 		              [/if]					 					
 		           [/if]		    
 			       [if att.getValue(s, 'type').toString().strstr('image') = true ]		
 			          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 
- 		 <img src="[att.getValue(s, 'url')/]" alt="W3Schools.com" style="width:104px;height:142px">
+ 	  <img src="[att.getValue(s, 'url')/]" alt="W3Schools.com" style="width:104px;height:142px">
 			          [/if]
 			          [if att.getValue(s, 'path').toString().size() <> 0]		
-         <img src="[att.getValue(s, 'path')/]" alt="HTML5 Icon" style="width:400px;height:400px">
+      <img src="[att.getValue(s, 'path')/]" alt="HTML5 Icon" style="width:400px;height:400px">
 			          [/if]	                    					 					
 			       [/if]			
 			       [if att.getValue(s, 'type').toString().strstr('sound') = true ]		
 		              [if att.getValue(s, 'path').toString().size() <> 0]
-		 <audio controls>
-		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp3') = true] type="audio/mpeg">
+	  <audio controls>
+	     <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp3') = true] type="audio/mpeg">
 		    [else] type="audio/ogg"> [/if]
 		    Your browser does not support the audio element.
-		</audio>		
+	  </audio>		
 		              [/if]					 					
 			       [/if]		    					
 			    [/if] [comment fin del multimedia /]
 				[if s.name.toString() = 'externalLink']    					   
-        <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
+      <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
 				[/if] [comment fin del externalLink /]
 				[if s.name.toString() = 'text']   					   
-        <p[if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.getValue(s, 'localText')/]</p>
+      <p[if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.getValue(s, 'localText')/]</p>
 				[/if]  
 	     		[if s.name.toString() = 'button']        
-        <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
+      <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
 		    	[/if]	
 		    [if s.name.toString() = 'list']					   
 		       [if att.getValue(s, 'listType').toString().strstr('choice') = true ]		
 		          [if att.getValue(s, 'filter').toString().size() <> 0 ]								 	 						 			
 				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-  		<input type="radio" name="[att.getValue(s, 'title')/]" value="[a/]"> [a.toUpperFirst()/]                  
+  	  <input type="radio" name="[att.getValue(s, 'title')/]" value="[a/]"> [a.toUpperFirst()/]                  
 				     [/for]
 	              [/if]
 			   [/if]
 		       [if att.getValue(s, 'listType').toString().strstr('dropBox') = true ]		
 		          [if att.getValue(s, 'filter').toString().size() <> 0 ]
-	    <p>[att.getValue(s, 'title')/]<input list="[att.getValue(s, 'title')/]" name="[att.getValue(s, 'title')/]">
-           <datalist id="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">								 	 						 			
+	  <p>[att.getValue(s, 'title')/]<input list="[att.getValue(s, 'title')/]" name="[att.getValue(s, 'title')/]">
+         <datalist id="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">								 	 						 			
 				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-	  	      <option value="[a/]">				     
+	  	    <option value="[a/]">				     
                      [/for]
-		   </datalist><p>
+		 </datalist>
+      <p>
 	              [/if]
                [/if]
             [/if] 
 		 [/for]
 	  [/for]
-	</form> 
+   </form> 
    [elseif c3.hasStereotype('compositeUIElement') and c3.hasStereotype('form')=false and c3.getValue(s1, 'content').toString().strstr('withinARichTab')]
       [for (att: Property | c3.getAllAttributes()->asSequence())]
 	     [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]
 	        [if s.name.toString() = 'htmlText']	
-      [att.getValue(s, 'html')/]
+   [att.getValue(s, 'html')/]
    		    [/if]
 		    [if s.name.toString() = 'multimedia']
 		       [if att.getValue(s, 'type').toString().strstr('video') = true ]		
 		          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 						 			
-		 <object width="420" height="315"
-		    data="[att.getValue(s, 'url')/]">
-		 </object> 		
+   <object width="420" height="315"
+      data="[att.getValue(s, 'url')/]">
+   </object> 		
 	              [/if]
 	              [if att.getValue(s, 'path').toString().size() <> 0]
- 		 <video width="320" height="240" controls>
-		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp4') = true] type="video/mp4">
+   <video width="320" height="240" controls>
+      <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp4') = true] type="video/mp4">
 		    [else] type="video/ogg"> [/if]
 		    Your browser does not support the video tag.
-		 </video>
+   </video>
 	              [/if]					 					
 	           [/if]		    
 		       [if att.getValue(s, 'type').toString().strstr('image') = true ]		
 		          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 
- 		 <img src="[att.getValue(s, 'url')/]" alt="W3Schools.com" style="width:104px;height:142px">
+   <img src="[att.getValue(s, 'url')/]" alt="W3Schools.com" style="width:104px;height:142px">
 		          [/if]
 		          [if att.getValue(s, 'path').toString().size() <> 0]		
-         <img src="[att.getValue(s, 'path')/]" alt="HTML5 Icon" style="width:400px;height:400px">
+   <img src="[att.getValue(s, 'path')/]" alt="HTML5 Icon" style="width:400px;height:400px">
 		          [/if]	                    					 					
 		       [/if]			
 		       [if att.getValue(s, 'type').toString().strstr('sound') = true ]		
 	              [if att.getValue(s, 'path').toString().size() <> 0]
-		 <audio controls>
-		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp3') = true] type="audio/mpeg">
+   <audio controls>
+      <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp3') = true] type="audio/mpeg">
 		    [else] type="audio/ogg"> [/if]
 		    Your browser does not support the audio element.
-		</audio>		
+   </audio>		
 	              [/if]					 					
 		       [/if]
 		    [/if] [comment fin del 'multimedia' /]
 			[if s.name.toString() = 'externalLink']
-        <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
+   <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
 			[/if]
 			[if s.name.toString() = 'text']
-        <p>[att.getValue(s, 'localText')/]</p>
+   <p>[att.getValue(s, 'localText')/]</p>
 			[/if]
 			[if s.name.toString() = 'button']        
-        <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
+   <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
 			[/if]	
 	     [/for]
 	  [/for]
    [/if]   
     [if c3.getValue(s1, 'content').toString().strstr('withinARichTab')]    
-    </div>
+   </div>
     [/if]
     [/for]
     [/for]
@@ -617,60 +618,60 @@ principal./]
 [for (c2: Class | c.followingSiblings(Class))]
 [for (s1: Stereotype | c2.getAppliedStereotypes())]
    [if c2.hasStereotype('compositeUIElement') and c2.hasStereotype('form')=false and c2.hasStereotype('richTabs')=false and c2.hasStereotype('richAccordion')=false and c2.getValue(s1, 'content').toString().strstr('outsideAPanel')] 
-   <div id="[c2.name.substituteAll(' ', '')/]">
+<div id="[c2.name.substituteAll(' ', '')/]">
       [for (att: Property | c2.getAllAttributes())]
 	     [for (s: Stereotype | att.getAppliedStereotypes())]
 		    [if s.name.toString() = 'multimedia']					   
 		       [if att.getValue(s, 'type').toString().strstr('video') = true ]		
 		          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 						 			
-		 <object width="420" height="315"
-		    data="[att.getValue(s, 'url')/]">
-		 </object> 		
+   <object width="420" height="315"
+      data="[att.getValue(s, 'url')/]">
+   </object> 		
 	              [/if]
 	              [if att.getValue(s, 'path').toString().size() <> 0]
- 		 <video width="320" height="240" controls>
-		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp4') = true] type="video/mp4">
+   <video width="320" height="240" controls>
+      <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp4') = true] type="video/mp4">
 		    [else] type="video/ogg"> [/if]
 		    Your browser does not support the video tag.
-		 </video>
+   </video>
 	              [/if]					 					
 	           [/if]		    
 		       [if att.getValue(s, 'type').toString().strstr('image') = true ]		
 		          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 
- 		 <img src="[att.getValue(s, 'url')/]" alt="W3Schools.com" style="width:104px;height:142px"><
+   <img src="[att.getValue(s, 'url')/]" alt="W3Schools.com" style="width:104px;height:142px"><
 		          [/if]
 		          [if att.getValue(s, 'path').toString().size() <> 0]		
-         <img src="[att.getValue(s, 'path')/]" alt="HTML5 Icon" style="width:400px;height:400px">
+   <img src="[att.getValue(s, 'path')/]" alt="HTML5 Icon" style="width:400px;height:400px">
 		          [/if]	                    					 					
 		       [/if]			
 		       [if att.getValue(s, 'type').toString().strstr('sound') = true ]		
 	              [if att.getValue(s, 'path').toString().size() <> 0]
-		 <audio controls>
-		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp3') = true] type="audio/mpeg">
+   <audio controls>
+      <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp3') = true] type="audio/mpeg">
 		    [else] type="audio/ogg"> [/if]
 		    Your browser does not support the audio element.
-		</audio>		
+   </audio>		
 	              [/if]					 					
 		       [/if]		    					
 		    [/if] [comment fin del 'multimedia' /]
 			[if s.name.toString() = 'externalLink']
-        <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title= "[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
+   <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title= "[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
 			[/if]
 			[if s.name.toString() = 'htmlText']
-        [att.getValue(s, 'html')/]
+   [att.getValue(s, 'html')/]
 			[/if]
 			[if s.name.toString() = 'text']
-        <p>[att.getValue(s, 'localText')/]</p>
+   <p>[att.getValue(s, 'localText')/]</p>
 			[/if]
 			[if s.name.toString() = 'button']        
-        <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
+   <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
 			[/if]			
 	     [/for]
       [/for]
-   </div>
+</div>
    [elseif  s1.name.toString() = 'form'  and c2.getValue(s1, 'content').toString().strstr('outsideAPanel')] 
-   <form  id="[c2.name.substituteAll(' ', '') /]" method="get" action="">
-      <fieldset>
+<form  id="[c2.name.substituteAll(' ', '') /]" method="get" action="">
+   <fieldset>
 	     [for (att: Property | c2.getAllAttributes()->asSequence())]
 		    [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]      
 		       [if s.name.toString() = 'richAutoSuggest']									
@@ -713,7 +714,7 @@ principal./]
 	  <p>
 		 <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
 		 <input type="checkbox" id="[att.name.substituteAll(' ', '')/]" name="[att.name/]">
-	   </p>
+	  </p>
 				   [/if]
 	            [/if] [comment fin del 'richFieldLiveValidation' /]
 		        [if s.name.toString() = 'textInput']		
@@ -725,68 +726,69 @@ principal./]
 			    [if s.name.toString() = 'multimedia']
 			       [if att.getValue(s, 'type').toString().strstr('video') = true ]		
 			          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 						 			
-		 <object width="420" height="315"
-		    data="[att.getValue(s, 'url')/]">
-		 </object> 		
+	  <object width="420" height="315"
+	     data="[att.getValue(s, 'url')/]">
+	  </object> 		
 		              [/if]
 		              [if att.getValue(s, 'path').toString().size() <> 0]
- 		 <video width="320" height="240" controls>
-		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp4') = true] type="video/mp4">
+ 	  <video width="320" height="240" controls>
+	     <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp4') = true] type="video/mp4">
 		    [else] type="video/ogg"> [/if]
 		    Your browser does not support the video tag.
-		 </video>
+	  </video>
 		              [/if]					 					
 		           [/if]		    
 			       [if att.getValue(s, 'type').toString().strstr('image') = true ]		
 			          [if att.getValue(s, 'url').toString().size() <> 0 ]								 	 
- 		 <img src="[att.getValue(s, 'url')/]" alt="W3Schools.com" style="width:104px;height:142px">
+ 	  <img src="[att.getValue(s, 'url')/]" alt="W3Schools.com" style="width:104px;height:142px">
 			          [/if]
 			          [if att.getValue(s, 'path').toString().size() <> 0]		
-         <img src="[att.getValue(s, 'path')/]" alt="HTML5 Icon" style="width:400px;height:400px">
+      <img src="[att.getValue(s, 'path')/]" alt="HTML5 Icon" style="width:400px;height:400px">
 			          [/if]	                    					 					
 			       [/if]			
 			       [if att.getValue(s, 'type').toString().strstr('sound') = true ]		
 		              [if att.getValue(s, 'path').toString().size() <> 0]
-		 <audio controls>
-		    <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp3') = true] type="audio/mpeg">
+	  <audio controls>
+	     <source src="[att.getValue(s, 'path')/]" [if att.getValue(s, 'path').toString().strstr('.mp3') = true] type="audio/mpeg">
 		    [else] type="audio/ogg"> [/if]
 		    Your browser does not support the audio element.
-		</audio>		
+	  </audio>		
 		              [/if]					 					
 			       [/if]		    					
 			    [/if] [comment fin del multimedia /]
 				[if s.name.toString() = 'externalLink']    					   
-        <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
+      <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
 				[/if] [comment fin del externalLink /]
 				[if s.name.toString() = 'text']   					   
-        <p[if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.getValue(s, 'localText')/]</p>
+      <p[if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.getValue(s, 'localText')/]</p>
 				[/if]  
 	     		[if s.name.toString() = 'button']        
-        <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
+      <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
 		    	[/if]	
 		    [if s.name.toString() = 'list']					   
 		       [if att.getValue(s, 'listType').toString().strstr('choice') = true ]		
 		          [if att.getValue(s, 'filter').toString().size() <> 0 ]								 	 						 			
 				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-  		<input type="radio" name="[att.getValue(s, 'title')/]" value="[a/]"> [a.toUpperFirst()/]                  
+  	  <input type="radio" name="[att.getValue(s, 'title')/]" value="[a/]"> [a.toUpperFirst()/]                  
 				     [/for]
 	              [/if]
 			   [/if]
 		       [if att.getValue(s, 'listType').toString().strstr('dropBox') = true ]		
 		          [if att.getValue(s, 'filter').toString().size() <> 0 ]
-	    <p>[att.getValue(s, 'title')/]<input list="[att.getValue(s, 'title')/]" name="[att.getValue(s, 'title')/]">
+	  <p>[att.getValue(s, 'title')/]<input list="[att.getValue(s, 'title')/]" name="[att.getValue(s, 'title')/]">
            <datalist id="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">								 	 						 			
 				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
 	  	      <option value="[a/]">				     
                      [/for]
-		   </datalist><p>
+		   </datalist>
+      <p>
 	              [/if]
                [/if]
             [/if] 
 		  [/for]
 	   [/for]
-	   </fieldset>
-	</form>	      
+   </fieldset>
+</form>	      
    [/if]
 [/for]
 [/for]
