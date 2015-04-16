@@ -10,11 +10,12 @@
 <head>
    <meta charset="utf-8">
    <title>[c.name.toString()/]</title>
-   <link rel="stylesheet" href="jquery-ui.min.css">
-   <script src="external/jquery/jquery.js"></script>
-   <script src="jquery-ui.min.js"></script>
-   <link rel="stylesheet" href="../css/screen.css">
-   <script src="../dist/jquery.validate.js"></script>
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/le-frog/jquery-ui.css">
+   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+   <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+	
+   <link rel="stylesheet" href="jquery-validation-1.13.1/demo/css/screen.css">	
+   <script src="//cdn.jsdelivr.net/jquery.validation/1.13.1/jquery.validate.js"></script>
 </head>
 <script>
 [comment codigo js para el widget acordeon /]
@@ -311,7 +312,7 @@ principal./]
 	  </p>
 				  [/if]
 				  [comment validacion del tipo radio choice/]
-		          [elseif att.getValue(s, 'validation').toString().strstr('radioChoice') = true ]
+		          [elseif att.getValue(s, 'validation').toString().strstr('choiceOptions') = true ]
 	  <fieldset> 
 	      <legend>[att.getValue(s, 'title')/]</legend>
 				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
