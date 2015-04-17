@@ -41,8 +41,8 @@
    [/for]
 [/for]
 [comment codigo js para el widget  fieldLiveValidation
-(para validacion de m醩 de 1 campo. Primeramente la definici髇 de la 
-funci髇 principal y sus reglas.
+(para validacion de m谩s de 1 campo. Primeramente la definici贸n de la 
+funci贸n principal y sus reglas.
 Primeramente las reglas/]
 [for (c2: Class | c.followingSiblings(Class))]
 [for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]
@@ -118,9 +118,9 @@ Primeramente las reglas/]
    },
 [/if]
 [/for]
-[/for] [comment Fin de la generaci髇 de las reglas para el fieldLiveValidation (para validacion de m醩 de un campo /]
+[/for] [comment Fin de la generaci贸n de las reglas para el fieldLiveValidation (para validacion de m谩s de un campo /]
 [comment codigo js para el widget  fieldLiveValidation (para validacion 
-de m醩 de 1 campo. Definici髇 de las reglas y cierre de la funci髇 
+de m谩s de 1 campo. Definici贸n de las reglas y cierre de la funci贸n 
 principal./]
 [for (c2: Class | c.followingSiblings(Class))]
 [for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]
@@ -166,7 +166,7 @@ principal./]
                   [if att.getValue(s,'maxlength').toString().toInteger() <> 0]
 	     maxlength: "El [att.name/] debe tener como maximo [att.getValue(s,'maxlength')/] caracteres de longitud",
 			      [/if]					  
-	     email: "Por favor ingrese una direcci髇 de email valida"
+	     email: "Por favor ingrese una direcci贸n de email valida"
 	  },
                [elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true ]
       [att.name/]: {
@@ -194,8 +194,8 @@ principal./]
 });
 [/if]
 [/for]
-[/for] [comment Fin de la generaci髇 de los mensajes  y la funci髇 principal
-       para el fieldLiveValidation (para validacion de m醩 de un campo /]
+[/for] [comment Fin de la generaci贸n de los mensajes  y la funci贸n principal
+       para el fieldLiveValidation (para validacion de m谩s de un campo /]
 
 [comment codigo js para los widget autoSuggest, datepicker
          tooltip/]
@@ -231,6 +231,15 @@ principal./]
 		    [elseif s.name.toString() = 'richDatePicker']		
     $(function() {
        $( "#[att.name.substituteAll(' ', '') /]" ).datepicker({
+          [if att.getValue(s,'changeYear') = true] 
+	      changeYear: true, 
+          [/if]	
+          [if att.getValue(s,'changeMonth') = true] 
+	      changeMonth: true, 
+          [/if]	
+		  [if att.getValue(s, 'yearRange').toString().size() <> 0]
+		  yearRange: "[att.getValue(s, 'yearRange').toString()/]",
+		  [/if]		
 	      [if att.getValue(s, 'dateFormat').toString().strstr('Default - mm/dd/yy') = true ]
           dateFormat: "mm/dd/yy"
           [elseif att.getValue(s, 'dateFormat').toString().strstr('ISO 8601 - yy-mm-dd') = true ]
@@ -251,13 +260,13 @@ principal./]
 	        [/if]      			  				  	
 	     [/for]
       [/for]
-[/for] [comment fin de la geenaraci髇 .js para el richAutoSuggest, richDatePicket
+[/for] [comment fin de la geenaraci贸n .js para el richAutoSuggest, richDatePicket
                 y el richToolTip  /] 
-</script>  [comment fin de la generaci髇 del codigo .js /]
+</script>  [comment fin de la generaci贸n del codigo .js /]
 
-[comment generaci髇 del body para el html /]
+[comment generaci贸n del body para el html /]
 <body>
-[comment generaci髇 de contenido para el richAccordeon /]
+[comment generaci贸n de contenido para el richAccordeon /]
 [for (c2: Class | c.followingSiblings(Class))]
    [if c2.hasStereotype('richAccordion') ]
 <div id="[c2.name.substituteAll(' ', '') /]">
@@ -285,26 +294,26 @@ principal./]
 	              [if att.getValue(s, 'validation').toString().strstr('password') = true ]   				
  	  <p>
 	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-	     <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"></br>          
+	     <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>          
 	  </p>
 					 [comment si el tagged value confirmPass esta definido /]
 			         [if att.getValue(s,'confirmPass') = true]
 	  <p>
 	     <label for="confirm_[att.name/]">Confirmar [att.name.toUpperFirst()/]</label>
-		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"></br>
+		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>
 	  </p>
 				     [/if]
 				  [comment validacion del tipo email /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('email') = true ]
 	  <p>
 	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="email" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"></br>
+		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="email" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>
 	  </p>
 				  [comment validacion de un textImput simple /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true ]
 	  <p>
 	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="text" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"></br>
+		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="text" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>
 	  </p>
 				  [comment validacion del tipo agree checkbox /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true ]
@@ -452,8 +461,8 @@ principal./]
       [/for]
 </div>
    [/if]
-[/for] [comment fin de la generaci髇 de contenido para el richAccordeon /]
-[comment generaci髇 de contenido para el richTabs - Las pesta馻s /]
+[/for] [comment fin de la generaci贸n de contenido para el richAccordeon /]
+[comment generaci贸n de contenido para el richTabs - Las pesta帽as /]
 [for (c2: Class | c.followingSiblings(Class))]
 	[if c2.hasStereotype('richTabs')]
 <div id="[c2.name.substituteAll(' ', '') /]">
@@ -467,8 +476,8 @@ principal./]
       [/for]
    </ul>
     [/if]
-[/for] [comment fin generaci髇 de contenido para el richTabs - Las pesta馻s /]
-[comment generaci髇 de contenido para el richTabs - El contenido de las pesta馻s /]
+[/for] [comment fin generaci贸n de contenido para el richTabs - Las pesta帽as /]
+[comment generaci贸n de contenido para el richTabs - El contenido de las pesta帽as /]
 [for (c2: Class | c.followingSiblings(Class))]
 	[if c2.hasStereotype('richTabs') ]   
 	[for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]
@@ -494,26 +503,26 @@ principal./]
 	              [if att.getValue(s, 'validation').toString().strstr('password') = true ]   				
  	  <p>
 	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-	     <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"></br>          
+	     <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>          
 	  </p>
 					 [comment si el tagged value confirmPass esta definido /]
 			         [if att.getValue(s,'confirmPass') = true]
 	  <p>
 	     <label for="confirm_[att.name/]">Confirmar [att.name.toUpperFirst()/]</label>
-		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"></br>
+		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>
 	  </p>
 				     [/if]
 				  [comment validacion del tipo email /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('email') = true ]
 	  <p>
 	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="email" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"></br>
+		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="email" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>
 	  </p>
 				  [comment validacion de un textImput simple /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true ]
 	  <p>
 	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="text" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"></br>
+		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="text" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>
 	  </p>
 				  [comment validacion del tipo agree checkbox /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true ]
@@ -527,8 +536,8 @@ principal./]
 	  <fieldset> 
 	      <legend>[att.getValue(s, 'title')/]</legend>
 				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-		  <label for="[if a.strstr('Required'] [a.tokenize(' ')/] [else] [a./]">		 
-  	         <input type="radio" id="[if a.strstr('Required'] [a.tokenize(' ')/] [else] [a./]  [/if]" name="[att.getValue(s, 'title')/]" value="[if a.strstr('Required'] [a.tokenize(' ')/] [else] [a./]  [/if]" [if a.strstr('Required']required [/if]> [if a.strstr('Required'] [a.toUpperFirst().tokenize(' ')/] [else] [a.toUpperFirst()/] [/if]                  
+		  <label for="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/][/if]">		 
+  	         <input type="radio" id="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]  [/if]" name="[att.getValue(s, 'title')/]" value="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/] [/if]" [if a.strstr('Required')]required [/if]> [if a.strstr('Required')] [a.toUpperFirst().tokenize(' ')/] [else] [a.toUpperFirst()/] [/if]                  
 		  </label>
 				     [/for]
    	  </fieldset>					 			 
@@ -734,41 +743,52 @@ principal./]
 		       [/if] [comment fin del richAutoSuggest /]			  		
 			   [if s.name.toString() = 'richDatePicker']						
       <p>[att.name.toUpperFirst()/] <input type="text" id="[att.name.substituteAll(' ', '')/]" name="[att.name/]"></p>				 				 
-			   [/if] [comment fin del richDatePicker /]	
+			   [/if] [comment fin del richDatePicker /]
 	           [if s.name.toString() = 'richFieldLiveValidation']
 				  [comment validacion del tipo password /]
 	              [if att.getValue(s, 'validation').toString().strstr('password') = true ]   				
  	  <p>
 	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-	     <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password">
+	     <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>          
 	  </p>
 					 [comment si el tagged value confirmPass esta definido /]
 			         [if att.getValue(s,'confirmPass') = true]
 	  <p>
-		 <label for="confirm_[att.name/]">Confirm [att.name.toUpperFirst()/]</label>
-		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password">
+	     <label for="confirm_[att.name/]">Confirmar [att.name.toUpperFirst()/]</label>
+		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>
 	  </p>
 				     [/if]
 				  [comment validacion del tipo email /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('email') = true ]
 	  <p>
 	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="email">
+		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="email" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>
 	  </p>
 				  [comment validacion de un textImput simple /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true ]
 	  <p>
-		 <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="text">
+	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
+		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="text" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>
 	  </p>
 				  [comment validacion del tipo agree checkbox /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true ]
 	  <p>
-		 <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-		 <input type="checkbox" id="[att.name.substituteAll(' ', '')/]" name="[att.name/]">
+         <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
+	     <input type="checkbox" id="[att.name.substituteAll(' ', '')/]" name="[att.name/]">
 	  </p>
-				   [/if]
-	            [/if] [comment fin del 'richFieldLiveValidation' /]
+				  [/if]
+				  [comment validacion del tipo radio choice/]
+		          [elseif att.getValue(s, 'validation').toString().strstr('choiceOptions') = true ]
+	  <fieldset> 
+	      <legend>[att.getValue(s, 'title')/]</legend>
+				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
+		  <label for="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/][/if]">		 
+  	         <input type="radio" id="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]  [/if]" name="[att.getValue(s, 'title')/]" value="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/] [/if]" [if a.strstr('Required')]required [/if]> [if a.strstr('Required')] [a.toUpperFirst().tokenize(' ')/] [else] [a.toUpperFirst()/] [/if]                  
+		  </label>
+				     [/for]
+   	  </fieldset>					 			 
+	              [/if]				   
+	            [/if] [comment fin del 'richFieldLiveValidation' /]	
 		        [if s.name.toString() = 'textInput']		
 	  <label for="[att.name/]">[att.name.toUpperFirst()/]</label><input id="[att.name.substituteAll(' ', '')/]"[if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if][if att.getValue(s, 'password') = false] type="text" [else] type="password" [/if] [if att.getValue(s, 'mandatory') = true] required [/if]></br>		
 		        [/if]	
@@ -849,3 +869,4 @@ principal./]
    [/file]
 [/if]
 [/template]
+
