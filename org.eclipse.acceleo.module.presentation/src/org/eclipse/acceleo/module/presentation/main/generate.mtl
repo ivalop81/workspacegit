@@ -1,3 +1,5 @@
+[comment encoding = UTF-8 /]
+
 [module generate('http://www.eclipse.org/uml2/4.0.0/UML')]
 [import org::eclipse::acceleo::module::presentation::services::uml2services /]
 
@@ -316,8 +318,8 @@ principal./]
 	  <fieldset> 
 	      <legend>[att.getValue(s, 'title')/]</legend>
 				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-		  <label for="[a/]">		 
-  	         <input type="radio" id="[a/]" name="[att.getValue(s, 'title')/]" value="[a/]"> [a.toUpperFirst()/]                  
+		  <label for="[if a.strstr('Required'] [a.tokenize(' ')/] [else] [a./]">		 
+  	         <input type="radio" id="[if a.strstr('Required'] [a.tokenize(' ')/] [else] [a./]  [/if]" name="[att.getValue(s, 'title')/]" value="[if a.strstr('Required'] [a.tokenize(' ')/] [else] [a./]  [/if]" [if a.strstr('Required']required [/if]> [if a.strstr('Required'] [a.toUpperFirst().tokenize(' ')/] [else] [a.toUpperFirst()/] [/if]                  
 		  </label>
 				     [/for]
    	  </fieldset>					 			 
@@ -492,34 +494,45 @@ principal./]
 	              [if att.getValue(s, 'validation').toString().strstr('password') = true ]   				
  	  <p>
 	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-	     <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password">
+	     <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"></br>          
 	  </p>
 					 [comment si el tagged value confirmPass esta definido /]
 			         [if att.getValue(s,'confirmPass') = true]
 	  <p>
-		 <label for="confirm_[att.name/]">Confirm [att.name.toUpperFirst()/]</label>
-		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password">
+	     <label for="confirm_[att.name/]">Confirmar [att.name.toUpperFirst()/]</label>
+		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"></br>
 	  </p>
 				     [/if]
 				  [comment validacion del tipo email /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('email') = true ]
 	  <p>
 	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="email">
+		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="email" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"></br>
 	  </p>
 				  [comment validacion de un textImput simple /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true ]
 	  <p>
-		 <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="text">
+	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
+		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="text" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"></br>
 	  </p>
 				  [comment validacion del tipo agree checkbox /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true ]
 	  <p>
-		 <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-		 <input type="checkbox" id="[att.name.substituteAll(' ', '')/]" name="[att.name/]">
+         <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
+	     <input type="checkbox" id="[att.name.substituteAll(' ', '')/]" name="[att.name/]">
 	  </p>
-				   [/if]
+				  [/if]
+				  [comment validacion del tipo radio choice/]
+		          [elseif att.getValue(s, 'validation').toString().strstr('choiceOptions') = true ]
+	  <fieldset> 
+	      <legend>[att.getValue(s, 'title')/]</legend>
+				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
+		  <label for="[if a.strstr('Required'] [a.tokenize(' ')/] [else] [a./]">		 
+  	         <input type="radio" id="[if a.strstr('Required'] [a.tokenize(' ')/] [else] [a./]  [/if]" name="[att.getValue(s, 'title')/]" value="[if a.strstr('Required'] [a.tokenize(' ')/] [else] [a./]  [/if]" [if a.strstr('Required']required [/if]> [if a.strstr('Required'] [a.toUpperFirst().tokenize(' ')/] [else] [a.toUpperFirst()/] [/if]                  
+		  </label>
+				     [/for]
+   	  </fieldset>					 			 
+	              [/if]				   
 	            [/if] [comment fin del 'richFieldLiveValidation' /]
 		        [if s.name.toString() = 'textInput']		
 	  <label for="[att.name/]">[att.name.toUpperFirst()/]</label><input id="[att.name.substituteAll(' ', '')/]"[if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if][if att.getValue(s, 'password') = false] type="text" [else] type="password" [/if] [if att.getValue(s, 'mandatory') = true] required [/if]></br>		
