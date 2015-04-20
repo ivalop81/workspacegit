@@ -6,7 +6,7 @@
 [template public generateElement(c : Class)]
 [comment @main/]
 [if c.hasStereotype('presentationPage') ]
-	[file (c.name.concat('.php'), false, 'UTF-8')]
+	[file (c.name.concat('.html'), false, 'UTF-8')]
 <!doctype html>
 <html lang="en">
 <head>
