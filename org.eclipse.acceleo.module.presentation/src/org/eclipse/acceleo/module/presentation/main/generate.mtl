@@ -6,7 +6,7 @@
 [template public generateElement(c : Class)]
 [comment @main/]
 [if c.hasStereotype('presentationPage') ]
-   [file (c.name.concat('.php'), false, 'UTF-8')]
+	[file (c.name.concat('.php'), false, 'UTF-8')]
 <!doctype html>
 <html lang="en">
 <head>
@@ -20,197 +20,197 @@
    <script src="//cdn.jsdelivr.net/jquery.validation/1.13.1/jquery.validate.js"></script>
 </head>
 <script>
-[comment codigo js para el widget acordeon /]
-[for (c2: Class | c.followingSiblings(Class))]
-   [for (s: Stereotype | c2.getAppliedStereotypes()->asSequence())]
-      [if s.name.toString() = 'richAccordion']
+		[comment codigo js para el widget acordeon /]
+		[for (c2: Class | c.followingSiblings(Class))]
+			[for (s: Stereotype | c2.getAppliedStereotypes()->asSequence())]
+    			[if s.name.toString() = 'richAccordion']
    $(function() {
      $( "#[c2.name.substituteAll(' ', '')/]" ).accordion();
    });
-      [/if]
-   [/for]
-[/for]
-[comment codigo js para el widget tab /]
-[for (c2: Class | c.followingSiblings(Class))]
-   [for (s: Stereotype | c2.getAppliedStereotypes()->asSequence())]
-      [if s.name.toString() = 'richTabs']
+    			[/if]
+			[/for]
+		[/for]
+		[comment codigo js para el widget tab /]
+		[for (c2: Class | c.followingSiblings(Class))]
+   			[for (s: Stereotype | c2.getAppliedStereotypes()->asSequence())]
+      			[if s.name.toString() = 'richTabs']
    $(function() {
      $( "#[c2.name.substituteAll(' ', '')/]" ).tabs();
    });
-      [/if]
-   [/for]
-[/for]
-[comment codigo js para el widget  fieldLiveValidation
-(para validacion de más de 1 campo. Primeramente la definición de la 
-función principal y sus reglas.
-Primeramente las reglas/]
-[for (c2: Class | c.followingSiblings(Class))]
-[for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]
-[if s1.name.toString() = 'form' and c2.getValue(s1, 'validate') = true]
+      			[/if]
+   			[/for]
+		[/for]
+		[comment codigo js para el widget  fieldLiveValidation
+		(para validacion de mÃ¡s de 1 campo. Primeramente la definiciÃ³n de la 
+		funciÃ³n principal y sus reglas.
+		Primeramente las reglas/]
+		[for (c2: Class | c.followingSiblings(Class))]
+			[for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]
+				[if s1.name.toString() = 'form' and c2.getValue(s1, 'validate') = true]
    $().ready(function() {
        // validate signup form on keyup and submit
       $("#[c2.name.substituteAll(' ', '') /]").validate({
    rules: {
-      [for (att: Property | c2.getAllAttributes()->asSequence())]
-	     [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]	        		  
-		    [if s.name.toString() = 'richFieldLiveValidation']
-			 [comment Primeramente validacion tipo password /]
-	           [if att.getValue(s, 'validation').toString().strstr('password') = true ]		
+      				[for (att: Property | c2.getAllAttributes()->asSequence())]
+	     				[for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]	        		  
+		    				[if s.name.toString() = 'richFieldLiveValidation']
+			 					[comment Primeramente validacion tipo password /]
+	           					[if att.getValue(s, 'validation').toString().strstr('password') = true ]		
       [att.name/]: {
-  		          [if att.getValue(s,'required') = true] 
+  		          					[if att.getValue(s,'required') = true] 
 	     required: true, 
-                  [/if]
-                  [if att.getValue(s,'minLength').toString().toInteger() <> 0]
+                  					[/if]
+                  					[if att.getValue(s,'minLength').toString().toInteger() <> 0]
 	     minlength: [att.getValue(s,'minLength').toString().toInteger()/],			
-                  [/if]
-                  [if att.getValue(s,'maxLength').toString().toInteger() <> 0]
+                  					[/if]
+                  					[if att.getValue(s,'maxLength').toString().toInteger() <> 0]
 	     maxlength: [att.getValue(s,'maxLength').toString().toInteger()/],			
-                  [/if]					  
+                  					[/if]					  
 	  },
-                  [if att.getValue(s,'confirmPass') = true]
+								[/if]
+								[if att.getValue(s,'confirmPass') = true]
       confirm_[att.name/]: {
-			         [if att.getValue(s,'required') = true] 
+			         				[if att.getValue(s,'required') = true] 
 	     required: true, 
-                     [/if]
-                     [if att.getValue(s,'minLength').toString().toInteger() <> 0]
+                     				[/if]
+									[if att.getValue(s,'minLength').toString().toInteger() <> 0]
 	     minlength: [att.getValue(s,'minLength')/],
-                     [/if]
-                     [if att.getValue(s,'maxLength').toString().toInteger() <> 0]
+ 									[/if]
+									[if att.getValue(s,'maxLength').toString().toInteger() <> 0]
 	     maxlength: [att.getValue(s,'maxLength').toString().toInteger()/],			
-                     [/if]						 
+									[/if]						 
 	     equalTo: "#[att.name/]"
 	  },
-                  [/if]
-               [elseif att.getValue(s, 'validation').toString().strstr('email') = true]
+								
+								[elseif att.getValue(s, 'validation').toString().strstr('email') = true]
       [att.name/]: {
-  		          [if att.getValue(s,'required') = true] 
+									[if att.getValue(s,'required') = true] 
 	     required: true, 
-                  [/if]
-                  [if att.getValue(s,'minLength').toString().toInteger() <> 0]
+									[/if]
+									[if att.getValue(s,'minLength').toString().toInteger() <> 0]
 	     minlength: [att.getValue(s,'minLength')/],
-			      [/if]
-                  [if att.getValue(s,'maxLength').toString().toInteger() <> 0]
+									[/if]
+									[if att.getValue(s,'maxLength').toString().toInteger() <> 0]
 	     maxlength: [att.getValue(s,'maxLength').toString().toInteger()/],			
-                  [/if]				  
+									[/if]				  
 	     email: true
 	  },
-               [elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true]
+								[elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true]
       [att.name/]: {
-  		          [if att.getValue(s,'required') = true] 
+									[if att.getValue(s,'required') = true] 
 	     required: true, 
-                  [/if]
-  		          [if att.getValue(s,'digits') = true] 
+									[/if]
+									[if att.getValue(s,'digits') = true] 
 	     digits: true, 
-                  [/if]				  
-                  [if att.getValue(s,'minLength').toString().toInteger() <> 0]
+									[/if]				  
+									[if att.getValue(s,'minLength').toString().toInteger() <> 0]
 	     minlength: [att.getValue(s,'minLength')/],
-		    	  [/if]
-                  [if att.getValue(s,'maxLength').toString().toInteger() <> 0]
+									[/if]
+									[if att.getValue(s,'maxLength').toString().toInteger() <> 0]
 	     maxlength: [att.getValue(s,'maxLength').toString().toInteger()/],			
-                  [/if]				  				  				  
+									[/if]				  				  				  
 	  },
-               [elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true]
+								[elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true]
 	  agree: "required"
-               [/if]   
-		    [/if]
-	     [/for]
-      [/for]
+								[/if]   
+							[/if]
+						[/for]
+					[/for]
    },
-[/if]
-[/for]
-[/for] [comment Fin de la generación de las reglas para el fieldLiveValidation (para validacion de más de un campo /]
-[comment codigo js para el widget  fieldLiveValidation (para validacion 
-de más de 1 campo. Definición de las reglas y cierre de la función 
-principal./]
-[for (c2: Class | c.followingSiblings(Class))]
-[for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]
-[if s1.name.toString() = 'form' and c2.getValue(s1, 'validate') = true]
+				[/if]
+			[/for]
+		[/for] [comment Fin de la generaciÃ³n de las reglas para el fieldLiveValidation (para validacion de mÃ¡s de un campo /]
+		[comment codigo js para el widget  fieldLiveValidation (para validacion 
+		de mÃ¡s de 1 campo. DefiniciÃ³n de las reglas y cierre de la funciÃ³n 
+		principal./]
+		[for (c2: Class | c.followingSiblings(Class))]
+			[for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]
+				[if s1.name.toString() = 'form' and c2.getValue(s1, 'validate') = true]
    messages: {
-      [for (att: Property | c2.getAllAttributes()->asSequence())]
-	     [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]	        		  
-		    [if s.name.toString() = 'richFieldLiveValidation']
-		       [if att.getValue(s, 'validation').toString().strstr('password') = true ]		
+      				[for (att: Property | c2.getAllAttributes()->asSequence())]
+	     				[for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]	        		  
+		    				[if s.name.toString() = 'richFieldLiveValidation']
+		       					[if att.getValue(s, 'validation').toString().strstr('password') = true ]		
       [att.name/]: {
-		          [if att.getValue(s,'required') = true] 
+		          					[if att.getValue(s,'required') = true] 
 	     required: "Por favor ingrese un [att.name.toUpperFirst()/]", 
-		   	      [/if]
-                  [if att.getValue(s,'minLength').toString().toInteger() <> 0]
+		   	      					[/if]
+                  					[if att.getValue(s,'minLength').toString().toInteger() <> 0]
 	     minlength: "El [att.name/] debe tener al menos [att.getValue(s,'minLength')/] caracteres de longitud",
-			      [/if]
-                  [if att.getValue(s,'maxlength').toString().toInteger() <> 0]
+			      					[/if]
+                  					[if att.getValue(s,'maxlength').toString().toInteger() <> 0]
 	     maxlength: "El [att.name/] debe tener como maximo [att.getValue(s,'maxlength')/] caracteres de longitud",
-			      [/if]				  
+			      					[/if]				  
 	  },
-                  [if att.getValue(s,'confirmPass') = true]
+								[/if]
+                  				[if att.getValue(s,'confirmPass') = true]
       confirm_[att.name/]: {
-			         [if att.getValue(s,'required') = true] 
+			         				[if att.getValue(s,'required') = true] 
 	     required: "Por favor ingrese un [att.name.toUpperFirst()/]", 
-                     [/if]
-			         [if att.getValue(s,'minLength').toString().toInteger() <> 0]
+                     				[/if]
+			         				[if att.getValue(s,'minLength').toString().toInteger() <> 0]
 	     minlength: "El [att.name/] debe tener al menos [att.getValue(s,'minLength')/] caracteres de longitud",
-                     [/if]
-                     [if att.getValue(s,'maxlength').toString().toInteger() <> 0]
+                     				[/if]
+                     				[if att.getValue(s,'maxlength').toString().toInteger() <> 0]
 	     maxlength: "El [att.name/] debe tener como maximo [att.getValue(s,'maxlength')/] caracteres de longitud",
-			         [/if]				  				 
+			         				[/if]				  				 
 	     equalTo: "Por favor ingrese el mismo password"
-				  [/if]
+								
 	  },
-               [elseif att.getValue(s, 'validation').toString().strstr('email') = true ]
+								[elseif att.getValue(s, 'validation').toString().strstr('email') = true ]
       [att.name/]: {
-		          [if att.getValue(s,'required') = true] 
+									[if att.getValue(s,'required') = true] 
 	     required: "Por favor ingrese un [att.name.toUpperFirst()/]",
-                  [/if] 
-			      [if att.getValue(s,'minLength').toString().toInteger() <> 0]
+                  					[/if] 
+			      					[if att.getValue(s,'minLength').toString().toInteger() <> 0]
 	     minlength: "El [att.name/] debe tener al menos [att.getValue(s,'minLength')/] caracteres de longitud",
-                  [/if]
-                  [if att.getValue(s,'maxlength').toString().toInteger() <> 0]
+                  					[/if]
+                  					[if att.getValue(s,'maxlength').toString().toInteger() <> 0]
 	     maxlength: "El [att.name/] debe tener como maximo [att.getValue(s,'maxlength')/] caracteres de longitud",
-			      [/if]					  
-	     email: "Por favor ingrese una dirección de email valida"
+			      					[/if]					  
+	     email: "Por favor ingrese una direcciÃ³n de email valida"
 	  },
-               [elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true ]
+               					[elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true ]
       [att.name/]: {
-		          [if att.getValue(s,'required') = true] 
+		          					[if att.getValue(s,'required') = true] 
 	     required: "Por favor ingrese un [att.name.toUpperFirst()/]",
-                  [/if] 
-			      [if att.getValue(s,'minLength').toString().toInteger() <> 0]
+                  					[/if] 
+			      					[if att.getValue(s,'minLength').toString().toInteger() <> 0]
 	     minlength: "El [att.name/] debe tener al menos [att.getValue(s,'minLength')/] caracteres de longitud",
-                  [/if]
-                  [if att.getValue(s,'maxlength').toString().toInteger() <> 0]
+                  					[/if]
+                  					[if att.getValue(s,'maxlength').toString().toInteger() <> 0]
 	     maxlength: "El [att.name/] debe tener como maximo [att.getValue(s,'maxlength')/] caracteres de longitud",
-			      [/if]	
-                  [if att.getValue(s,'digits').toString().toInteger() <> 0]
+			      					[/if]	
+                  					[if att.getValue(s,'digits').toString().toInteger() <> 0]
 	     digits: "El [att.name/] debe contener digitos",
-			      [/if]						  
+			      					[/if]						  
 	  },
-               [elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true ]
+               					[elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true ]
 	     agree: "Favor seleccione este campo"               
-               [/if]
-			[/if]
-	     [/for]
-      [/for]
+               					[/if]
+							[/if]
+	     				[/for]
+      				[/for]
    },
    });
 });
-[/if]
-[/for]
-[/for] [comment Fin de la generación de los mensajes  y la función principal
-       para el fieldLiveValidation (para validacion de más de un campo /]
+				[/if]
+			[/for]
+		[/for] [comment Fin de la generaciÃ³n de los mensajes  y la funciÃ³n principal para el fieldLiveValidation (para validacion de mÃ¡s de un campo /]
 
-[comment codigo js para los widget autoSuggest, datepicker
-         tooltip/]
-[for  (c2: Class | c.followingSiblings(Class))]
-      [for (att: Property | c2.getAllAttributes()->asSequence())]
-	     [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]
-	        [if s.name.toString() = 'richAutoSuggest']					  
+		[comment codigo js para los widget autoSuggest, datepicker tooltip/]
+		[for  (c2: Class | c.followingSiblings(Class))]
+			[for (att: Property | c2.getAllAttributes()->asSequence())]
+				[for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]
+	        		[if s.name.toString() = 'richAutoSuggest']					  
 	$(function() {
-	   [if att.getValue(s, 'localDictionary').toString().strstr('definedInTheModel') = true]
+	   					[if att.getValue(s, 'localDictionary').toString().strstr('definedInTheModel') = true]
        var availableTags[att.name.toUpperFirst()/] = 
 	   ['['/][att.getValue(s, 'source')/][']'/];
        $( "#[att.name.substituteAll(' ', '')/]" ).autocomplete({
           source: availableTags[att.name.toUpperFirst()/]
        });
-       [elseif att.getValue(s, 'localDictionary').toString().strstr('definedInAFile') = true]
+       					[elseif att.getValue(s, 'localDictionary').toString().strstr('definedInAFile') = true]
     $.ajax({
        url: "[att.getValue(s, 'source')/]",
        dataType: "xml",
@@ -226,43 +226,42 @@ principal./]
           });
        }
     });
-       [/if]
+       					[/if]
     });					  										 
-		    [elseif s.name.toString() = 'richDatePicker']		
+		    		[elseif s.name.toString() = 'richDatePicker']		
     $(function() {
        $( "#[att.name.substituteAll(' ', '') /]" ).datepicker({
-          [if att.getValue(s,'changeYear') = true] 
+          				[if att.getValue(s,'changeYear') = true] 
 	      changeYear: true, 
-          [/if]	
-          [if att.getValue(s,'changeMonth') = true] 
+          				[/if]	
+          				[if att.getValue(s,'changeMonth') = true] 
 	      changeMonth: true, 
-          [/if]	
-		  [if att.getValue(s, 'yearRange').toString().size() <> 0]
+          				[/if]	
+		  				[if att.getValue(s, 'yearRange').toString().size() <> 0]
 		  yearRange: "[att.getValue(s, 'yearRange').toString()/]",
-		  [/if]		
-	      [if att.getValue(s, 'dateFormat').toString().strstr('Default - mm/dd/yy') = true ]
+		  				[/if]		
+	      				[if att.getValue(s, 'dateFormat').toString().strstr('Default - mm/dd/yy') = true ]
           dateFormat: "mm/dd/yy"
-          [elseif att.getValue(s, 'dateFormat').toString().strstr('ISO 8601 - yy-mm-dd') = true ]
+          				[elseif att.getValue(s, 'dateFormat').toString().strstr('ISO 8601 - yy-mm-dd') = true ]
 		  dateFormat: "yy-mm-dd"
-          [elseif att.getValue(s, 'dateFormat').toString().strstr('Short - d M, y') = true ]
+          				[elseif att.getValue(s, 'dateFormat').toString().strstr('Short - d M, y') = true ]
 		  dateFormat: "d M, y"
-		  [elseif att.getValue(s, 'dateFormat').toString().strstr('Medium - d MM, y') = true ]
+		  				[elseif att.getValue(s, 'dateFormat').toString().strstr('Medium - d MM, y') = true ]
 		  dateFormat: "d MM, y"
-		  [elseif att.getValue(s, 'dateFormat').toString().strstr('Full - DD, d MM, yy') = true ]
+		  				[elseif att.getValue(s, 'dateFormat').toString().strstr('Full - DD, d MM, yy') = true ]
 		  dateFormat: "DD, d MM, yy"
-          [/if]
+          				[/if]
        });
     });   						    				  
-		    [elseif s.name.toString() = 'richToolTip']
+		    		[elseif s.name.toString() = 'richToolTip']
     $(function() {
        $( document ).tooltip();
     });	        		  
-	        [/if]      			  				  	
-	     [/for]
-      [/for]
-[/for] [comment fin de la geenaración .js para el richAutoSuggest, richDatePicket
-                y el richToolTip  /] 
-</script>  [comment fin de la generación del codigo .js /]
+	        		[/if]      			  				  	
+	     		[/for]
+      		[/for]
+		[/for] [comment fin de la geenaraciÃ³n .js para el richAutoSuggest, richDatePicket y el richToolTip  /] 
+</script>  [comment fin de la generaciÃ³n del codigo .js /]
 
 [comment generación del body para el html /]
 <body>
@@ -284,7 +283,7 @@ principal./]
       <div>
          <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
          <input id="[att.name.substituteAll(' ', '')/]" type="text" name="[att.name/]">
-      </div>      					 
+      </div>    					 
 		       [/if] [comment fin del richAutoSuggest /]			  		
 			   [if s.name.toString() = 'richDatePicker']						
       <p>[att.name.toUpperFirst()/] <input type="text" id="[att.name.substituteAll(' ', '')/]" name="[att.name/]"></p>				 				 
@@ -292,22 +291,22 @@ principal./]
 	           [if s.name.toString() = 'richFieldLiveValidation']
 				  [comment validacion del tipo password /]
 	              [if att.getValue(s, 'validation').toString().strstr('password') = true ]   				
- 	  <p>
+	  <p>
 	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
 	     <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>          
 	  </p>
 					 [comment si el tagged value confirmPass esta definido /]
 			         [if att.getValue(s,'confirmPass') = true]
 	  <p>
-	     <label for="confirm_[att.name/]">Confirmar [att.name.toUpperFirst()/]</label>
-		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>
+	     <label for="confirm_[att.name/]">Confirm [att.name.toUpperFirst()/]</label>
+		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" 
 	  </p>
 				     [/if]
 				  [comment validacion del tipo email /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('email') = true ]
 	  <p>
 	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="email" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>
+		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="email" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br> 
 	  </p>
 				  [comment validacion de un textImput simple /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true ]
@@ -321,22 +320,21 @@ principal./]
          <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
 	     <input type="checkbox" id="[att.name.substituteAll(' ', '')/]" name="[att.name/]">
 	  </p>
-				  [/if]
+				  
 				  [comment validacion del tipo radio choice/]
-		          [elseif att.getValue(s, 'validation').toString().strstr('choiceOptions') = true ]
+			  	  [elseif att.getValue(s, 'validation').toString().strstr('choiceOptions') = true ]
 	  <fieldset> 
 	      <legend>[att.getValue(s, 'title')/]</legend>
 				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-		  <label for="[if a.strstr('Required'] [a.tokenize(' ')/] [else] [a./]">		 
-  	         <input type="radio" id="[if a.strstr('Required'] [a.tokenize(' ')/] [else] [a./]  [/if]" name="[att.getValue(s, 'title')/]" value="[if a.strstr('Required'] [a.tokenize(' ')/] [else] [a./]  [/if]" [if a.strstr('Required']required [/if]> [if a.strstr('Required'] [a.toUpperFirst().tokenize(' ')/] [else] [a.toUpperFirst()/] [/if]                  
+		  <label for="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]"[/if]>		 
+  	         <input type="radio" id="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]  [/if]" name="[att.getValue(s, 'title')/]" value="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]  [/if]" [if a.strstr('Required')]required [/if]> [if a.strstr('Required')] [a.toUpperFirst().tokenize(' ')/] [else] [a.toUpperFirst()/] [/if]                  
 		  </label>
 				     [/for]
    	  </fieldset>					 			 
-	              [/if]				   
+	              [/if]
 	            [/if] [comment fin del 'richFieldLiveValidation' /]
 		        [if s.name.toString() = 'textInput']		
-	  <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-	  <input id="[att.name.substituteAll(' ', '')/]"[if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if][if att.getValue(s, 'password') = false] type="text" [else] type="password" [/if] [if att.getValue(s, 'mandatory') = true] required [/if]></br>		
+	  <label for="[att.name/]">[att.name.toUpperFirst()/]</label><input id="[att.name.substituteAll(' ', '')/]"[if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if][if att.getValue(s, 'password') = false] type="text" [else] type="password" [/if] [if att.getValue(s, 'mandatory') = true] required [/if]></br>		
 		        [/if]	
 		        [if s.name.toString() = 'htmlText']	      
 	  [att.getValue(s, 'html')/]
@@ -488,12 +486,12 @@ principal./]
     [if c3.hasStereotype('compositeUIElement') and c3.hasStereotype('form') and c3.getValue(s1, 'content').toString().strstr('withinARichTab')] 
    <form id="[c3.name.substituteAll(' ', '')/]" method="get" action="" "> 
 	   [for (att: Property | c3.getAllAttributes()->asSequence())]
-	      [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]      
+	      [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]
 		       [if s.name.toString() = 'richAutoSuggest']									
       <div>
          <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
          <input id="[att.name.substituteAll(' ', '')/]" type="text" name="[att.name/]">
-      </div>      					 
+      </div>    					 
 		       [/if] [comment fin del richAutoSuggest /]			  		
 			   [if s.name.toString() = 'richDatePicker']						
       <p>[att.name.toUpperFirst()/] <input type="text" id="[att.name.substituteAll(' ', '')/]" name="[att.name/]"></p>				 				 
@@ -501,22 +499,22 @@ principal./]
 	           [if s.name.toString() = 'richFieldLiveValidation']
 				  [comment validacion del tipo password /]
 	              [if att.getValue(s, 'validation').toString().strstr('password') = true ]   				
- 	  <p>
+	  <p>
 	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
 	     <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>          
 	  </p>
 					 [comment si el tagged value confirmPass esta definido /]
 			         [if att.getValue(s,'confirmPass') = true]
 	  <p>
-	     <label for="confirm_[att.name/]">Confirmar [att.name.toUpperFirst()/]</label>
-		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>
+	     <label for="confirm_[att.name/]">Confirm [att.name.toUpperFirst()/]</label>
+		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" 
 	  </p>
 				     [/if]
 				  [comment validacion del tipo email /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('email') = true ]
 	  <p>
 	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="email" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>
+		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="email" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br> 
 	  </p>
 				  [comment validacion de un textImput simple /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true ]
@@ -530,19 +528,19 @@ principal./]
          <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
 	     <input type="checkbox" id="[att.name.substituteAll(' ', '')/]" name="[att.name/]">
 	  </p>
-				  [/if]
+				  
 				  [comment validacion del tipo radio choice/]
-		          [elseif att.getValue(s, 'validation').toString().strstr('choiceOptions') = true ]
+			  	  [elseif att.getValue(s, 'validation').toString().strstr('choiceOptions') = true ]
 	  <fieldset> 
 	      <legend>[att.getValue(s, 'title')/]</legend>
 				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-		  <label for="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/][/if]">		 
-  	         <input type="radio" id="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]  [/if]" name="[att.getValue(s, 'title')/]" value="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/] [/if]" [if a.strstr('Required')]required [/if]> [if a.strstr('Required')] [a.toUpperFirst().tokenize(' ')/] [else] [a.toUpperFirst()/] [/if]                  
+		  <label for="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]"[/if]>		 
+  	         <input type="radio" id="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]  [/if]" name="[att.getValue(s, 'title')/]" value="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]  [/if]" [if a.strstr('Required')]required [/if]> [if a.strstr('Required')] [a.toUpperFirst().tokenize(' ')/] [else] [a.toUpperFirst()/] [/if]                  
 		  </label>
 				     [/for]
    	  </fieldset>					 			 
-	              [/if]				   
-	            [/if] [comment fin del 'richFieldLiveValidation' /]
+	              [/if]
+	            [/if] [comment fin del 'richFieldLiveValidation' /]      
 		        [if s.name.toString() = 'textInput']		
 	  <label for="[att.name/]">[att.name.toUpperFirst()/]</label><input id="[att.name.substituteAll(' ', '')/]"[if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if][if att.getValue(s, 'password') = false] type="text" [else] type="password" [/if] [if att.getValue(s, 'mandatory') = true] required [/if]></br>		
 		        [/if]	
@@ -739,30 +737,30 @@ principal./]
       <div>
          <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
          <input id="[att.name.substituteAll(' ', '')/]" type="text" name="[att.name/]">
-      </div>      					 
+      </div>    					 
 		       [/if] [comment fin del richAutoSuggest /]			  		
 			   [if s.name.toString() = 'richDatePicker']						
       <p>[att.name.toUpperFirst()/] <input type="text" id="[att.name.substituteAll(' ', '')/]" name="[att.name/]"></p>				 				 
-			   [/if] [comment fin del richDatePicker /]
+			   [/if] [comment fin del richDatePicker /]	
 	           [if s.name.toString() = 'richFieldLiveValidation']
 				  [comment validacion del tipo password /]
 	              [if att.getValue(s, 'validation').toString().strstr('password') = true ]   				
- 	  <p>
+	  <p>
 	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
 	     <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>          
 	  </p>
 					 [comment si el tagged value confirmPass esta definido /]
 			         [if att.getValue(s,'confirmPass') = true]
 	  <p>
-	     <label for="confirm_[att.name/]">Confirmar [att.name.toUpperFirst()/]</label>
-		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>
+	     <label for="confirm_[att.name/]">Confirm [att.name.toUpperFirst()/]</label>
+		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="password" 
 	  </p>
 				     [/if]
 				  [comment validacion del tipo email /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('email') = true ]
 	  <p>
 	     <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
-		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="email" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br>
+		 <input id="[att.name.substituteAll(' ', '')/]" name="[att.name/]" type="email" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></br> 
 	  </p>
 				  [comment validacion de un textImput simple /]
 				  [elseif att.getValue(s, 'validation').toString().strstr('simpleTextImput') = true ]
@@ -776,19 +774,19 @@ principal./]
          <label for="[att.name/]">[att.name.toUpperFirst()/]</label>
 	     <input type="checkbox" id="[att.name.substituteAll(' ', '')/]" name="[att.name/]">
 	  </p>
-				  [/if]
+				  
 				  [comment validacion del tipo radio choice/]
-		          [elseif att.getValue(s, 'validation').toString().strstr('choiceOptions') = true ]
+			  	  [elseif att.getValue(s, 'validation').toString().strstr('choiceOptions') = true ]
 	  <fieldset> 
 	      <legend>[att.getValue(s, 'title')/]</legend>
 				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-		  <label for="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/][/if]">		 
-  	         <input type="radio" id="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]  [/if]" name="[att.getValue(s, 'title')/]" value="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/] [/if]" [if a.strstr('Required')]required [/if]> [if a.strstr('Required')] [a.toUpperFirst().tokenize(' ')/] [else] [a.toUpperFirst()/] [/if]                  
+		  <label for="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]"[/if]>		 
+  	         <input type="radio" id="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]  [/if]" name="[att.getValue(s, 'title')/]" value="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]  [/if]" [if a.strstr('Required')]required [/if]> [if a.strstr('Required')] [a.toUpperFirst().tokenize(' ')/] [else] [a.toUpperFirst()/] [/if]                  
 		  </label>
 				     [/for]
    	  </fieldset>					 			 
-	              [/if]				   
-	            [/if] [comment fin del 'richFieldLiveValidation' /]	
+	              [/if]
+	            [/if] [comment fin del 'richFieldLiveValidation' /]
 		        [if s.name.toString() = 'textInput']		
 	  <label for="[att.name/]">[att.name.toUpperFirst()/]</label><input id="[att.name.substituteAll(' ', '')/]"[if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if][if att.getValue(s, 'password') = false] type="text" [else] type="password" [/if] [if att.getValue(s, 'mandatory') = true] required [/if]></br>		
 		        [/if]	
@@ -866,7 +864,8 @@ principal./]
 [/for]
 </body>
 </html>
-   [/file]
+
+	[/file]
 [/if]
 [/template]
 
