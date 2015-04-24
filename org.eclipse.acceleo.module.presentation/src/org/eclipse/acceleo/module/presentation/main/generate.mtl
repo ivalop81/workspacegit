@@ -6,7 +6,7 @@
 [template public generateElement(c : Class)]
 [comment @main/]
 [if c.hasStereotype('presentationPage') ]
-	[file (c.name.concat('.html'), false, 'UTF-8')]
+	[file (c.name.concat('.php'), false, 'UTF-8')]
 <!doctype html>
 <html lang="en">
 <head>
@@ -276,7 +276,7 @@
    <div>
          [/if]     	
          [if c3.hasStereotype('compositeUIElement') and c3.hasStereotype('form') and c3.getValue(s1, 'content').toString().strstr('withinARichAccordion')] 
-   <form id="[c3.name.substituteAll(' ', '')/]" method="get" action="" "> 
+   <form id="[c3.name.substituteAll(' ', '')/]" method="POST" action="" "> 
 	     [for (att: Property | c3.getAllAttributes()->asSequence())]
 		    [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]      
 		       [if s.name.toString() = 'richAutoSuggest']									
@@ -286,7 +286,7 @@
       </p>    					 
 		       [/if] [comment fin del richAutoSuggest /]			  		
 			   [if s.name.toString() = 'richDatePicker']						
-      <p>[att.name.toUpperFirst()/] <input type="text" id="[att.name.substituteAll(' ', '')/]" name="[att.name.substituteAll(' ', '')/]"></p>				 				 
+      <p>[att.name.toUpperFirst()/] <input type="text" id="[att.name.substituteAll(' ', '')/]" name="[att.name.substituteAll(' ', '')/]" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></p>				 				 
 			   [/if] [comment fin del richDatePicker /]	
 	           [if s.name.toString() = 'richFieldLiveValidation']
 				  [comment validacion del tipo password /]
@@ -322,12 +322,12 @@
 	  </p>
 				  
 				  [comment validacion del tipo radio choice/]
-			  	  [elseif att.getValue(s, 'validation').toString().strstr('choiceOptions') = true ]
+			  	  [elseif att.getValue(s, 'validation').toString().strstr('radioChoice') = true ]
 	  <fieldset> 
-	      <legend>[att.getValue(s, 'title')/]</legend>
-				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-		  <label for="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]"[/if]>		 
-  	         <input type="radio" id="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]  [/if]" name="[att.getValue(s, 'title')/]" value="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]  [/if]" [if a.strstr('Required')]required [/if]> [if a.strstr('Required')] [a.toUpperFirst().tokenize(' ')/] [else] [a.toUpperFirst()/] [/if]                  
+	      <legend>[att.name.substituteAll(' ', '').toUpperFirst()/]</legend>
+				     [for (a : String | att.getValue(s, 'choiceOptions').toString().tokenize(',') ) ]
+		  <label for="[if a.strstr('Required')][a.replace(' Required','')/]"[else][a.toString().substituteAll(' ', '')/]"[/if]>		 
+  	         <input type="radio" id="[if a.strstr('Required')][a.replace(' Required','')/]"[else][a/]"[/if] name="[att.name.substituteAll(' ', '')/]" value="[if a.strstr('Required')][a.replace(' Required','')/]"[else][a/]"[/if] [if a.strstr('Required')]required[/if]>[if a.strstr('Required')][a.toUpperFirst().replace(' Required','')/][else][a.toUpperFirst()/][/if]                  
 		  </label>
 				     [/for]
    	  </fieldset>					 			 
@@ -373,38 +373,42 @@
 			       [/if]		    					
 			    [/if] [comment fin del multimedia /]
 				[if s.name.toString() = 'externalLink']    					   
-      <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
+      <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
 				[/if] [comment fin del externalLink /]
+				[if s.name.toString() = 'anchor']    					   
+      <a href="[att.getValue(s, 'virtualStateName').toString().toUpperFirst().concat('.php')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
+				[/if] [comment fin del anchor /]
 				[if s.name.toString() = 'text']   					   
       <p[if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.getValue(s, 'localText')/]</p>
 				[/if]  
 	     		[if s.name.toString() = 'button']        
-      <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
+	  <p>
+	     <input  type="submit" value="[att.name.toUpperFirst()/]">
+	  </p>
 		    	[/if]	
-		    [if s.name.toString() = 'list']					   
-		       [if att.getValue(s, 'listType').toString().strstr('choice') = true ]		
-		          [if att.getValue(s, 'filter').toString().size() <> 0 ]
-   	  <fieldset>
-	  <legend>[att.name/]</legend>					 			 								 	 						 			
-				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-  	  <input type="radio" id="[a/]" value="[a/]" name="[att.name/]"> [a.toUpperFirst()/]                  
-				     [/for]
-   	  </fieldset>					 			 
-	              [/if] <br>
-			   [/if]
-		       [if att.getValue(s, 'listType').toString().strstr('dropBox') = true ]		
-		          [if att.getValue(s, 'filter').toString().size() <> 0 ]
-	  <p>[att.getValue(s, 'title')/]<input list="[att.getValue(s, 'title')/]" name="[att.getValue(s, 'title')/]">
-         <datalist id="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">								 	 						 			
-				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-	  	    <option value="[a/]">				     
-                     [/for]
-		 </datalist>
-      <p>
-	              [/if]
-               [/if]
-            [/if] 
-		     [/for]
+			    [if s.name.toString() = 'list']					   
+			       [if att.getValue(s, 'listType').toString().strstr('choice') = true ]		
+			          [if att.getValue(s, 'filter').toString().size() <> 0 ]
+	   	  <fieldset>
+		  <legend>[att.name/]</legend>					 			 								 	 						 			
+					     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
+	  	  <input type="radio" id="[a/]" value="[a/]" name="[att.name/]"> [a.toUpperFirst()/]                  
+					     [/for]
+	   	  </fieldset>					 			 
+		              [/if] <br>
+				   [/if]
+			       [if att.getValue(s, 'listType').toString().strstr('dropBox') = true ]	
+			          [if att.getValue(s, 'filter').toString().size() <> 0 ]
+		  <p>[att.getValue(s, 'title')/]<input list="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]" name="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">
+	           <datalist id="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">								 	 						 			
+					     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
+		  	      <option value="[a/]">				     
+	                     [/for]
+			   </datalist>
+	      <p>
+		              [/if] <br>
+	               [/if]
+	            [/if] 		     [/for]
 		  [/for]
    </form> 
        [elseif c3.hasStereotype('compositeUIElement') and c3.hasStereotype('form')=false and c3.getValue(s1, 'content').toString().strstr('withinARichAccordion')] 
@@ -447,12 +451,37 @@
 			       [/if]		    					
 			    [/if] [comment fin del multimedia /]
 				[if s.name.toString() = 'externalLink']    					   
-   <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
+   <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
 				[/if] [comment fin del externalLink /]
+				[if s.name.toString() = 'anchor']    					   
+      <a href="[att.getValue(s, 'virtualStateName').toString().toUpperFirst().concat('.php')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
+				[/if] [comment fin del anchor /]
 				[if s.name.toString() = 'text']   					   
-   <p>[att.getValue(s, 'localText')/]</p>
-				[/if]   
-		     [/for]
+      <p[if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.getValue(s, 'localText')/]</p>
+				[/if]  
+			    [if s.name.toString() = 'list']					   
+			       [if att.getValue(s, 'listType').toString().strstr('choice') = true ]		
+			          [if att.getValue(s, 'filter').toString().size() <> 0 ]
+	   	  <fieldset>
+		  <legend>[att.name/]</legend>					 			 								 	 						 			
+					     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
+	  	  <input type="radio" id="[a/]" value="[a/]" name="[att.name/]"> [a.toUpperFirst()/]                  
+					     [/for]
+	   	  </fieldset>					 			 
+		              [/if] <br>
+				   [/if]
+			       [if att.getValue(s, 'listType').toString().strstr('dropBox') = true ]	
+			          [if att.getValue(s, 'filter').toString().size() <> 0 ]
+		  <p>[att.getValue(s, 'title')/]<input list="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]" name="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">
+	           <datalist id="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">								 	 						 			
+					     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
+		  	      <option value="[a/]">				     
+	                     [/for]
+			   </datalist>
+	      <p>
+		              [/if] <br>
+	               [/if]
+	            [/if] 		     [/for]
 		  [/for]
 	   [/if]
          [if c3.getValue(s1, 'content').toString().strstr('withinARichAccordion')]       
@@ -487,7 +516,7 @@
    <div id ="[c3.name.substituteAll(' ', '')/]" >
     [/if]  
     [if c3.hasStereotype('compositeUIElement') and c3.hasStereotype('form') and c3.getValue(s1, 'content').toString().strstr('withinARichTab')] 
-   <form id="[c3.name.substituteAll(' ', '')/]" method="get" action="" "> 
+   <form id="[c3.name.substituteAll(' ', '')/]" method="POST" action="" "> 
 	   [for (att: Property | c3.getAllAttributes()->asSequence())]
 	      [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]
 		       [if s.name.toString() = 'richAutoSuggest']									
@@ -497,7 +526,7 @@
       </p>    					 
 		       [/if] [comment fin del richAutoSuggest /]			  		
 			   [if s.name.toString() = 'richDatePicker']						
-      <p>[att.name.toUpperFirst()/] <input type="text" id="[att.name.substituteAll(' ', '')/]" name="[att.name.substituteAll(' ', '')/]"></p>				 				 
+      <p>[att.name.toUpperFirst()/] <input type="text" id="[att.name.substituteAll(' ', '')/]" name="[att.name.substituteAll(' ', '')/]" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></p>				 				 
 			   [/if] [comment fin del richDatePicker /]	
 	           [if s.name.toString() = 'richFieldLiveValidation']
 				  [comment validacion del tipo password /]
@@ -533,12 +562,12 @@
 	  </p>
 				  
 				  [comment validacion del tipo radio choice/]
-			  	  [elseif att.getValue(s, 'validation').toString().strstr('choiceOptions') = true ]
+			  	  [elseif att.getValue(s, 'validation').toString().strstr('radioChoice') = true ]
 	  <fieldset> 
-	      <legend>[att.getValue(s, 'title')/]</legend>
-				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-		  <label for="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]"[/if]>		 
-  	         <input type="radio" id="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]  [/if]" name="[att.getValue(s, 'title')/]" value="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]  [/if]" [if a.strstr('Required')]required [/if]> [if a.strstr('Required')] [a.toUpperFirst().tokenize(' ')/] [else] [a.toUpperFirst()/] [/if]                  
+	      <legend>[att.name.substituteAll(' ', '').toUpperFirst()/]</legend>
+				     [for (a : String | att.getValue(s, 'choiceOptions').toString().tokenize(',') ) ]
+		  <label for="[if a.strstr('Required')][a.replace(' Required','')/]"[else][a.toString().substituteAll(' ', '')/]"[/if]>		 
+  	         <input type="radio" id="[if a.strstr('Required')][a.replace(' Required','')/]"[else][a/]"[/if] name="[att.name.substituteAll(' ', '')/]" value="[if a.strstr('Required')][a.replace(' Required','')/]"[else][a/]"[/if] [if a.strstr('Required')]required[/if]>[if a.strstr('Required')][a.toUpperFirst().replace(' Required','')/][else][a.toUpperFirst()/][/if]                  
 		  </label>
 				     [/for]
    	  </fieldset>					 			 
@@ -584,37 +613,42 @@
 			       [/if]		    					
 			    [/if] [comment fin del multimedia /]
 				[if s.name.toString() = 'externalLink']    					   
-      <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
+      <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
 				[/if] [comment fin del externalLink /]
+				[if s.name.toString() = 'anchor']    					   
+      <a href="[att.getValue(s, 'virtualStateName').toString().toUpperFirst().concat('.php')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
+				[/if] [comment fin del anchor /]
 				[if s.name.toString() = 'text']   					   
       <p[if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.getValue(s, 'localText')/]</p>
 				[/if]  
 	     		[if s.name.toString() = 'button']        
-      <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
+	  <p>
+	     <input  type="submit" value="[att.name.toUpperFirst()/]">
+	  </p>
 		    	[/if]	
-		    [if s.name.toString() = 'list']					   
-		       [if att.getValue(s, 'listType').toString().strstr('choice') = true ]		
-		          [if att.getValue(s, 'filter').toString().size() <> 0 ]
-   	  <fieldset>
-	  <legend>[att.name/]</legend>					 			 								 	 						 			
-				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-  	  <input type="radio" id="[a/]" value="[a/]" name="[att.name/]"> [a.toUpperFirst()/]                  
-				     [/for]
-   	  </fieldset>					 			 
-	              [/if] <br>
-			   [/if]
-		       [if att.getValue(s, 'listType').toString().strstr('dropBox') = true ]		
-		          [if att.getValue(s, 'filter').toString().size() <> 0 ]
-	  <p>[att.getValue(s, 'title')/]<input list="[att.getValue(s, 'title')/]" name="[att.getValue(s, 'title')/]">
-         <datalist id="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">								 	 						 			
-				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-	  	    <option value="[a/]">				     
-                     [/for]
-		 </datalist>
-      <p>
-	              [/if]
-               [/if]
-            [/if] 
+			    [if s.name.toString() = 'list']					   
+			       [if att.getValue(s, 'listType').toString().strstr('choice') = true ]		
+			          [if att.getValue(s, 'filter').toString().size() <> 0 ]
+	   	  <fieldset>
+		  <legend>[att.name/]</legend>					 			 								 	 						 			
+					     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
+	  	  <input type="radio" id="[a/]" value="[a/]" name="[att.name/]"> [a.toUpperFirst()/]                  
+					     [/for]
+	   	  </fieldset>					 			 
+		              [/if] <br>
+				   [/if]
+			       [if att.getValue(s, 'listType').toString().strstr('dropBox') = true ]	
+			          [if att.getValue(s, 'filter').toString().size() <> 0 ]
+		  <p>[att.getValue(s, 'title')/]<input list="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]" name="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">
+	           <datalist id="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">								 	 						 			
+					     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
+		  	      <option value="[a/]">				     
+	                     [/for]
+			   </datalist>
+	      <p>
+		              [/if] <br>
+	               [/if]
+	            [/if] 
 		 [/for]
 	  [/for]
    </form> 
@@ -658,14 +692,42 @@
 		       [/if]
 		    [/if] [comment fin del 'multimedia' /]
 			[if s.name.toString() = 'externalLink']
-   <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
+   <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
 			[/if]
+			[if s.name.toString() = 'anchor']    					   
+   <a href="[att.getValue(s, 'virtualStateName').toString().toUpperFirst().concat('.php')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
+			[/if] [comment fin del anchor /]
 			[if s.name.toString() = 'text']
-   <p>[att.getValue(s, 'localText')/]</p>
+   <p[if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.getValue(s, 'localText')/]</p>
 			[/if]
 			[if s.name.toString() = 'button']        
-   <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
+   <p>
+	  <input  type="submit" value="[att.name.toUpperFirst()/]">
+   </p>
 			[/if]	
+			    [if s.name.toString() = 'list']					   
+			       [if att.getValue(s, 'listType').toString().strstr('choice') = true ]		
+			          [if att.getValue(s, 'filter').toString().size() <> 0 ]
+	   	  <fieldset>
+		  <legend>[att.name/]</legend>					 			 								 	 						 			
+					     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
+	  	  <input type="radio" id="[a/]" value="[a/]" name="[att.name/]"> [a.toUpperFirst()/]                  
+					     [/for]
+	   	  </fieldset>					 			 
+		              [/if] <br>
+				   [/if]
+			       [if att.getValue(s, 'listType').toString().strstr('dropBox') = true ]	
+			          [if att.getValue(s, 'filter').toString().size() <> 0 ]
+		  <p>[att.getValue(s, 'title')/]<input list="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]" name="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">
+	           <datalist id="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">								 	 						 			
+					     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
+		  	      <option value="[a/]">				     
+	                     [/for]
+			   </datalist>
+	      <p>
+		              [/if] <br>
+	               [/if]
+	            [/if] 
 	     [/for]
 	  [/for]
    [/if]   
@@ -720,22 +782,50 @@
 		       [/if]		    					
 		    [/if] [comment fin del 'multimedia' /]
 			[if s.name.toString() = 'externalLink']
-   <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title= "[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
+   <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title= "[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
 			[/if]
+			[if s.name.toString() = 'anchor']    					   
+   <a href="[att.getValue(s, 'virtualStateName').toString().toUpperFirst().concat('.php')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
+			[/if] [comment fin del anchor /]
 			[if s.name.toString() = 'htmlText']
    [att.getValue(s, 'html')/]
 			[/if]
 			[if s.name.toString() = 'text']
-   <p>[att.getValue(s, 'localText')/]</p>
+   <p[if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.getValue(s, 'localText')/]</p>
 			[/if]
+		    [if s.name.toString() = 'list']					   
+		       [if att.getValue(s, 'listType').toString().strstr('choice') = true ]		
+		          [if att.getValue(s, 'filter').toString().size() <> 0 ]
+   	  <fieldset>
+	  <legend>[att.name/]</legend>					 			 								 	 						 			
+				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
+  	  <input type="radio" id="[a/]" value="[a/]" name="[att.name/]"> [a.toUpperFirst()/]                  
+				     [/for]
+   	  </fieldset>					 			 
+	              [/if] <br>
+			   [/if]
+		       [if att.getValue(s, 'listType').toString().strstr('dropBox') = true ]	
+		          [if att.getValue(s, 'filter').toString().size() <> 0 ]
+	  <p>[att.getValue(s, 'title')/]<input list="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]" name="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">
+           <datalist id="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">								 	 						 			
+				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
+	  	      <option value="[a/]">				     
+                     [/for]
+		   </datalist>
+      <p>
+	              [/if] <br>
+               [/if]
+            [/if] 
 			[if s.name.toString() = 'button']        
-   <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
+	  <p>
+	     <input  type="submit" value="[att.name.toUpperFirst()/]">
+	  </p>			
 			[/if]			
 	     [/for]
       [/for]
 </div>
    [elseif  s1.name.toString() = 'form'  and c2.getValue(s1, 'content').toString().strstr('outsideAPanel')] 
-<form  id="[c2.name.substituteAll(' ', '') /]" method="get" action="">
+<form  id="[c2.name.substituteAll(' ', '') /]" method="POST" action="">
    <fieldset>
 	     [for (att: Property | c2.getAllAttributes()->asSequence())]
 		    [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]      
@@ -746,7 +836,7 @@
       </p>     					 
 		       [/if] [comment fin del richAutoSuggest /]			  		
 			   [if s.name.toString() = 'richDatePicker']						
-      <p>[att.name.toUpperFirst()/] <input type="text" id="[att.name.substituteAll(' ', '')/]" name="[att.name.substituteAll(' ', '')/]"></p>				 				 
+      <p>[att.name.toUpperFirst()/] <input type="text" id="[att.name.substituteAll(' ', '')/]" name="[att.name.substituteAll(' ', '')/]" [if att.getValue(s, 'title').toString().size() <> 0] title="[att.getValue(s, 'title').toString()/]"[/if]></p>				 				 
 			   [/if] [comment fin del richDatePicker /]	
 	           [if s.name.toString() = 'richFieldLiveValidation']
 				  [comment validacion del tipo password /]
@@ -782,12 +872,12 @@
 	  </p>
 				  
 				  [comment validacion del tipo radio choice/]
-			  	  [elseif att.getValue(s, 'validation').toString().strstr('choiceOptions') = true ]
+			  	  [elseif att.getValue(s, 'validation').toString().strstr('radioChoice') = true ]
 	  <fieldset> 
-	      <legend>[att.getValue(s, 'title')/]</legend>
-				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-		  <label for="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]"[/if]>		 
-  	         <input type="radio" id="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]  [/if]" name="[att.getValue(s, 'title')/]" value="[if a.strstr('Required')] [a.tokenize(' ')/] [else] [a/]  [/if]" [if a.strstr('Required')]required [/if]> [if a.strstr('Required')] [a.toUpperFirst().tokenize(' ')/] [else] [a.toUpperFirst()/] [/if]                  
+	      <legend>[att.name.substituteAll(' ', '').toUpperFirst()/]</legend>
+				     [for (a : String | att.getValue(s, 'choiceOptions').toString().tokenize(',') ) ]
+		  <label for="[if a.strstr('Required')][a.replace(' Required','')/]"[else][a.toString().substituteAll(' ', '')/]"[/if]>		 
+  	         <input type="radio" id="[if a.strstr('Required')][a.replace(' Required','')/]"[else][a/]"[/if] name="[att.name.substituteAll(' ', '')/]" value="[if a.strstr('Required')][a.replace(' Required','')/]"[else][a/]"[/if] [if a.strstr('Required')]required[/if]>[if a.strstr('Required')][a.toUpperFirst().replace(' Required','')/][else][a.toUpperFirst()/][/if]                  
 		  </label>
 				     [/for]
    	  </fieldset>					 			 
@@ -833,37 +923,42 @@
 			       [/if]		    					
 			    [/if] [comment fin del multimedia /]
 				[if s.name.toString() = 'externalLink']    					   
-      <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name/]</a>
+      <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
 				[/if] [comment fin del externalLink /]
+				[if s.name.toString() = 'anchor']    					   
+      <a href="[att.getValue(s, 'virtualStateName').toString().toUpperFirst().concat('.php')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
+				[/if] [comment fin del anchor /]
 				[if s.name.toString() = 'text']   					   
       <p[if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.getValue(s, 'localText')/]</p>
 				[/if]  
 	     		[if s.name.toString() = 'button']        
-      <button type="button" onclick="alert('Hello world!')">[att.name.toUpperFirst()/]</button>
+	  <p>
+	     <input  type="submit" value="[att.name.toUpperFirst()/]">
+	  </p>
 		    	[/if]	
-		    [if s.name.toString() = 'list']					   
-		       [if att.getValue(s, 'listType').toString().strstr('choice') = true ]		
-		          [if att.getValue(s, 'filter').toString().size() <> 0 ]
-   	  <fieldset>
-	  <legend>[att.name/]</legend>					 			 								 	 						 			
-				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-  	  <input type="radio" id="[a/]" value="[a/]" name="[att.name/]"> [a.toUpperFirst()/]                  
-				     [/for]
-   	  </fieldset>					 			 
-	              [/if] <br>
-			   [/if]
-		       [if att.getValue(s, 'listType').toString().strstr('dropBox') = true ]		
-		          [if att.getValue(s, 'filter').toString().size() <> 0 ]
-	  <p>[att.getValue(s, 'title')/]<input list="[att.getValue(s, 'title')/]" name="[att.getValue(s, 'title')/]">
-           <datalist id="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">								 	 						 			
-				     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
-	  	      <option value="[a/]">				     
-                     [/for]
-		   </datalist>
-      <p>
-	              [/if]
-               [/if]
-            [/if] 
+			    [if s.name.toString() = 'list']					   
+			       [if att.getValue(s, 'listType').toString().strstr('choice') = true ]		
+			          [if att.getValue(s, 'filter').toString().size() <> 0 ]
+	   	  <fieldset>
+		  <legend>[att.name/]</legend>					 			 								 	 						 			
+					     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
+	  	  <input type="radio" id="[a/]" value="[a/]" name="[att.name/]"> [a.toUpperFirst()/]                  
+					     [/for]
+	   	  </fieldset>					 			 
+		              [/if] <br>
+				   [/if]
+			       [if att.getValue(s, 'listType').toString().strstr('dropBox') = true ]	
+			          [if att.getValue(s, 'filter').toString().size() <> 0 ]
+		  <p>[att.getValue(s, 'title')/]<input list="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]" name="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">
+	           <datalist id="[att.getValue(s, 'title').toString().substituteAll(' ', '')/]">								 	 						 			
+					     [for (a : String | att.getValue(s, 'filter').toString().tokenize(',') ) ]
+		  	      <option value="[a/]">				     
+	                     [/for]
+			   </datalist>
+	      <p>
+		              [/if] <br>
+	               [/if]
+	            [/if] 
 		  [/for]
 	   [/for]
    </fieldset>
