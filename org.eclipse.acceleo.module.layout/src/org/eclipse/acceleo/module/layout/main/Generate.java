@@ -42,7 +42,7 @@ public class Generate extends AbstractAcceleoGenerator {
      *
      * @generated
      */
-    public static final String[] TEMPLATE_NAMES = { "generateLayout" };
+    public static final String[] TEMPLATE_NAMES = { "generateElement" };
     
     /**
      * The list of properties files from the launch parameters (Launch configuration).

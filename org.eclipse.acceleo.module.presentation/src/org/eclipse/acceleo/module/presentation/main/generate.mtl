@@ -6,7 +6,7 @@
 [template public generateElement(c : Class)]
 [comment @main/]
 [if c.hasStereotype('presentationPage') ]
-	[file (c.name.concat('.php'), false, 'UTF-8')]
+	[file (c.name.concat('.html'), false, 'UTF-8')]
 <!doctype html>
 <html lang="en">
 <head>
@@ -41,9 +41,10 @@
    			[/for]
 		[/for]
 [comment codigo js para el widget  fieldLiveValidation
-(para validacion de m谩s de 1 campo. Primeramente la definici贸n de la 
-funci贸n principal y sus reglas.
+(para validacion de m醩 de 1 campo. Primeramente la definici髇 de la 
+funci髇 principal y sus reglas.
 Primeramente las reglas/]
+//[protected (c.name.concat(' Reglas y Mensajes'))]
 [for (c2: Class | c.followingSiblings(Class))]
 [for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]
 [if s1.name.toString() = 'form' and c2.getValue(s1, 'validate') = true]
@@ -78,7 +79,7 @@ Primeramente las reglas/]
                      [if att.getValue(s,'maxLength').toString().toInteger() <> 0]
 	     maxlength: [att.getValue(s,'maxLength').toString().toInteger()/],			
                     [/if]	
-	     equalTo: "#[att.name/]"
+	     equalTo: "#[att.name.substituteAll(' ', '')/]"
 	  },
                   [/if]
                [elseif att.getValue(s, 'validation').toString().strstr('email') = true]
@@ -110,7 +111,7 @@ Primeramente las reglas/]
                   [/if]	
 	  },
                [elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true]
-	     agree: "required"
+	  [att.name.substituteAll(' ', '')/]: "required",
                [/if]   
 		    [/if]
 	     [/for]
@@ -118,9 +119,9 @@ Primeramente las reglas/]
    },
 [/if]
 [/for]
-[/for] [comment Fin de la generaci贸n de las reglas para el fieldLiveValidation (para validacion de m谩s de un campo /]
+[/for] [comment Fin de la generaci髇 de las reglas para el fieldLiveValidation (para validacion de m醩 de un campo /]
 [comment codigo js para el widget  fieldLiveValidation (para validacion 
-de m谩s de 1 campo. Definici贸n de las reglas y cierre de la funci贸n 
+de m醩 de 1 campo. Definici髇 de las reglas y cierre de la funci髇 
 principal./]
 [for (c2: Class | c.followingSiblings(Class))]
 [for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]
@@ -137,7 +138,7 @@ principal./]
                   [if att.getValue(s,'minLength').toString().toInteger() <> 0]
 	     minlength: "El [att.name/] debe tener al menos [att.getValue(s,'minLength')/] caracteres de longitud",
 			      [/if]
-                  [if att.getValue(s,'maxlength').toString().toInteger() <> 0]
+                  [if att.getValue(s,'maxLength').toString().toInteger() <> 0]
 	     maxlength: "El [att.name/] debe tener como m&aacuteximo [att.getValue(s,'maxlength')/] caracteres de longitud",
 			      [/if]				  
 
@@ -150,10 +151,10 @@ principal./]
 			         [if att.getValue(s,'minLength').toString().toInteger() <> 0]
 	     minlength: "El [att.name.substituteAll(' ', '')/] debe tener al menos [att.getValue(s,'minLength')/] caracteres de longitud",
                      [/if]
-                     [if att.getValue(s,'maxlength').toString().toInteger() <> 0]
+                     [if att.getValue(s,'maxLength').toString().toInteger() <> 0]
 	     maxlength: "El [att.name/] debe tener como m&aacuteximo [att.getValue(s,'maxlength')/] caracteres de longitud",
 			         [/if]	
-	     equalTo: "Por favor ingrese el mismo password"
+	     equalTo: "Por favor ingrese la misma clave"
 				  [/if]
 	  },
                [elseif att.getValue(s, 'validation').toString().strstr('email') = true ]
@@ -164,7 +165,7 @@ principal./]
 			      [if att.getValue(s,'minLength').toString().toInteger() <> 0]
 	     minlength: "El [att.name.substituteAll(' ', '')/] debe tener al menos [att.getValue(s,'minLength')/] caracteres de longitud",
                   [/if]
-                  [if att.getValue(s,'maxlength').toString().toInteger() <> 0]
+                  [if att.getValue(s,'maxLength').toString().toInteger() <> 0]
 	     maxlength: "El [att.name/] debe tener como m&aacuteximo [att.getValue(s,'maxlength')/] caracteres de longitud",
 			      [/if]	
 	     email: "Por favor ingrese una direcci&oacuten de email valida"
@@ -175,17 +176,17 @@ principal./]
 	     required: "Por favor ingrese un [att.name.toUpperFirst()/]",
                   [/if] 
 				  [if att.getValue(s,'digits') = true] 
-	     digits: "Por favor ingresesolamente digitos del 0 al 9",
+	     digits: "Por favor ingrese solamente digitos del 0 al 9",
   			   	  [/if]
 			      [if att.getValue(s,'minLength').toString().toInteger() <> 0]
 	     minlength: "El [att.name/] debe tener al menos [att.getValue(s,'minLength')/] caracteres de longitud",
                   [/if]
-                  [if att.getValue(s,'maxlength').toString().toInteger() <> 0]
+                  [if att.getValue(s,'maxLength').toString().toInteger() <> 0]
 	     maxlength: "El [att.name/] debe tener como m&aacuteximo [att.getValue(s,'maxlength')/] caracteres de longitud",
 			      [/if]	
 	  },
                [elseif att.getValue(s, 'validation').toString().strstr('agreeCheck') = true ]
-	     agree: "Favor aceptar nuestra pol&iacutetica de acuerdo"               
+	  [att.name.substituteAll(' ', '')/]: "Favor aceptar nuestra pol&iacutetica de acuerdo",            
                [/if]
 			[/if]
 	     [/for]
@@ -195,9 +196,9 @@ principal./]
 });
 [/if]
 [/for]
-[/for] [comment Fin de la generaci贸n de los mensajes  y la funci贸n principal
-       para el fieldLiveValidation (para validacion de m谩s de un campo /]
-
+[/for] [comment Fin de la generaci髇 de los mensajes  y la funci髇 principal
+       para el fieldLiveValidation (para validacion de m醩 de un campo /]
+//[ /protected]
 		[comment codigo js para los widget autoSuggest, datepicker tooltip/]
 		[for  (c2: Class | c.followingSiblings(Class))]
 			[for (att: Property | c2.getAllAttributes()->asSequence())]
@@ -260,12 +261,12 @@ principal./]
 	        		[/if]      			  				  	
 	     		[/for]
       		[/for]
-		[/for] [comment fin de la geenaraci脙鲁n .js para el richAutoSuggest, richDatePicket y el richToolTip  /] 
-</script>  [comment fin de la generaci脙鲁n del codigo .js /]
+		[/for] [comment fin de la geenaraci贸n .js para el richAutoSuggest, richDatePicket y el richToolTip  /] 
+</script>  [comment fin de la generaci贸n del codigo .js /]
 
-[comment generaci贸n del body para el html /]
+[comment generaci髇 del body para el html /]
 <body>
-[comment generaci贸n de contenido para el richAccordeon /]
+[comment generaci髇 de contenido para el richAccordeon /]
 [for (c2: Class | c.followingSiblings(Class))]
    [if c2.hasStereotype('richAccordion') ]
 <div id="[c2.name.substituteAll(' ', '') /]">
@@ -276,7 +277,7 @@ principal./]
    <div>
          [/if]     	
          [if c3.hasStereotype('compositeUIElement') and c3.hasStereotype('form') and c3.getValue(s1, 'content').toString().strstr('withinARichAccordion')] 
-   <form id="[c3.name.substituteAll(' ', '').toLowerFirst()/]" method="POST" action="" "> 
+   <form id="[c3.name.substituteAll(' ', '').toLowerFirst()/]" method="POST" action="[for (att: Property | c3.getAllAttributes()->asSequence())][for (s: Stereotype | att.getAppliedStereotypes()->asSequence())][if s.name.toString() = 'anchor'][att.getValue(s, 'virtualStateName').toString().toUpperFirst().concat('.php')/][/if][/for][/for]"> 
 	     [for (att: Property | c3.getAllAttributes()->asSequence())]
 		    [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]      
 		       [if s.name.toString() = 'richAutoSuggest']									
@@ -299,7 +300,7 @@ principal./]
 			         [if att.getValue(s,'confirmPass') = true]
 	  <p>
 	     <label for="confirm_[att.name/]">Confirm [att.name.toUpperFirst()/]</label>
-		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name.substituteAll(' ', '')/]" type="password" 
+		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="confirm_[att.name.substituteAll(' ', '')/]" type="password" 
 	  </p>
 				     [/if]
 				  [comment validacion del tipo email /]
@@ -375,9 +376,6 @@ principal./]
 				[if s.name.toString() = 'externalLink']    					   
       <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
 				[/if] [comment fin del externalLink /]
-				[if s.name.toString() = 'anchor']    					   
-      <a href="[att.getValue(s, 'virtualStateName').toString().toUpperFirst().concat('.php')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
-				[/if] [comment fin del anchor /]
 				[if s.name.toString() = 'text']   					   
       <p[if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.getValue(s, 'localText')/]</p>
 				[/if]  
@@ -491,8 +489,8 @@ principal./]
       [/for]
 </div>
    [/if]
-[/for] [comment fin de la generaci贸n de contenido para el richAccordeon /]
-[comment generaci贸n de contenido para el richTabs - Las pesta帽as /]
+[/for] [comment fin de la generaci髇 de contenido para el richAccordeon /]
+[comment generaci髇 de contenido para el richTabs - Las pesta馻s /]
 [for (c2: Class | c.followingSiblings(Class))]
 	[if c2.hasStereotype('richTabs')]
 <div id="[c2.name.substituteAll(' ', '') /]">
@@ -506,8 +504,8 @@ principal./]
       [/for]
    </ul>
     [/if]
-[/for] [comment fin generaci贸n de contenido para el richTabs - Las pesta帽as /]
-[comment generaci贸n de contenido para el richTabs - El contenido de las pesta帽as /]
+[/for] [comment fin generaci髇 de contenido para el richTabs - Las pesta馻s /]
+[comment generaci髇 de contenido para el richTabs - El contenido de las pesta馻s /]
 [for (c2: Class | c.followingSiblings(Class))]
 	[if c2.hasStereotype('richTabs') ]   
 	[for (s1: Stereotype | c2.getAppliedStereotypes()->asSequence())]
@@ -516,7 +514,7 @@ principal./]
    <div id ="[c3.name.substituteAll(' ', '')/]" >
     [/if]  
     [if c3.hasStereotype('compositeUIElement') and c3.hasStereotype('form') and c3.getValue(s1, 'content').toString().strstr('withinARichTab')] 
-   <form id="[c3.name.substituteAll(' ', '').toLowerFirst()/]" method="POST" action="" "> 
+   <form id="[c3.name.substituteAll(' ', '').toLowerFirst()/]" method="POST" action="[for (att: Property | c3.getAllAttributes()->asSequence())][for (s: Stereotype | att.getAppliedStereotypes()->asSequence())][if s.name.toString() = 'anchor'][att.getValue(s, 'virtualStateName').toString().toUpperFirst().concat('.php')/][/if][/for][/for]"> 
 	   [for (att: Property | c3.getAllAttributes()->asSequence())]
 	      [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]
 		       [if s.name.toString() = 'richAutoSuggest']									
@@ -538,8 +536,8 @@ principal./]
 					 [comment si el tagged value confirmPass esta definido /]
 			         [if att.getValue(s,'confirmPass') = true]
 	  <p>
-	     <label for="confirm_[att.name/]">Confirm [att.name.toUpperFirst()/]</label>
-		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="[att.name.substituteAll(' ', '')/]" type="password" 
+	     <label for="confirm_[att.name/]">Confirmar [att.name.toUpperFirst()/]</label>
+		 <input id="confirm_[att.name.substituteAll(' ', '')/]" name="confirm_[att.name.substituteAll(' ', '')/]" type="password" 
 	  </p>
 				     [/if]
 				  [comment validacion del tipo email /]
@@ -615,9 +613,6 @@ principal./]
 				[if s.name.toString() = 'externalLink']    					   
       <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
 				[/if] [comment fin del externalLink /]
-				[if s.name.toString() = 'anchor']    					   
-      <a href="[att.getValue(s, 'virtualStateName').toString().toUpperFirst().concat('.php')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
-				[/if] [comment fin del anchor /]
 				[if s.name.toString() = 'text']   					   
       <p[if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.getValue(s, 'localText')/]</p>
 				[/if]  
@@ -825,7 +820,7 @@ principal./]
       [/for]
 </div>
    [elseif  s1.name.toString() = 'form'  and c2.getValue(s1, 'content').toString().strstr('independent')] 
-<form  id="[c2.name.substituteAll(' ', '').toLowerFirst() /]" method="POST" action="">
+<form  id="[c2.name.substituteAll(' ', '').toLowerFirst() /]" method="POST" action="[for (att: Property | c2.getAllAttributes()->asSequence())][for (s: Stereotype | att.getAppliedStereotypes()->asSequence())][if s.name.toString() = 'anchor'][att.getValue(s, 'virtualStateName').toString().toUpperFirst().concat('.php')/][/if][/for][/for]">
    <fieldset>
 	     [for (att: Property | c2.getAllAttributes()->asSequence())]
 		    [for (s: Stereotype | att.getAppliedStereotypes()->asSequence())]      
@@ -925,9 +920,6 @@ principal./]
 				[if s.name.toString() = 'externalLink']    					   
       <a href="[att.getValue(s, 'url')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
 				[/if] [comment fin del externalLink /]
-				[if s.name.toString() = 'anchor']    					   
-      <a href="[att.getValue(s, 'virtualStateName').toString().toUpperFirst().concat('.php')/]" [if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.name.toUpperFirst()/]</a>
-				[/if] [comment fin del anchor /]
 				[if s.name.toString() = 'text']   					   
       <p[if att.getValue(s, 'title').toString().size() <> 0 ] title="[att.getValue(s, 'title')/]" [/if]>[att.getValue(s, 'localText')/]</p>
 				[/if]  

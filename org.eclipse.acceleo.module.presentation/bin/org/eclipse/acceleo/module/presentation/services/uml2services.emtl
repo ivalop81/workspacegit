@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="Cp1252"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:mtl="http://www.eclipse.org/acceleo/mtl/3.0" xmlns:ocl.ecore="http://www.eclipse.org/ocl/1.1.0/Ecore">
-  <mtl:Module name="uml2services" nsURI="org::eclipse::acceleo::module::presentation::services::uml2services" startHeaderPosition="75" endHeaderPosition="136">
-    <documentation xsi:type="mtl:ModuleDocumentation">
-      <body startPosition="33" endPosition="72" value="&#xD;&#xA;The documentation of the module.&#xD;&#xA;&#xD;&#xA;"/>
-    </documentation>
+  <mtl:Module name="uml2services" nsURI="org::eclipse::acceleo::module::presentation::services::uml2services" startHeaderPosition="30" endHeaderPosition="91">
     <input>
       <takesTypesFrom href="http://www.eclipse.org/uml2/4.0.0/UML#/"/>
     </input>
     <ownedModuleElement xsi:type="mtl:Query" name="hasStereotype" visibility="Public">
-      <documentation xsi:type="mtl:ModuleElementDocumentation">
-        <body startPosition="143" endPosition="210" value="&#xD;&#xA;The documentation of the query&#xD;&#xA;@param arg0&#xD;&#xA;@param arg1&#xD;&#xA;&#xD;&#xA;"/>
-        <parametersDocumentation name="arg0">
-          <body value=""/>
-        </parametersDocumentation>
-        <parametersDocumentation name="arg1">
-          <body value=""/>
-        </parametersDocumentation>
-      </documentation>
       <parameter name="arg0">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Class"/>
       </parameter>
@@ -52,18 +40,6 @@
       <type xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
     </ownedModuleElement>
     <ownedModuleElement xsi:type="mtl:Query" name="getTaggedValue" visibility="Public" type="/3/Sequence(OclAny)">
-      <documentation xsi:type="mtl:ModuleElementDocumentation">
-        <body startPosition="447" endPosition="529" value="&#xD;&#xA;The documentation of the query&#xD;&#xA;@param arg0&#xD;&#xA;@param arg1&#xD;&#xA;@param arg2&#xD;&#xA;&#xD;&#xA;"/>
-        <parametersDocumentation name="arg0">
-          <body value=""/>
-        </parametersDocumentation>
-        <parametersDocumentation name="arg1">
-          <body value=""/>
-        </parametersDocumentation>
-        <parametersDocumentation name="arg2">
-          <body value=""/>
-        </parametersDocumentation>
-      </documentation>
       <parameter name="arg0">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Element"/>
       </parameter>
@@ -107,15 +83,6 @@
       </expression>
     </ownedModuleElement>
     <ownedModuleElement xsi:type="mtl:Query" name="getStereotype" visibility="Public">
-      <documentation xsi:type="mtl:ModuleElementDocumentation">
-        <body startPosition="839" endPosition="906" value="&#xD;&#xA;The documentation of the query&#xD;&#xA;@param arg0&#xD;&#xA;@param arg1&#xD;&#xA;&#xD;&#xA;"/>
-        <parametersDocumentation name="arg0">
-          <body value=""/>
-        </parametersDocumentation>
-        <parametersDocumentation name="arg1">
-          <body value=""/>
-        </parametersDocumentation>
-      </documentation>
       <parameter name="arg0">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Element"/>
       </parameter>
@@ -151,18 +118,6 @@
       <type xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Stereotype"/>
     </ownedModuleElement>
     <ownedModuleElement xsi:type="mtl:Query" name="getValue" visibility="Public">
-      <documentation xsi:type="mtl:ModuleElementDocumentation">
-        <body startPosition="1150" endPosition="1232" value="&#xD;&#xA;The documentation of the query&#xD;&#xA;@param arg0&#xD;&#xA;@param arg1&#xD;&#xA;@param arg2&#xD;&#xA;&#xD;&#xA;"/>
-        <parametersDocumentation name="arg0">
-          <body value=""/>
-        </parametersDocumentation>
-        <parametersDocumentation name="arg1">
-          <body value=""/>
-        </parametersDocumentation>
-        <parametersDocumentation name="arg2">
-          <body value=""/>
-        </parametersDocumentation>
-      </documentation>
       <parameter name="arg0">
         <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/uml2/4.0.0/UML#//Element"/>
       </parameter>
@@ -374,299 +329,224 @@
     <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
   </ocl.ecore:Variable>
   <ecore:EAnnotation source="positions">
-    <eAnnotations source="positions.0" references="/0/%">
-      <details key="start" value="30"/>
-      <details key="end" value="74"/>
+    <eAnnotations source="positions.0" references="/0/hasStereotype">
+      <details key="start" value="95"/>
+      <details key="end" value="324"/>
+      <details key="line" value="4"/>
+    </eAnnotations>
+    <eAnnotations source="positions.1" references="/0/hasStereotype/arg0">
+      <details key="start" value="123"/>
+      <details key="end" value="135"/>
+      <details key="line" value="4"/>
+    </eAnnotations>
+    <eAnnotations source="positions.2" references="/0/hasStereotype/arg1">
+      <details key="start" value="137"/>
+      <details key="end" value="150"/>
+      <details key="line" value="4"/>
+    </eAnnotations>
+    <eAnnotations source="positions.3" references="/0/hasStereotype/%">
+      <details key="start" value="165"/>
+      <details key="end" value="321"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.1" references="/0/hasStereotype">
-      <details key="start" value="213"/>
-      <details key="end" value="442"/>
-      <details key="line" value="12"/>
-    </eAnnotations>
-    <eAnnotations source="positions.2" references="/0/hasStereotype/%">
-      <details key="start" value="140"/>
-      <details key="end" value="212"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.3" references="/0/hasStereotype/%/arg0">
+    <eAnnotations source="positions.4" references="/0/hasStereotype/%/self">
       <details key="start" value="-1"/>
       <details key="end" value="-1"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.4" references="/0/hasStereotype/%/arg1">
-      <details key="start" value="-1"/>
-      <details key="end" value="-1"/>
+    <eAnnotations source="positions.5" references="/0/hasStereotype/%/%">
+      <details key="start" value="172"/>
+      <details key="end" value="235"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.5" references="/0/hasStereotype/arg0">
-      <details key="start" value="241"/>
-      <details key="end" value="253"/>
-      <details key="line" value="12"/>
-    </eAnnotations>
-    <eAnnotations source="positions.6" references="/0/hasStereotype/arg1">
-      <details key="start" value="255"/>
-      <details key="end" value="268"/>
-      <details key="line" value="12"/>
-    </eAnnotations>
-    <eAnnotations source="positions.7" references="/0/hasStereotype/%.1">
-      <details key="start" value="283"/>
-      <details key="end" value="439"/>
+    <eAnnotations source="positions.6" references="/0/hasStereotype/%/%.1">
+      <details key="start" value="237"/>
+      <details key="end" value="298"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.8" references="/0/hasStereotype/%.1/self">
-      <details key="start" value="-1"/>
-      <details key="end" value="-1"/>
+    <eAnnotations source="positions.7" references="/0/hasStereotype/%/%.2">
+      <details key="start" value="300"/>
+      <details key="end" value="320"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.9" references="/0/hasStereotype/%.1/%">
-      <details key="start" value="290"/>
-      <details key="end" value="353"/>
+    <eAnnotations source="positions.8" references="/0/hasStereotype/%/%.2/%/arg0">
+      <details key="start" value="309"/>
+      <details key="end" value="313"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.10" references="/0/hasStereotype/%.1/%.1">
+    <eAnnotations source="positions.9" references="/0/hasStereotype/%/%.2/%.1/arg1">
+      <details key="start" value="315"/>
+      <details key="end" value="319"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.10" references="/0/getTaggedValue">
+      <details key="start" value="326"/>
+      <details key="end" value="628"/>
+      <details key="line" value="8"/>
+    </eAnnotations>
+    <eAnnotations source="positions.11" references="/0/getTaggedValue/arg0">
       <details key="start" value="355"/>
-      <details key="end" value="416"/>
-      <details key="line" value="0"/>
+      <details key="end" value="369"/>
+      <details key="line" value="8"/>
     </eAnnotations>
-    <eAnnotations source="positions.11" references="/0/hasStereotype/%.1/%.2">
-      <details key="start" value="418"/>
-      <details key="end" value="438"/>
-      <details key="line" value="0"/>
+    <eAnnotations source="positions.12" references="/0/getTaggedValue/arg1">
+      <details key="start" value="371"/>
+      <details key="end" value="388"/>
+      <details key="line" value="8"/>
     </eAnnotations>
-    <eAnnotations source="positions.12" references="/0/hasStereotype/%.1/%.2/%/arg0">
+    <eAnnotations source="positions.13" references="/0/getTaggedValue/arg2">
+      <details key="start" value="390"/>
+      <details key="end" value="403"/>
+      <details key="line" value="8"/>
+    </eAnnotations>
+    <eAnnotations source="positions.14" references="/0/getTaggedValue/%">
       <details key="start" value="427"/>
-      <details key="end" value="431"/>
+      <details key="end" value="625"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.13" references="/0/hasStereotype/%.1/%.2/%.1/arg1">
-      <details key="start" value="433"/>
-      <details key="end" value="437"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.14" references="/0/getTaggedValue">
-      <details key="start" value="532"/>
-      <details key="end" value="834"/>
-      <details key="line" value="22"/>
-    </eAnnotations>
-    <eAnnotations source="positions.15" references="/0/getTaggedValue/%">
-      <details key="start" value="444"/>
-      <details key="end" value="531"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.16" references="/0/getTaggedValue/%/arg0">
+    <eAnnotations source="positions.15" references="/0/getTaggedValue/%/self">
       <details key="start" value="-1"/>
       <details key="end" value="-1"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.17" references="/0/getTaggedValue/%/arg1">
-      <details key="start" value="-1"/>
-      <details key="end" value="-1"/>
+    <eAnnotations source="positions.16" references="/0/getTaggedValue/%/%">
+      <details key="start" value="434"/>
+      <details key="end" value="497"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.18" references="/0/getTaggedValue/%/arg2">
-      <details key="start" value="-1"/>
-      <details key="end" value="-1"/>
+    <eAnnotations source="positions.17" references="/0/getTaggedValue/%/%.1">
+      <details key="start" value="499"/>
+      <details key="end" value="596"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.19" references="/0/getTaggedValue/arg0">
-      <details key="start" value="561"/>
-      <details key="end" value="575"/>
-      <details key="line" value="22"/>
-    </eAnnotations>
-    <eAnnotations source="positions.20" references="/0/getTaggedValue/arg1">
-      <details key="start" value="577"/>
-      <details key="end" value="594"/>
-      <details key="line" value="22"/>
-    </eAnnotations>
-    <eAnnotations source="positions.21" references="/0/getTaggedValue/arg2">
-      <details key="start" value="596"/>
-      <details key="end" value="609"/>
-      <details key="line" value="22"/>
-    </eAnnotations>
-    <eAnnotations source="positions.22" references="/0/getTaggedValue/%.1">
-      <details key="start" value="633"/>
-      <details key="end" value="831"/>
+    <eAnnotations source="positions.18" references="/0/getTaggedValue/%/%.2">
+      <details key="start" value="598"/>
+      <details key="end" value="624"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.23" references="/0/getTaggedValue/%.1/self">
-      <details key="start" value="-1"/>
-      <details key="end" value="-1"/>
+    <eAnnotations source="positions.19" references="/0/getTaggedValue/%/%.2/%/arg0">
+      <details key="start" value="607"/>
+      <details key="end" value="611"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.24" references="/0/getTaggedValue/%.1/%">
-      <details key="start" value="640"/>
-      <details key="end" value="703"/>
+    <eAnnotations source="positions.20" references="/0/getTaggedValue/%/%.2/%.1/arg1">
+      <details key="start" value="613"/>
+      <details key="end" value="617"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.25" references="/0/getTaggedValue/%.1/%.1">
+    <eAnnotations source="positions.21" references="/0/getTaggedValue/%/%.2/%.2/arg2">
+      <details key="start" value="619"/>
+      <details key="end" value="623"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.22" references="/0/getStereotype">
+      <details key="start" value="630"/>
+      <details key="end" value="866"/>
+      <details key="line" value="12"/>
+    </eAnnotations>
+    <eAnnotations source="positions.23" references="/0/getStereotype/arg0">
+      <details key="start" value="658"/>
+      <details key="end" value="672"/>
+      <details key="line" value="12"/>
+    </eAnnotations>
+    <eAnnotations source="positions.24" references="/0/getStereotype/arg1">
+      <details key="start" value="674"/>
+      <details key="end" value="687"/>
+      <details key="line" value="12"/>
+    </eAnnotations>
+    <eAnnotations source="positions.25" references="/0/getStereotype/%">
       <details key="start" value="705"/>
-      <details key="end" value="802"/>
+      <details key="end" value="863"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.26" references="/0/getTaggedValue/%.1/%.2">
-      <details key="start" value="804"/>
-      <details key="end" value="830"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.27" references="/0/getTaggedValue/%.1/%.2/%/arg0">
-      <details key="start" value="813"/>
-      <details key="end" value="817"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.28" references="/0/getTaggedValue/%.1/%.2/%.1/arg1">
-      <details key="start" value="819"/>
-      <details key="end" value="823"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.29" references="/0/getTaggedValue/%.1/%.2/%.2/arg2">
-      <details key="start" value="825"/>
-      <details key="end" value="829"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.30" references="/0/getStereotype">
-      <details key="start" value="909"/>
-      <details key="end" value="1145"/>
-      <details key="line" value="31"/>
-    </eAnnotations>
-    <eAnnotations source="positions.31" references="/0/getStereotype/%">
-      <details key="start" value="836"/>
-      <details key="end" value="908"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.32" references="/0/getStereotype/%/arg0">
+    <eAnnotations source="positions.26" references="/0/getStereotype/%/self">
       <details key="start" value="-1"/>
       <details key="end" value="-1"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.33" references="/0/getStereotype/%/arg1">
+    <eAnnotations source="positions.27" references="/0/getStereotype/%/%">
+      <details key="start" value="712"/>
+      <details key="end" value="775"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.28" references="/0/getStereotype/%/%.1">
+      <details key="start" value="777"/>
+      <details key="end" value="840"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.29" references="/0/getStereotype/%/%.2">
+      <details key="start" value="842"/>
+      <details key="end" value="862"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.30" references="/0/getStereotype/%/%.2/%/arg0">
+      <details key="start" value="851"/>
+      <details key="end" value="855"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.31" references="/0/getStereotype/%/%.2/%.1/arg1">
+      <details key="start" value="857"/>
+      <details key="end" value="861"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.32" references="/0/getValue">
+      <details key="start" value="868"/>
+      <details key="end" value="1129"/>
+      <details key="line" value="16"/>
+    </eAnnotations>
+    <eAnnotations source="positions.33" references="/0/getValue/arg0">
+      <details key="start" value="891"/>
+      <details key="end" value="905"/>
+      <details key="line" value="16"/>
+    </eAnnotations>
+    <eAnnotations source="positions.34" references="/0/getValue/arg1">
+      <details key="start" value="907"/>
+      <details key="end" value="920"/>
+      <details key="line" value="16"/>
+    </eAnnotations>
+    <eAnnotations source="positions.35" references="/0/getValue/arg2">
+      <details key="start" value="922"/>
+      <details key="end" value="935"/>
+      <details key="line" value="16"/>
+    </eAnnotations>
+    <eAnnotations source="positions.36" references="/0/getValue/%">
+      <details key="start" value="949"/>
+      <details key="end" value="1126"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.37" references="/0/getValue/%/self">
       <details key="start" value="-1"/>
       <details key="end" value="-1"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.34" references="/0/getStereotype/arg0">
-      <details key="start" value="937"/>
-      <details key="end" value="951"/>
-      <details key="line" value="31"/>
-    </eAnnotations>
-    <eAnnotations source="positions.35" references="/0/getStereotype/arg1">
-      <details key="start" value="953"/>
-      <details key="end" value="966"/>
-      <details key="line" value="31"/>
-    </eAnnotations>
-    <eAnnotations source="positions.36" references="/0/getStereotype/%.1">
-      <details key="start" value="984"/>
-      <details key="end" value="1142"/>
+    <eAnnotations source="positions.38" references="/0/getValue/%/%">
+      <details key="start" value="956"/>
+      <details key="end" value="1019"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.37" references="/0/getStereotype/%.1/self">
-      <details key="start" value="-1"/>
-      <details key="end" value="-1"/>
+    <eAnnotations source="positions.39" references="/0/getValue/%/%.1">
+      <details key="start" value="1021"/>
+      <details key="end" value="1097"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.38" references="/0/getStereotype/%.1/%">
-      <details key="start" value="991"/>
-      <details key="end" value="1054"/>
+    <eAnnotations source="positions.40" references="/0/getValue/%/%.2">
+      <details key="start" value="1099"/>
+      <details key="end" value="1125"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.39" references="/0/getStereotype/%.1/%.1">
-      <details key="start" value="1056"/>
-      <details key="end" value="1119"/>
+    <eAnnotations source="positions.41" references="/0/getValue/%/%.2/%/arg0">
+      <details key="start" value="1108"/>
+      <details key="end" value="1112"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.40" references="/0/getStereotype/%.1/%.2">
-      <details key="start" value="1121"/>
-      <details key="end" value="1141"/>
+    <eAnnotations source="positions.42" references="/0/getValue/%/%.2/%.1/arg1">
+      <details key="start" value="1114"/>
+      <details key="end" value="1118"/>
       <details key="line" value="0"/>
     </eAnnotations>
-    <eAnnotations source="positions.41" references="/0/getStereotype/%.1/%.2/%/arg0">
-      <details key="start" value="1130"/>
-      <details key="end" value="1134"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.42" references="/0/getStereotype/%.1/%.2/%.1/arg1">
-      <details key="start" value="1136"/>
-      <details key="end" value="1140"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.43" references="/0/getValue">
-      <details key="start" value="1235"/>
-      <details key="end" value="1496"/>
-      <details key="line" value="41"/>
-    </eAnnotations>
-    <eAnnotations source="positions.44" references="/0/getValue/%">
-      <details key="start" value="1147"/>
-      <details key="end" value="1234"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.45" references="/0/getValue/%/arg0">
-      <details key="start" value="-1"/>
-      <details key="end" value="-1"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.46" references="/0/getValue/%/arg1">
-      <details key="start" value="-1"/>
-      <details key="end" value="-1"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.47" references="/0/getValue/%/arg2">
-      <details key="start" value="-1"/>
-      <details key="end" value="-1"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.48" references="/0/getValue/arg0">
-      <details key="start" value="1258"/>
-      <details key="end" value="1272"/>
-      <details key="line" value="41"/>
-    </eAnnotations>
-    <eAnnotations source="positions.49" references="/0/getValue/arg1">
-      <details key="start" value="1274"/>
-      <details key="end" value="1287"/>
-      <details key="line" value="41"/>
-    </eAnnotations>
-    <eAnnotations source="positions.50" references="/0/getValue/arg2">
-      <details key="start" value="1289"/>
-      <details key="end" value="1302"/>
-      <details key="line" value="41"/>
-    </eAnnotations>
-    <eAnnotations source="positions.51" references="/0/getValue/%.1">
-      <details key="start" value="1316"/>
-      <details key="end" value="1493"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.52" references="/0/getValue/%.1/self">
-      <details key="start" value="-1"/>
-      <details key="end" value="-1"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.53" references="/0/getValue/%.1/%">
-      <details key="start" value="1323"/>
-      <details key="end" value="1386"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.54" references="/0/getValue/%.1/%.1">
-      <details key="start" value="1388"/>
-      <details key="end" value="1464"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.55" references="/0/getValue/%.1/%.2">
-      <details key="start" value="1466"/>
-      <details key="end" value="1492"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.56" references="/0/getValue/%.1/%.2/%/arg0">
-      <details key="start" value="1475"/>
-      <details key="end" value="1479"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.57" references="/0/getValue/%.1/%.2/%.1/arg1">
-      <details key="start" value="1481"/>
-      <details key="end" value="1485"/>
-      <details key="line" value="0"/>
-    </eAnnotations>
-    <eAnnotations source="positions.58" references="/0/getValue/%.1/%.2/%.2/arg2">
-      <details key="start" value="1487"/>
-      <details key="end" value="1491"/>
+    <eAnnotations source="positions.43" references="/0/getValue/%/%.2/%.2/arg2">
+      <details key="start" value="1120"/>
+      <details key="end" value="1124"/>
       <details key="line" value="0"/>
     </eAnnotations>
   </ecore:EAnnotation>

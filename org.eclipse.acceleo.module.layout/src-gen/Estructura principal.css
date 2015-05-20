@@ -1,0 +1,9 @@
+//Start of user code Estructura principal
+body {background-color: #3f7506 }
+//End of user code
+#Panelesdelaaplicacion {
+	position: relative;
+   height: 800px;
+	width: 1000px;
+	left: 100px;
+}

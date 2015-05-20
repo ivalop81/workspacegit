@@ -6,7 +6,7 @@ import org.eclipse.uml2.uml.Stereotype;
 import org.eclipse.uml2.uml.Element;
 import java.lang.String;
 
-public class Uml2services {
+public class UML2Services {
 	public boolean hasStereotype(Element element, String stereotypeName) {
 		  List<Stereotype> stereotypes = element.getAppliedStereotypes();
 		    for (Stereotype stereotype : stereotypes) {
@@ -40,6 +40,4 @@ public class Uml2services {
 			Stereotype stereotype = getStereotype(element, stereotypeName); 
 			return element.getValue(stereotype, propertyName); 
 		} 
-
-
-}
+} 

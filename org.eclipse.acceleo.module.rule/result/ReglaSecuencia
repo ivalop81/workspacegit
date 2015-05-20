@@ -1,6 +1,0 @@
-def self.get_interes_secuencia(interes_id)
-	if interes_id
-    	@secuencia = Secuencia.find_by_id(Interes.find_by_id(interes_id).secuencia_id)
-    end
-    return @secuencia
-end				

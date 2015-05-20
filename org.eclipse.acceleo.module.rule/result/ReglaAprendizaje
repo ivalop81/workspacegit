@@ -1,6 +1,0 @@
-def self.get_objetivo_aprendizaje(objetivo_id)
-	if objetivo_id
-    	@aprendizaje = Aprendizaje.find_by_id(Objetivo.find_by_id(objetivo_id).aprendizaje_id)
-    end
-    return @aprendizaje
-end				
